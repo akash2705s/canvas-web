@@ -31,8 +31,6 @@ type StatCardConfig = {
 const ECO_LOGO: HeroLogo[] = [
   { src: svta, alt: "SVTA" },
   { src: bitmovin, alt: "Bitmovin" },
-  { src: iab, alt: "iab" },
-  { src: infillion, alt: "Infillion" },
 ];
 
 const STAT_CARDS: StatCardConfig[] = [
