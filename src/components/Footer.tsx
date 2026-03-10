@@ -10,8 +10,8 @@ export function Footer() {
   const confettiCanvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
-    const badgeEl = grantBadgeRef.current;
-    if (!badgeEl) return;
+    const el = grantBadgeRef.current;
+    if (!el) return;
 
     if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
 
@@ -24,7 +24,6 @@ export function Footer() {
     };
 
     const startLoop = () => {
-      if (active) return;
       active = true;
       setShowConfetti(true);
 
@@ -43,9 +42,9 @@ export function Footer() {
 
           const y = badgeRect
             ? Math.min(
-                0.9,
-                Math.max(0.05, (badgeRect.top - canvasRect.top + badgeRect.height * 0.1) / canvasRect.height),
-              )
+              0.9,
+              Math.max(0.05, (badgeRect.top - canvasRect.top + badgeRect.height * 0.1) / canvasRect.height),
+            )
             : 0.18;
 
           fire({
@@ -104,31 +103,12 @@ export function Footer() {
       });
     };
 
-    const maybeStart = () => {
-      if (stopped || active) return;
-      const rect = badgeEl.getBoundingClientRect();
-      if (rect.top < window.innerHeight && rect.bottom > 0) {
-        startLoop();
-      }
-    };
-
-    // Fire on scroll into view
-    const onScroll = () => maybeStart();
-    const onResize = () => maybeStart();
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onResize);
-
-    // Also check once shortly after mount for the "refresh while already
-    // at the footer" case.
-    window.setTimeout(() => {
-      maybeStart();
-    }, 200);
+    // Always fire the confetti loop once per mount so it also runs on
+    // every hard refresh in production (Vercel), independent of scroll.
+    startLoop();
 
     return () => {
       stopped = true;
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onResize);
       stopLoop();
     };
   }, []);
