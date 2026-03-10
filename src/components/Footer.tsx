@@ -17,6 +17,7 @@ export function Footer() {
 
     let stopped = false;
     let active = false;
+    let obs: IntersectionObserver | null = null;
 
     const stopLoop = () => {
       active = false;
@@ -24,6 +25,7 @@ export function Footer() {
     };
 
     const startLoop = () => {
+      if (active) return;
       active = true;
       setShowConfetti(true);
 
@@ -103,12 +105,31 @@ export function Footer() {
       });
     };
 
-    // Always fire the confetti loop once per mount so it also runs on
-    // every hard refresh in production (Vercel), independent of scroll.
-    startLoop();
+    // Observer: run when footer badge becomes visible
+    obs = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (!entry) return;
+        if (entry.isIntersecting) startLoop();
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -10% 0px" },
+    );
+
+    obs.observe(el);
+
+    // If we refresh while already scrolled to the footer, intersection
+    // may not fire; do a one-shot visibility check with a tiny delay.
+    window.setTimeout(() => {
+      if (stopped || active) return;
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        startLoop();
+      }
+    }, 300);
 
     return () => {
       stopped = true;
+      obs?.disconnect();
       stopLoop();
     };
   }, []);
