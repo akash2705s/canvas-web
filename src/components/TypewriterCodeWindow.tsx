@@ -159,7 +159,10 @@ export function TypewriterCodeWindow({
           <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/80" />
         </div>
         <div className="min-w-0 text-xs font-semibold text-white/80">{title}</div>
-        <div className="text-[10px] font-semibold text-emerald-400/90">READY</div>
+        <div className="flex items-center gap-1.5 text-[10px] font-semibold text-emerald-400/90">
+          <span className="inline-block h-[6px] w-[6px] rounded-full bg-emerald-400/90" />
+          READY
+        </div>
       </div>
 
       {/* Tabs */}
