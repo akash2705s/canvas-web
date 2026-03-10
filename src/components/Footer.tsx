@@ -17,26 +17,14 @@ export function Footer() {
 
     let stopped = false;
     let active = false;
-    let intervalId: number | null = null;
-    let obs: IntersectionObserver | null = null;
-    let onResize: (() => void) | null = null;
 
     const stopLoop = () => {
       active = false;
-      if (intervalId != null) {
-        window.clearInterval(intervalId);
-        intervalId = null;
-      }
-      if (onResize) {
-        window.removeEventListener("resize", onResize);
-        onResize = null;
-      }
       setShowConfetti(false);
     };
 
     const startLoop = () => {
       active = true;
-      if (intervalId != null) return;
       setShowConfetti(true);
 
       void import("canvas-confetti").then(({ default: confetti }) => {
@@ -44,14 +32,10 @@ export function Footer() {
         const canvas = confettiCanvasRef.current;
         if (!canvas) return;
 
-        // Use main-thread rendering here; worker/offscreen can throw if the canvas is
-        // resized after transfer. For this small badge canvas, main-thread is fine.
         const fire = confetti.create(canvas, { resize: true, useWorker: false });
         const colors = ["#F59E0B", "#A78BFA", "#34D399", "#FB7185", "#38BDF8"];
 
         const pass = () => {
-          // From left + right, aligned to the SVTA badge so it "lands" on it (even though
-          // the canvas is bigger and can render outside the badge).
           const badge = grantBadgeRef.current;
           const canvasRect = canvas.getBoundingClientRect();
           const badgeRect = badge?.getBoundingClientRect();
@@ -93,7 +77,6 @@ export function Footer() {
 
         const cycle = () => {
           if (stopped || !active) return;
-          // Three passes over ~1s.
           pass();
           window.setTimeout(() => {
             if (stopped || !active) return;
@@ -105,7 +88,6 @@ export function Footer() {
           }, 666);
 
           cyclesRun += 1;
-          // Run for ~3 seconds total (3 cycles), then stop.
           if (cyclesRun >= 3) {
             window.setTimeout(() => {
               if (!stopped && active) {
@@ -121,27 +103,12 @@ export function Footer() {
       });
     };
 
-    obs = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[0];
-        if (!entry) return;
-        if (entry.isIntersecting) startLoop();
-        else stopLoop();
-      },
-      { threshold: 0.15, rootMargin: "0px 0px -10% 0px" },
-    );
+    // Always fire the confetti loop once per mount so it also runs on
+    // every hard refresh in production (Vercel), independent of scroll.
+    startLoop();
 
-    obs.observe(el);
-
-    // If the badge is already visible on initial load (e.g. user refreshed while scrolled down),
-    // manually trigger the confetti loop once so it behaves consistently in production.
-    const rect = el.getBoundingClientRect();
-    if (rect.top < window.innerHeight && rect.bottom > 0) {
-      startLoop();
-    }
     return () => {
       stopped = true;
-      obs?.disconnect();
       stopLoop();
     };
   }, []);
