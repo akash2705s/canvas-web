@@ -132,6 +132,13 @@ export function Footer() {
     );
 
     obs.observe(el);
+
+    // If the badge is already visible on initial load (e.g. user refreshed while scrolled down),
+    // manually trigger the confetti loop once so it behaves consistently in production.
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      startLoop();
+    }
     return () => {
       stopped = true;
       obs?.disconnect();
