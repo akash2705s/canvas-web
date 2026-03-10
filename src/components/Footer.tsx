@@ -13,102 +13,130 @@ export function Footer() {
     const el = grantBadgeRef.current;
     if (!el) return;
 
-    const burst = () => {
-      setShowConfetti(true);
-      window.setTimeout(() => setShowConfetti(false), 2200);
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
 
-      // Small, local burst: only around the badge.
+    let stopped = false;
+    let active = false;
+    let intervalId: number | null = null;
+    let obs: IntersectionObserver | null = null;
+    let onResize: (() => void) | null = null;
+
+    const stopLoop = () => {
+      active = false;
+      if (intervalId != null) {
+        window.clearInterval(intervalId);
+        intervalId = null;
+      }
+      if (onResize) {
+        window.removeEventListener("resize", onResize);
+        onResize = null;
+      }
+      setShowConfetti(false);
+    };
+
+    const startLoop = () => {
+      active = true;
+      if (intervalId != null) return;
+      setShowConfetti(true);
+
       void import("canvas-confetti").then(({ default: confetti }) => {
+        if (stopped || !active) return;
         const canvas = confettiCanvasRef.current;
         if (!canvas) return;
 
-        const cssW = 520;
-        const cssH = 220;
-        const dpr = window.devicePixelRatio || 1;
-        canvas.width = Math.floor(cssW * dpr);
-        canvas.height = Math.floor(cssH * dpr);
-
-        const fire = confetti.create(canvas, { resize: false, useWorker: true });
-
+        // Use main-thread rendering here; worker/offscreen can throw if the canvas is
+        // resized after transfer. For this small badge canvas, main-thread is fine.
+        const fire = confetti.create(canvas, { resize: true, useWorker: false });
         const colors = ["#F59E0B", "#A78BFA", "#34D399", "#FB7185", "#38BDF8"];
 
-        // Two-sided "birthday blast" (left + right) from the badge.
-        fire({
-          particleCount: 42,
-          angle: 150,
-          spread: 70,
-          startVelocity: 34,
-          ticks: 170,
-          decay: 0.92,
-          gravity: 1.2,
-          scalar: 0.75,
-          origin: { x: 0.5, y: 0.58 },
-          colors,
-        });
-        fire({
-          particleCount: 42,
-          angle: 30,
-          spread: 70,
-          startVelocity: 34,
-          ticks: 170,
-          decay: 0.92,
-          gravity: 1.2,
-          scalar: 0.75,
-          origin: { x: 0.5, y: 0.58 },
-          colors,
-        });
+        const pass = () => {
+          // From left + right, aligned to the SVTA badge so it "lands" on it (even though
+          // the canvas is bigger and can render outside the badge).
+          const badge = grantBadgeRef.current;
+          const canvasRect = canvas.getBoundingClientRect();
+          const badgeRect = badge?.getBoundingClientRect();
 
-        window.setTimeout(() => {
+          const y = badgeRect
+            ? Math.min(
+                0.9,
+                Math.max(0.05, (badgeRect.top - canvasRect.top + badgeRect.height * 0.1) / canvasRect.height),
+              )
+            : 0.18;
+
           fire({
-            particleCount: 22,
-            angle: 160,
-            spread: 85,
-            startVelocity: 24,
-            ticks: 150,
-            decay: 0.93,
-            gravity: 1.25,
+            particleCount: 18,
+            angle: 40,
+            spread: 18,
+            startVelocity: 14,
+            ticks: 120,
+            decay: 0.94,
+            gravity: 1.0,
             scalar: 0.7,
-            origin: { x: 0.5, y: 0.58 },
+            origin: { x: 0, y },
             colors,
           });
           fire({
-            particleCount: 22,
-            angle: 20,
-            spread: 85,
-            startVelocity: 24,
-            ticks: 150,
-            decay: 0.93,
-            gravity: 1.25,
+            particleCount: 18,
+            angle: 140,
+            spread: 18,
+            startVelocity: 14,
+            ticks: 120,
+            decay: 0.94,
+            gravity: 1.0,
             scalar: 0.7,
-            origin: { x: 0.5, y: 0.58 },
+            origin: { x: 1, y },
             colors,
           });
-        }, 120);
+        };
+
+        let cyclesRun = 0;
+
+        const cycle = () => {
+          if (stopped || !active) return;
+          // Three passes over ~1s.
+          pass();
+          window.setTimeout(() => {
+            if (stopped || !active) return;
+            pass();
+          }, 333);
+          window.setTimeout(() => {
+            if (stopped || !active) return;
+            pass();
+          }, 666);
+
+          cyclesRun += 1;
+          // Run for ~3 seconds total (3 cycles), then stop.
+          if (cyclesRun >= 3) {
+            window.setTimeout(() => {
+              if (!stopped && active) {
+                stopLoop();
+              }
+            }, 1000);
+          } else {
+            window.setTimeout(cycle, 1000);
+          }
+        };
+
+        cycle();
       });
     };
 
-    // If already visible, fire immediately.
-    const r = el.getBoundingClientRect();
-    const inView = r.bottom > 0 && r.top < window.innerHeight;
-    if (inView) {
-      burst();
-      return;
-    }
-
-    const obs = new IntersectionObserver(
+    obs = new IntersectionObserver(
       (entries) => {
         const entry = entries[0];
         if (!entry) return;
-        if (entry.isIntersecting) {
-          burst();
-          obs.disconnect();
-        }
+        if (entry.isIntersecting) startLoop();
+        else stopLoop();
       },
       { threshold: 0.15, rootMargin: "0px 0px -10% 0px" },
     );
 
     obs.observe(el);
-    return () => obs.disconnect();
+    return () => {
+      stopped = true;
+      obs?.disconnect();
+      stopLoop();
+    };
   }, []);
 
   return (
@@ -129,7 +157,7 @@ export function Footer() {
               <canvas
                 aria-hidden
                 ref={confettiCanvasRef}
-                className="pointer-events-none absolute left-1/2 top-1/2 z-30 h-[220px] w-[520px] -translate-x-1/2 -translate-y-1/2"
+                className="pointer-events-none absolute left-1/2 top-1/2 z-30 h-[260px] w-[560px] -translate-x-1/2 -translate-y-1/2"
               />
             ) : null}
 

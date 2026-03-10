@@ -25,8 +25,9 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* Keep light theme even when OS is dark to avoid black flash on initial paint */
+    --background: #ffffff;
+    --foreground: #0f172a;
   }
 }
 
@@ -130,4 +131,36 @@ body {
     animation: none;
     display: none;
   }
+}
+
+@keyframes hero-pill-float-a {
+
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, -14px, 0);
+  }
+}
+
+@keyframes hero-pill-float-b {
+
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, 16px, 0);
+  }
+}
+
+.hero-pill-float-a {
+  animation: hero-pill-float-a 2600ms ease-in-out infinite;
+}
+
+.hero-pill-float-b {
+  animation: hero-pill-float-b 2600ms ease-in-out infinite;
 }
