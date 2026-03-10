@@ -10,14 +10,13 @@ export function Footer() {
   const confettiCanvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
-    const el = grantBadgeRef.current;
-    if (!el) return;
+    const badgeEl = grantBadgeRef.current;
+    if (!badgeEl) return;
 
     if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
 
     let stopped = false;
     let active = false;
-    let obs: IntersectionObserver | null = null;
 
     const stopLoop = () => {
       active = false;
@@ -105,31 +104,31 @@ export function Footer() {
       });
     };
 
-    // Observer: run when footer badge becomes visible
-    obs = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[0];
-        if (!entry) return;
-        if (entry.isIntersecting) startLoop();
-      },
-      { threshold: 0.15, rootMargin: "0px 0px -10% 0px" },
-    );
-
-    obs.observe(el);
-
-    // If we refresh while already scrolled to the footer, intersection
-    // may not fire; do a one-shot visibility check with a tiny delay.
-    window.setTimeout(() => {
+    const maybeStart = () => {
       if (stopped || active) return;
-      const rect = el.getBoundingClientRect();
+      const rect = badgeEl.getBoundingClientRect();
       if (rect.top < window.innerHeight && rect.bottom > 0) {
         startLoop();
       }
-    }, 300);
+    };
+
+    // Fire on scroll into view
+    const onScroll = () => maybeStart();
+    const onResize = () => maybeStart();
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onResize);
+
+    // Also check once shortly after mount for the "refresh while already
+    // at the footer" case.
+    window.setTimeout(() => {
+      maybeStart();
+    }, 200);
 
     return () => {
       stopped = true;
-      obs?.disconnect();
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onResize);
       stopLoop();
     };
   }, []);
