@@ -1,0 +1,223 @@
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+
+export function Footer() {
+  const [showConfetti, setShowConfetti] = useState(false);
+  const grantBadgeRef = useRef<HTMLButtonElement | null>(null);
+  const confettiCanvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  useEffect(() => {
+    const el = grantBadgeRef.current;
+    if (!el) return;
+
+    const burst = () => {
+      setShowConfetti(true);
+      window.setTimeout(() => setShowConfetti(false), 2200);
+
+      // Small, local burst: only around the badge.
+      void import("canvas-confetti").then(({ default: confetti }) => {
+        const canvas = confettiCanvasRef.current;
+        if (!canvas) return;
+
+        const cssW = 520;
+        const cssH = 220;
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = Math.floor(cssW * dpr);
+        canvas.height = Math.floor(cssH * dpr);
+
+        const fire = confetti.create(canvas, { resize: false, useWorker: true });
+
+        const colors = ["#F59E0B", "#A78BFA", "#34D399", "#FB7185", "#38BDF8"];
+
+        // Two-sided "birthday blast" (left + right) from the badge.
+        fire({
+          particleCount: 42,
+          angle: 150,
+          spread: 70,
+          startVelocity: 34,
+          ticks: 170,
+          decay: 0.92,
+          gravity: 1.2,
+          scalar: 0.75,
+          origin: { x: 0.5, y: 0.58 },
+          colors,
+        });
+        fire({
+          particleCount: 42,
+          angle: 30,
+          spread: 70,
+          startVelocity: 34,
+          ticks: 170,
+          decay: 0.92,
+          gravity: 1.2,
+          scalar: 0.75,
+          origin: { x: 0.5, y: 0.58 },
+          colors,
+        });
+
+        window.setTimeout(() => {
+          fire({
+            particleCount: 22,
+            angle: 160,
+            spread: 85,
+            startVelocity: 24,
+            ticks: 150,
+            decay: 0.93,
+            gravity: 1.25,
+            scalar: 0.7,
+            origin: { x: 0.5, y: 0.58 },
+            colors,
+          });
+          fire({
+            particleCount: 22,
+            angle: 20,
+            spread: 85,
+            startVelocity: 24,
+            ticks: 150,
+            decay: 0.93,
+            gravity: 1.25,
+            scalar: 0.7,
+            origin: { x: 0.5, y: 0.58 },
+            colors,
+          });
+        }, 120);
+      });
+    };
+
+    // If already visible, fire immediately.
+    const r = el.getBoundingClientRect();
+    const inView = r.bottom > 0 && r.top < window.innerHeight;
+    if (inView) {
+      burst();
+      return;
+    }
+
+    const obs = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (!entry) return;
+        if (entry.isIntersecting) {
+          burst();
+          obs.disconnect();
+        }
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -10% 0px" },
+    );
+
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  return (
+    <footer className="mt-20 bg-[#f4f3fb]">
+      <div className="mx-auto flex max-w-6xl flex-col gap-10 px-4 pt-10 pb-8 sm:px-6 lg:px-8 lg:flex-row lg:items-start lg:justify-between">
+        {/* Left: logo + copy */}
+        <div className="max-w-sm space-y-4">
+          <div className="flex items-center gap-2">
+            <Image src="/CanvasLogo.svg" alt="Canvas logo" width={28} height={28} />
+            <span className="text-sm font-semibold text-zinc-900">Canvas</span>
+          </div>
+          <p className="text-sm leading-6 text-zinc-600">
+            The runtime and editor infrastructure enabling interactive CTV ads across streaming
+            platforms.
+          </p>
+          <div className="relative inline-block">
+            {showConfetti ? (
+              <canvas
+                aria-hidden
+                ref={confettiCanvasRef}
+                className="pointer-events-none absolute left-1/2 top-1/2 z-30 h-[220px] w-[520px] -translate-x-1/2 -translate-y-1/2"
+              />
+            ) : null}
+
+            <button
+              type="button"
+              className="relative inline-flex items-center gap-2 rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-zinc-800 shadow-sm ring-1 ring-zinc-200"
+              ref={grantBadgeRef}
+            >
+              <span className="relative inline-flex h-2.5 w-2.5 items-center justify-center">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-300/80" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-400" />
+              </span>
+              SVTA Grant Recipient
+            </button>
+          </div>
+        </div>
+
+        {/* Right: columns */}
+        <div className="grid flex-1 grid-cols-2 gap-10 text-sm text-zinc-700 sm:grid-cols-3">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500">Product</p>
+            <div className="mt-3 space-y-2">
+              <Link href="/#product" className="block hover:text-zinc-900">
+                Canvas Runtime
+              </Link>
+              <Link href="/#product" className="block hover:text-zinc-900">
+                Canvas Editor
+              </Link>
+              <Link href="/#product" className="block hover:text-zinc-900">
+                AI Conversion
+              </Link>
+              <Link href="/#demo" className="block hover:text-zinc-900">
+                Interactive Demo
+              </Link>
+            </div>
+          </div>
+
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500">Company</p>
+            <div className="mt-3 space-y-2">
+              <Link href="/#case-studies" className="block hover:text-zinc-900">
+                Case Studies
+              </Link>
+              <Link href="/#partners" className="block hover:text-zinc-900">
+                Partners
+              </Link>
+              <Link href="/#demo" className="block hover:text-zinc-900">
+                Request Demo
+              </Link>
+            </div>
+          </div>
+
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500">Resources</p>
+            <div className="mt-3 space-y-2">
+              <Link href="/#how-it-works" className="block hover:text-zinc-900">
+                How It Works
+              </Link>
+              <Link href="/#docs" className="block hover:text-zinc-900">
+                Documentation
+              </Link>
+              <Link href="/#svta" className="block hover:text-zinc-900">
+                SVTA Grant
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="border-t border-zinc-200/70">
+        <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-3 px-4 py-4 text-xs text-zinc-500 sm:flex-row sm:items-center sm:px-6 lg:px-8">
+          <p>© {new Date().getFullYear()} Canvas. All rights reserved.</p>
+          <div className="flex gap-4">
+            <Link href="/privacy" className="hover:text-zinc-800">
+              Privacy Policy
+            </Link>
+            <Link href="/terms" className="hover:text-zinc-800">
+              Terms of Service
+            </Link>
+          </div>
+        </div>
+      </div>
+      <div className="mt-6 flex justify-center pb-8 text-[112px] font-extrabold tracking-tight text-[#e4e1f5]">
+        <span className="leading-none" style={{ letterSpacing: "-0.06em" }}>
+          Canvas
+        </span>
+      </div>
+
+    </footer>
+  );
+}
+
