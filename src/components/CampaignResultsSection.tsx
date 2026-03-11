@@ -124,8 +124,7 @@ function ArrowBox() {
 }
 
 export function CampaignResultsSection() {
-  const [hoveredEcoId, setHoveredEcoId] = useState<string | null>(null);
-  const [hoveredCtvId, setHoveredCtvId] = useState<string | null>(null);
+  const [hoveredLogoId, setHoveredLogoId] = useState<string | null>(null);
   const ecoControls = useAnimation();
   const ctvControls = useAnimation();
   const [showSvtaConfetti, setShowSvtaConfetti] = useState(false);
@@ -314,22 +313,33 @@ export function CampaignResultsSection() {
                   <button
                     key={`${logo.id}-${pass}`}
                     type="button"
-                    className={`flex shrink-0 items-center justify-center transition ${hoveredEcoId && hoveredEcoId !== logo.id
-                      ? "opacity-40 grayscale"
-                      : "opacity-100 grayscale-0"
-                      }`}
+                    className={`flex shrink-0 items-center justify-center transition ${
+                      hoveredLogoId && hoveredLogoId !== logo.id
+                        ? "opacity-40 grayscale"
+                        : "opacity-100 grayscale-0"
+                    }`}
                     onMouseEnter={() => {
-                      setHoveredEcoId(logo.id);
+                      setHoveredLogoId(logo.id);
                       ecoControls.stop();
+                      ctvControls.stop();
                     }}
                     onMouseLeave={() => {
-                      setHoveredEcoId(null);
+                      setHoveredLogoId(null);
                       ecoControls.start({
                         x: ["0%", "-50%"],
                         transition: {
                           repeat: Infinity,
                           repeatType: "loop",
                           duration: 26,
+                          ease: "linear",
+                        },
+                      });
+                      ctvControls.start({
+                        x: ["0%", "-50%"],
+                        transition: {
+                          repeat: Infinity,
+                          repeatType: "loop",
+                          duration: 22,
                           ease: "linear",
                         },
                       });
@@ -387,22 +397,33 @@ export function CampaignResultsSection() {
                   <button
                     key={`${logo.id}-${pass}`}
                     type="button"
-                    className={`flex shrink-0 items-center justify-center transition ${hoveredCtvId && hoveredCtvId !== logo.id
-                      ? "opacity-40 grayscale"
-                      : "opacity-100 grayscale-0"
-                      }`}
+                    className={`flex shrink-0 items-center justify-center transition ${
+                      hoveredLogoId && hoveredLogoId !== logo.id
+                        ? "opacity-40 grayscale"
+                        : "opacity-100 grayscale-0"
+                    }`}
                     onMouseEnter={() => {
-                      setHoveredCtvId(logo.id);
+                      setHoveredLogoId(logo.id);
                       ctvControls.stop();
+                      ecoControls.stop();
                     }}
                     onMouseLeave={() => {
-                      setHoveredCtvId(null);
+                      setHoveredLogoId(null);
                       ctvControls.start({
                         x: ["0%", "-50%"],
                         transition: {
                           repeat: Infinity,
                           repeatType: "loop",
                           duration: 22,
+                          ease: "linear",
+                        },
+                      });
+                      ecoControls.start({
+                        x: ["0%", "-50%"],
+                        transition: {
+                          repeat: Infinity,
+                          repeatType: "loop",
+                          duration: 26,
                           ease: "linear",
                         },
                       });
