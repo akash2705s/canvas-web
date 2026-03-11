@@ -114,7 +114,7 @@ export function Footer() {
   }, []);
 
   return (
-    <footer className="mt-20 bg-[#f4f3fb]">
+    <footer className="mt-0 bg-[#f4f3fb]">
       <div className="mx-auto flex max-w-6xl flex-col gap-10 px-4 pt-10 pb-8 sm:px-6 lg:px-8 lg:flex-row lg:items-start lg:justify-between">
         {/* Left: logo + copy */}
         <div className="max-w-sm space-y-4">

@@ -93,14 +93,7 @@ const METRICS: Metric[] = [
   },
 ];
 
-const PARTNER_LOGOS = [
-  { src: agenciesIcon, alt: "Agency partner" },
-  { src: publishersIcon, alt: "Publisher partner" },
-  { src: dspIcon, alt: "DSP partner" },
-  { src: runtimeIcon, alt: "Runtime" },
-  { src: convertAdsIcon, alt: "Editor" },
-  { src: captureSignalsIcon, alt: "Signals" },
-];
+
 
 const ECOSYSTEM_LOGOS = [
   { id: "eco-svta", src: ecoSvta },
@@ -441,18 +434,18 @@ export function CampaignResultsSection() {
                 ref={svtaBadgeRef}
                 className="relative inline-flex items-center gap-3 overflow-hidden rounded-[20px] bg-[linear-gradient(135deg,#EAB308_0%,#FDA21E_50%,#FDB111_100%)] px-7 py-3 text-white shadow-[0_4px_24px_rgba(202,138,4,0.5)] ring-1 ring-[rgba(253,224,71,0.45)] brightness-110"
               >
-              {/* Outer glow */}
-              <div className="pointer-events-none absolute -inset-10 -z-10 bg-[radial-gradient(circle,rgba(234,179,8,0.4),transparent_60%)] blur-2xl" />
-              {/* Border-top (0.56px) */}
-              <div className="pointer-events-none absolute inset-x-0 top-0 h-[0.56px] bg-[rgba(253,224,71,0.45)]" />
-              {/* Inset highlight */}
-              <div className="pointer-events-none absolute inset-0 shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]" />
-              {/* Specular highlights */}
-              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_22%_28%,rgba(255,255,255,0.32),transparent_55%),radial-gradient(circle_at_78%_64%,rgba(255,255,255,0.18),transparent_58%)] opacity-60" />
-              {/* Center sweep */}
-              <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(105deg,rgba(0,0,0,0)_37.32%,rgba(253,224,71,0.22)_50%,rgba(0,0,0,0)_62.68%)] opacity-55" />
+                {/* Outer glow */}
+                <div className="pointer-events-none absolute -inset-10 -z-10 bg-[radial-gradient(circle,rgba(234,179,8,0.4),transparent_60%)] blur-2xl" />
+                {/* Border-top (0.56px) */}
+                <div className="pointer-events-none absolute inset-x-0 top-0 h-[0.56px] bg-[rgba(253,224,71,0.45)]" />
+                {/* Inset highlight */}
+                <div className="pointer-events-none absolute inset-0 shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]" />
+                {/* Specular highlights */}
+                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_22%_28%,rgba(255,255,255,0.32),transparent_55%),radial-gradient(circle_at_78%_64%,rgba(255,255,255,0.18),transparent_58%)] opacity-60" />
+                {/* Center sweep */}
+                <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(105deg,rgba(0,0,0,0)_37.32%,rgba(253,224,71,0.22)_50%,rgba(0,0,0,0)_62.68%)] opacity-55" />
 
-              {/* Right-side highlight dot */}
+                {/* Right-side highlight dot */}
                 <span className="pointer-events-none absolute right-3 h-3.5 w-3.5">
                   <span className="absolute inset-0 rounded-full bg-[#FDE047] opacity-70 animate-ping" />
                   <span className="absolute inset-[3px] rounded-full bg-[#FDE047]" />
