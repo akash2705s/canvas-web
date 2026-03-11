@@ -39,7 +39,10 @@ export function RuntimeInstallSection() {
       <div className="relative mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
         <div className="mb-6 flex justify-center">
           <span className="inline-flex items-center gap-2 rounded-full border-[0.56px] border-[rgba(79,70,229,0.15)] bg-[rgba(79,70,229,0.03)] px-5 py-1.5 text-sm font-semibold text-[rgba(79,70,229,1)] shadow-sm">
-            <span className="h-1.5 w-1.5 rounded-full bg-[rgba(79,70,229,1)]" />
+            <span className="relative inline-flex h-2.5 w-2.5 shrink-0 items-center justify-center">
+              <span className="absolute left-1/2 top-1/2 inline-flex h-full w-full -translate-x-1/2 -translate-y-1/2 animate-ping rounded-full bg-[rgba(79,70,229,1)]/40" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-[rgba(79,70,229,1)]" />
+            </span>
             How Canvas Works
           </span>
         </div>

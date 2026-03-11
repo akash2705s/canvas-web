@@ -382,10 +382,10 @@ export function Navbar() {
                     />
                   </div>
                   <div className="px-4 pb-4 pt-2.5">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-violet-500">
-                      Join us at NAB
+                    <p className="text-[13px] font-semibold tracking-normal text-zinc-900">
+                      Meet Canvas Team
                     </p>
-                    <p className="mt-2 text-[13px] font-medium leading-snug text-zinc-900">
+                    <p className="mt-1 text-[13px] font-medium leading-snug text-[rgba(106,114,130,1)]">
                       See how Canvas turns CTV ads into measurable interactive experiences.
                     </p>
                     <button
@@ -393,7 +393,7 @@ export function Navbar() {
                       className="mt-3 inline-flex items-center gap-2 text-[12px] font-semibold text-violet-600 hover:text-violet-700"
                     >
                       <span className="relative after:absolute after:left-0 after:right-0 after:bottom-[-1px] after:h-[1.5px] after:origin-left after:scale-x-0 after:bg-violet-500 after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100">
-                        Register now
+                        Book a Demo
                       </span>
                       <span aria-hidden>→</span>
                     </button>
