@@ -3,14 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { motion, useAnimation } from "framer-motion";
-
-import agenciesIcon from "@/assets/who/agencies.svg";
-import publishersIcon from "@/assets/who/publishers.svg";
-import dspIcon from "@/assets/who/DSP.svg";
-import runtimeIcon from "@/assets/works/runtime.svg";
-import convertAdsIcon from "@/assets/works/convertads.svg";
-import captureSignalsIcon from "@/assets/works/capture_signals.svg";
+import { motion, useAnimation, useInView } from "framer-motion";
 import proofImpressions from "@/assets/proof/impressions.svg";
 import proofInteractionRate from "@/assets/proof/interaction_rate.svg";
 import proofTimeTo from "@/assets/proof/time_to.svg";
@@ -138,6 +131,7 @@ export function CampaignResultsSection() {
   const [showSvtaConfetti, setShowSvtaConfetti] = useState(false);
   const svtaBadgeRef = useRef<HTMLDivElement | null>(null);
   const svtaConfettiCanvasRef = useRef<HTMLCanvasElement | null>(null);
+  const svtaInView = useInView(svtaBadgeRef, { amount: 0.5, once: true });
 
   useEffect(() => {
     ecoControls.start({
@@ -151,6 +145,7 @@ export function CampaignResultsSection() {
   }, [ecoControls, ctvControls]);
 
   useEffect(() => {
+    if (!svtaInView) return;
     const badge = svtaBadgeRef.current;
     if (!badge) return;
     if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
@@ -164,6 +159,7 @@ export function CampaignResultsSection() {
     };
 
     const startLoop = () => {
+      if (active) return;
       active = true;
       setShowSvtaConfetti(true);
 
@@ -246,7 +242,7 @@ export function CampaignResultsSection() {
       stopped = true;
       stopLoop();
     };
-  }, []);
+  }, [svtaInView]);
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-[#f7f6ff] via-[#f6f4ff] to-[#f5f3ff] py-14 sm:py-18">
@@ -451,8 +447,8 @@ export function CampaignResultsSection() {
                   <span className="absolute inset-[3px] rounded-full bg-[#FDE047]" />
                 </span>
 
-                <span className="relative -ml-2.5 inline-flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-white/20 ring-1 ring-white/25">
-                  <Image src={svta} alt="SVTA" className="h-8 w-8" />
+                <span className="relative -ml-2.5 inline-flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-white shadow-sm ring-1 ring-white/80">
+                  <Image src={svta} alt="SVTA" className="h-7 w-7" />
                 </span>
 
                 <div className="relative flex flex-col leading-tight">

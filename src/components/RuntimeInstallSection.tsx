@@ -81,9 +81,12 @@ export function RuntimeInstallSection() {
             <div className="mt-8">
               <Link
                 href="/#learn-more"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-[#F97316] hover:text-[#fb923c]"
+                className="group inline-flex items-center gap-2 text-sm font-semibold text-[#F97316] hover:text-[#fb923c]"
               >
-                Learn more <span aria-hidden>→</span>
+                <span className="relative after:absolute after:left-0 after:right-0 after:bottom-[-2px] after:h-[1.5px] after:origin-left after:scale-x-0 after:bg-[#F97316] after:transition-transform after:duration-300 after:ease-out after:transform-gpu group-hover:after:scale-x-100">
+                  Learn more
+                </span>
+                <span aria-hidden>→</span>
               </Link>
             </div>
           </div>
@@ -96,6 +99,7 @@ export function RuntimeInstallSection() {
               footerLeft="Canvas SDK v2.4.1"
               footerRight="0 errors • 0 warnings"
               code={CODE}
+              codeViewportHeightPx={355}
               typingMsPerChar={12}
               startDelayMs={350}
               className="w-full max-w-[540px]"
@@ -130,9 +134,12 @@ export function RuntimeInstallSection() {
             <div className="mt-8">
               <Link
                 href="/#learn-more"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-[rgba(79,70,229,1)] hover:text-[rgba(79,70,229,0.9)]"
+                className="group inline-flex items-center gap-2 text-sm font-semibold text-[rgba(79,70,229,1)] hover:text-[rgba(79,70,229,0.9)]"
               >
-                Learn more <span aria-hidden>→</span>
+                <span className="relative after:absolute after:left-0 after:right-0 after:bottom-[-2px] after:h-[1.5px] after:origin-left after:scale-x-0 after:bg-[rgba(79,70,229,1)] after:transition-transform after:duration-300 after:ease-out after:transform-gpu group-hover:after:scale-x-100">
+                  Learn more
+                </span>
+                <span aria-hidden>→</span>
               </Link>
             </div>
           </div>
@@ -161,17 +168,20 @@ export function RuntimeInstallSection() {
               exploration — all captured as declared intent signals beyond passive impressions.
             </p>
 
-            <div className="mt-6 inline-flex items-center gap-3 rounded-full border border-transparent bg-[rgba(79,70,229,0.05)] px-4 py-2 text-xs font-semibold text-[rgba(79,70,229,1)] shadow-sm">
-              <span className="h-1.5 w-1.5 rounded-full bg-[rgba(79,70,229,1)]" />
+            <div className="mt-6 inline-flex items-center gap-3 rounded-full border border-transparent bg-[rgba(79,70,229,0.05)] px-4 py-2 text-xs font-semibold text-[rgba(129,140,248,1)] shadow-sm">
+              <span className="h-1.5 w-1.5 rounded-full bg-[rgba(129,140,248,1)]" />
               QR scans, clicks, product exploration
             </div>
 
             <div className="mt-8">
               <Link
                 href="/#learn-more"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-[rgba(79,70,229,1)] hover:text-[rgba(79,70,229,0.9)]"
+                className="group inline-flex items-center gap-2 text-sm font-semibold text-[rgba(79,70,229,1)] hover:text-[rgba(79,70,229,0.9)]"
               >
-                Learn more <span aria-hidden>→</span>
+                <span className="relative after:absolute after:left-0 after:right-0 after:bottom-[-2px] after:h-[1.5px] after:origin-left after:scale-x-0 after:bg-[rgba(79,70,229,1)] after:transition-transform after:duration-300 after:ease-out after:transform-gpu group-hover:after:scale-x-100">
+                  Learn more
+                </span>
+                <span aria-hidden>→</span>
               </Link>
             </div>
           </div>

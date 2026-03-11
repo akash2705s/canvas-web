@@ -10,6 +10,7 @@ import bitmovin from "@/assets/Eco/bitmovin.svg";
 import iab from "@/assets/Eco/iab.svg";
 import infillion from "@/assets/Eco/infillion.svg";
 import svta from "@/assets/Eco/svta.svg";
+import ottStudio from "@/assets/proof/ecosystems/ott_studio.svg";
 import heroCard from "@/assets/Hero/card.png";
 import heroIrIcon from "@/assets/Hero/ir.svg";
 import heroAveIcon from "@/assets/Hero/ave.svg";
@@ -31,6 +32,7 @@ type StatCardConfig = {
 const ECO_LOGO: HeroLogo[] = [
   { src: svta, alt: "SVTA" },
   { src: bitmovin, alt: "Bitmovin" },
+  { src: ottStudio, alt: "OTT Studio" },
 ];
 
 const STAT_CARDS: StatCardConfig[] = [
@@ -353,12 +355,13 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
             <p className="mt-10 text-xs font-medium uppercase tracking-widest text-zinc-400">
               Trusted by the Streaming Ecosystem
             </p>
-            <div className="mt-4 grid grid-cols-2 place-items-center gap-x-2 gap-y-3 opacity-80 sm:grid-cols-4 sm:gap-x-3 sm:gap-y-3">
+            <div className="mt-3 grid grid-cols-3 place-items-center gap-x-1 gap-y-1.5 opacity-80 sm:grid-cols-5 sm:gap-x-1.5 sm:gap-y-1.5">
               {(logos ?? ECO_LOGO).map((logo, idx) => (
                 <div
                   key={logo.alt}
-                  className={`relative w-full transition-opacity hover:opacity-100 ${idx === 1 ? "h-10 max-w-[160px]" : "h-8 max-w-[120px]"
-                    }`}
+                  className={`relative transition-opacity hover:opacity-100 ${
+                    idx === 1 ? "h-8 max-w-[120px]" : "h-7 max-w-[100px]"
+                  } w-full`}
                 >
                   <Image src={logo.src} alt={logo.alt} fill className="object-contain object-center" />
                 </div>
