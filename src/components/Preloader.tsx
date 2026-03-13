@@ -10,7 +10,7 @@ type PreloaderProps = {
 export function Preloader({ onDone }: PreloaderProps) {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const [done, setDone] = useState(false);
-  const latestOnDone = useRef<PreloaderProps["onDone"]>();
+  const latestOnDone = useRef<PreloaderProps["onDone"] | null>(null);
 
   useEffect(() => {
     latestOnDone.current = onDone;
