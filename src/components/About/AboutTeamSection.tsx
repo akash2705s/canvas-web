@@ -79,8 +79,8 @@ export function AboutTeamSection() {
             >
               <div className="flex h-full w-full flex-col items-center gap-3 px-6 pb-7 pt-7 text-center sm:text-left sm:items-stretch">
                 <div
-                  className="relative mx-auto flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-slate-200 shadow-[0_18px_40px_rgba(15,23,42,0.35)] ring-2 sm:mx-0"
-                  style={{ ringColor: member.accent, boxShadow: `0 18px 40px ${member.accent}40` }}
+                  className="relative mx-auto flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-slate-200 border-2 sm:mx-0"
+                  style={{ borderColor: member.accent, boxShadow: `0 18px 40px ${member.accent}40` }}
                 >
                   {member.image ? (
                     <Image
