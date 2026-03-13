@@ -37,7 +37,7 @@ const NAV: NavItem[] = [
     items: [],
   },
   { kind: "link", label: "Demo", href: "/#demo" },
-  { kind: "link", label: "About/Partners", href: "/#partners" },
+  { kind: "link", label: "About/Partners", href: "/about" },
 ];
 
 function ChevronDown({ className }: { className?: string }) {
