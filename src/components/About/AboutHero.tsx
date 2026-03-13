@@ -15,9 +15,9 @@ export function AboutHero() {
         {/* Left copy */}
         <div className="max-w-xl">
           <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-[#4F46E52E] px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-[#A3B3FF]">
-            <span className="relative inline-flex h-1.5 w-1.5 shrink-0 items-center justify-center">
-              <span className="absolute inset-0 animate-ping rounded-full bg-[#A3B3FF]/70" />
-              <span className="relative h-1.5 w-1.5 rounded-full bg-[#A3B3FF]" />
+            <span className="relative inline-flex h-2.5 w-2.5 shrink-0 items-center justify-center align-middle">
+              <span className="absolute left-1/2 top-1/2 inline-flex h-full w-full -translate-x-1/2 -translate-y-1/2 animate-ping rounded-full bg-[#A3B3FF]/70" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-[#A3B3FF]" />
             </span>
             About Canvas
           </div>
