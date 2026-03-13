@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 
 import runtimeIcon from "@/assets/navbar/product/rt.svg";
@@ -107,6 +108,7 @@ export function Navbar() {
   const [bannerOpen] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
@@ -120,6 +122,14 @@ export function Navbar() {
   }, []);
 
   const desktopItems = useMemo(() => NAV, []);
+
+  const isActiveLink = (href: string) => {
+    const [pathOnly] = href.split("#");
+    if (!pathOnly || pathOnly === "/") {
+      return pathname === "/";
+    }
+    return pathname === pathOnly;
+  };
 
   return (
     <header className="sticky top-0 z-30 bg-white">
@@ -159,9 +169,20 @@ export function Navbar() {
           <nav className="hidden items-center gap-7 text-sm font-medium text-zinc-600 md:flex">
             {desktopItems.map((item) => {
               if (item.kind === "link") {
+                const isActive = isActiveLink(item.href);
                 return (
-                  <Link key={item.label} href={item.href} className="hover:text-zinc-900">
-                    {item.label}
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    className={[
+                      "relative pb-1 transition-colors",
+                      isActive ? "text-zinc-900" : "text-zinc-600 hover:text-zinc-900",
+                    ].join(" ")}
+                  >
+                    <span>{item.label}</span>
+                    {isActive && (
+                      <span className="pointer-events-none absolute inset-x-0 bottom-0 h-[2px] rounded-full bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)]" />
+                    )}
                   </Link>
                 );
               }
@@ -583,11 +604,17 @@ export function Navbar() {
                 <div className="flex flex-col gap-2">
                   {NAV.map((item) => {
                     if (item.kind === "link") {
+                      const isActive = isActiveLink(item.href);
                       return (
                         <Link
                           key={item.label}
                           href={item.href}
-                          className="rounded-lg px-3 py-2 text-sm font-semibold text-zinc-800 hover:bg-zinc-50"
+                          className={[
+                            "rounded-lg px-3 py-2 text-sm font-semibold",
+                            isActive
+                              ? "bg-zinc-900 text-white"
+                              : "text-zinc-800 hover:bg-zinc-50",
+                          ].join(" ")}
                           onClick={() => setMobileOpen(false)}
                         >
                           {item.label}
