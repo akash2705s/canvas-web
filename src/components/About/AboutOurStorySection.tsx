@@ -64,29 +64,7 @@ const timelineLineVariants = {
     scaleY: 1,
     opacity: 1,
     filter: "blur(0px)",
-    transition: { duration: 1.8, delay: 0.05, ease: [0.16, 1, 0.3, 1] },
-  },
-} as const;
-
-const timelineCardVariants = {
-  hidden: { opacity: 0, y: 18, filter: "blur(12px)" },
-  visible: (custom: { index: number; total: number }) => {
-    const { index, total } = custom;
-    const clampedTotal = Math.max(total - 1, 1);
-    const position = index / clampedTotal; // 0 -> 1 along the line
-
-    return {
-      opacity: 1,
-      y: 0,
-      filter: "blur(0px)",
-      transition: {
-        duration: 0.75,
-        // cards reveal just after the line passes each dot over the 1.8s draw
-        // line: delay 0.05, duration 1.8 -> reaches dot at ~0.05 + position * 1.8
-        delay: 0.05 + position * 1.8 + 0.08,
-        ease: [0.16, 1, 0.3, 1],
-      },
-    };
+    transition: { duration: 1.8, delay: 0.05, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
   },
 } as const;
 
@@ -157,6 +135,9 @@ export function AboutOurStorySection() {
           <div className="space-y-3.5 sm:space-y-4">
             {TIMELINE_ITEMS.map((item, index) => {
               const total = TIMELINE_ITEMS.length;
+              const clampedTotal = Math.max(total - 1, 1);
+              const position = index / clampedTotal;
+              const delay = 0.05 + position * 1.8 + 0.08;
               const isOrange = index === 0;
               const isIndigo = index === 2 || index === 4;
               const isPurple = index === 3;
@@ -180,8 +161,14 @@ export function AboutOurStorySection() {
               return (
                 <motion.article
                   key={`${item.year}-${item.title}`}
-                  variants={timelineCardVariants}
-                  custom={{ index, total }}
+                  initial={{ opacity: 0, y: 18, filter: "blur(12px)" }}
+                  whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  viewport={{ once: true, amount: 0.55 }}
+                  transition={{
+                    duration: 0.75,
+                    delay,
+                    ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
+                  }}
                   className="relative flex gap-3 rounded-2xl bg-white px-4 py-4 shadow-[0_18px_35px_rgba(15,23,42,0.04)] ring-1 ring-slate-200/80 sm:gap-4 sm:px-5 sm:py-4.5"
                 >
                   <div className="relative mt-1 shrink-0 z-10">
