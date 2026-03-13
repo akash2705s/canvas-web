@@ -3,6 +3,7 @@ import { RuntimeInstallSection } from "@/components/RuntimeInstallSection";
 import { OutcomesSection } from "@/components/OutcomesSection";
 import { CampaignResultsSection } from "@/components/CampaignResultsSection";
 import { WhyInteractiveSection } from "@/components/WhyInteractiveSection";
+import { PlatformCapabilitiesSection } from "@/components/PlatformCapabilitiesSection";
 import { Reveal } from "@/components/motion/Reveal";
 
 export default function Home() {
@@ -18,12 +19,15 @@ export default function Home() {
         <WhyInteractiveSection />
       </Reveal>
       <Reveal delay={0.14}>
-        <RuntimeInstallSection />
+        <PlatformCapabilitiesSection />
       </Reveal>
       <Reveal delay={0.22}>
-        <OutcomesSection />
+        <RuntimeInstallSection />
       </Reveal>
       <Reveal delay={0.3}>
+        <OutcomesSection />
+      </Reveal>
+      <Reveal delay={0.38}>
         <CampaignResultsSection />
       </Reveal>
     </>

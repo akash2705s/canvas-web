@@ -71,6 +71,18 @@ body {
   margin: 0 auto;
 }
 
+@media (max-width: 768px) {
+  .site-frame::before,
+  .site-frame::after {
+    display: none;
+  }
+
+  .site-content {
+    max-width: 100%;
+    margin: 0;
+  }
+}
+
 @keyframes blink {
 
   0%,

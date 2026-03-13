@@ -386,7 +386,7 @@ export function Navbar() {
                       Meet Canvas Team
                     </p>
                     <p className="mt-1 text-[13px] font-medium leading-snug text-[rgba(106,114,130,1)]">
-                      See how Canvas turns CTV ads into measurable interactive experiences.
+                    See Canvas live at NAB Show, Las Vegas. April 5–9.
                     </p>
                     <button
                       type="button"

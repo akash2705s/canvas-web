@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 import "./globals.css";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
+import { AppShell } from "@/components/AppShell";
 
 export const metadata: Metadata = {
   title: "Canvas Space",
@@ -21,13 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
       <body className={`${GeistSans.className} font-sans antialiased`}>
-        <div className="site-frame">
-          <div className="site-content">
-            <Navbar />
-            {children}
-            <Footer />
-          </div>
-        </div>
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   );
