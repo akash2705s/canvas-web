@@ -6,15 +6,12 @@ import { useEffect, useRef, useState } from "react";
 import { animate, motion, useReducedMotion } from "framer-motion";
 import gsap from "gsap";
 
-import bitmovin from "@/assets/Eco/bitmovin.svg";
-import iab from "@/assets/Eco/iab.svg";
-import infillion from "@/assets/Eco/infillion.svg";
-import svta from "@/assets/Eco/svta.svg";
+import bitmovin from "@/assets/proof/ecosystems/movin.svg";
+
+import svta from "@/assets/proof/ecosystems/svta.svg";
 import ottStudio from "@/assets/proof/ecosystems/ott_studio.svg";
 import heroCard from "@/assets/Hero/card.png";
-import heroIrIcon from "@/assets/Hero/ir.svg";
-import heroAveIcon from "@/assets/Hero/ave.svg";
-import heroIntentIcon from "@/assets/Hero/intent_signa.svg";
+
 
 export type HeroLogo = { src: string | typeof svta; alt: string };
 
@@ -105,7 +102,7 @@ function AnimatedNumber({ value, decimals = 0, suffix = "", className, delay = 0
 
   const formatted =
     decimals > 0 ? display.toLocaleString(undefined, { minimumFractionDigits: decimals, maximumFractionDigits: decimals }) :
-    Math.round(display).toLocaleString();
+      Math.round(display).toLocaleString();
 
   return (
     <span className={className}>
@@ -159,6 +156,8 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
   const blobARef = useRef<HTMLDivElement | null>(null);
   const blobBRef = useRef<HTMLDivElement | null>(null);
   const blobCRef = useRef<HTMLDivElement | null>(null);
+  const orbitLeftRef = useRef<HTMLDivElement | null>(null);
+  const orbitRightRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (reduceMotion) return;
@@ -171,6 +170,33 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
       gsap.to(a, { y: 18, x: -10, duration: 7.5, ease: "sine.inOut", yoyo: true, repeat: -1 });
       gsap.to(b, { y: -14, x: 12, duration: 9.2, ease: "sine.inOut", yoyo: true, repeat: -1 });
       gsap.to(c, { y: 12, x: 8, duration: 8.6, ease: "sine.inOut", yoyo: true, repeat: -1 });
+
+      const orbitL = orbitLeftRef.current;
+      const orbitR = orbitRightRef.current;
+
+      if (orbitL) {
+        gsap.to(orbitL, {
+          x: -45,
+          y: -35,
+          rotate: 10,
+          duration: 7,
+          ease: "sine.inOut",
+          yoyo: true,
+          repeat: -1,
+        });
+      }
+
+      if (orbitR) {
+        gsap.to(orbitR, {
+          x: 45,
+          y: 35,
+          rotate: -10,
+          duration: 7.5,
+          ease: "sine.inOut",
+          yoyo: true,
+          repeat: -1,
+        });
+      }
     });
     return () => ctx.revert();
   }, [reduceMotion]);
@@ -355,15 +381,18 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
             <p className="mt-10 text-xs font-medium uppercase tracking-widest text-zinc-400">
               Trusted by the Streaming Ecosystem
             </p>
-            <div className="mt-3 grid grid-cols-3 place-items-center gap-x-1 gap-y-1.5 opacity-80 sm:grid-cols-5 sm:gap-x-1.5 sm:gap-y-1.5">
+            <div className="mt-3 grid grid-cols-3 place-items-center gap-x-2 gap-y-2 sm:grid-cols-5 sm:gap-x-2 sm:gap-y-2">
               {(logos ?? ECO_LOGO).map((logo, idx) => (
                 <div
                   key={logo.alt}
-                  className={`relative transition-opacity hover:opacity-100 ${
-                    idx === 1 ? "h-8 max-w-[120px]" : "h-7 max-w-[100px]"
-                  } w-full`}
+                  className={`relative w-full ${idx === 0 ? "h-9 max-w-[110px]" : idx === 1 ? "h-11 max-w-[160px]" : "h-11 max-w-[160px]"} ${idx === 2 ? "-ml-6" : ""}`}
                 >
-                  <Image src={logo.src} alt={logo.alt} fill className="object-contain object-center" />
+                  <Image
+                    src={logo.src}
+                    alt={logo.alt}
+                    fill
+                    className="object-contain object-center contrast-[1.08] brightness-[0.97]"
+                  />
                 </div>
               ))}
             </div>
@@ -378,9 +407,15 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
                   {/* Big middle circle */}
                   <div className="absolute left-1/2 top-1/2 h-96 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full bg-violet-200/90 mix-blend-multiply shadow-[0_50px_130px_rgba(167,139,250,0.8)]" />
                   {/* Small bottom-left */}
-                  <div className="absolute -left-10 -bottom-10 h-40 w-40 rounded-full bg-amber-200/90 mix-blend-multiply shadow-[0_22px_55px_rgba(248,180,75,0.6)]" />
+                  <div
+                    ref={orbitLeftRef}
+                    className="absolute -left-10 -bottom-10 h-40 w-40 rounded-full bg-amber-200/90 mix-blend-multiply shadow-[0_22px_55px_rgba(248,180,75,0.6)]"
+                  />
                   {/* Small top-right */}
-                  <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-pink-200/90 mix-blend-multiply shadow-[0_22px_55px_rgba(244,114,182,0.6)]" />
+                  <div
+                    ref={orbitRightRef}
+                    className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-pink-200/90 mix-blend-multiply shadow-[0_22px_55px_rgba(244,114,182,0.6)]"
+                  />
                 </div>
               </div>
 
@@ -449,47 +484,6 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
                 </div>
               </motion.div>
 
-              {/* Floating metric pills around the card */}
-              <div className="pointer-events-none absolute inset-0 hidden sm:block">
-                {/* Top-left pill */}
-                <div className="hero-pill-float-a absolute -top-6 left-0 flex items-center gap-2 rounded-2xl bg-white/95 px-3 py-2 shadow-[0_18px_36px_rgba(15,23,42,0.18)]">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-50">
-                    <Image src={heroIrIcon} alt="Interaction rate" className="h-8 w-8" />
-                  </span>
-                  <div className="text-[11px]">
-                    <AnimatedNumber
-                      value={26.2}
-                      decimals={1}
-                      suffix="%"
-                      className="text-xs font-semibold text-zinc-900"
-                      delay={0.1}
-                    />
-                    <p className="mt-0.5 text-[10px] text-zinc-500">Interaction Rate</p>
-                  </div>
-                </div>
-
-                {/* Bottom-left pill */}
-                <div className="hero-pill-float-b absolute -bottom-6 left-4 flex items-center gap-2 rounded-2xl bg-white/95 px-3 py-2 shadow-[0_18px_36px_rgba(15,23,42,0.18)]">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-violet-50">
-                    <Image src={heroIntentIcon} alt="Intent signals" className="h-5 w-5" />
-                  </span>
-                  <div className="text-[11px]">
-                    <AnimatedNumber value={3} suffix="x" className="text-xs font-semibold text-zinc-900" delay={0.18} />
-                    <p className="mt-0.5 text-[10px] text-zinc-500">Intent Signals</p>
-                  </div>
-                </div>
-
-                {/* Bottom-right pill */}
-                <div className="hero-pill-float-a absolute -bottom-4 right-0 flex items-center gap-2 rounded-2xl bg-white/95 px-3 py-2 shadow-[0_18px_36px_rgba(15,23,42,0.18)]">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-indigo-50">
-                    <Image src={heroAveIcon} alt="Average engagement" className="h-5 w-5" />
-                  </span>
-                  <div className="text-[11px]">
-                    <AnimatedNumber value={14} suffix="s+" className="text-xs font-semibold text-zinc-900" delay={0.24} />
-                    <p className="mt-0.5 text-[10px] text-zinc-500">Avg Engagement</p>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -504,16 +498,8 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
               className="relative"
             >
               <div className="relative h-full overflow-hidden rounded-3xl bg-gradient-to-br from-amber-50 via-white to-violet-50 p-[1px] shadow-[0_16px_40px_rgba(15,23,42,0.08)]">
-                <div className="relative flex h-full flex-col justify-between rounded-[22px] bg-white/98 px-4 py-4 sm:px-5 sm:py-5">
-                  <div className="flex items-start justify-between gap-3">
-                    <span className="inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-zinc-50 ring-1 ring-zinc-200/60">
-                      <card.icon className={`${card.color} h-4 w-4`} />
-                    </span>
-                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-emerald-50 text-[10px] font-semibold text-emerald-500 ring-1 ring-emerald-100">
-                      1
-                    </span>
-                  </div>
-                  <div className="mt-3">
+                <div className="relative flex h-full flex-col justify-start rounded-[22px] bg-white/98 px-4 py-4 sm:px-5 sm:py-5">
+                  <div>
                     <AnimatedNumber
                       value={card.number}
                       decimals={card.decimals}
@@ -523,10 +509,6 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
                     />
                     <p className="mt-1 text-sm font-medium text-zinc-800">{card.label}</p>
                     <p className="mt-1 text-xs font-medium text-emerald-600">{card.sub}</p>
-                  </div>
-                  {/* Decorative baseline */}
-                  <div className="pointer-events-none mt-4 h-6 w-full overflow-hidden">
-                    <div className="h-[2px] w-full rounded-full bg-gradient-to-r from-amber-200 via-violet-200 to-sky-200 blur-[1px]" />
                   </div>
                 </div>
               </div>

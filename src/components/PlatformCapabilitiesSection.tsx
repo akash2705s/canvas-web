@@ -198,8 +198,8 @@ const CARDS = [
     pillLabel: "Real-time analytics",
     pillColor: "bg-[#4F46E51A] text-[#4F46E5]",
     title: "Live signal dashboard for every campaign",
-    body: "Track interaction events, engagement duration, and signal types as they happen. 14s+ average engagement per session, measurable in your dashboard.",
-    footerLabel: "↑ 14s+ avg engagement duration",
+    body: "Track interaction events, engagement duration, and signal types as they happen. 6s+ avg time to interact, measurable in your dashboard.",
+    footerLabel: "↑ 6s+ avg time to interact",
     footerTint: "bg-[#4F46E51A] text-[#4F46E5]",
   },
   {
@@ -240,11 +240,11 @@ export function PlatformCapabilitiesSection() {
           </h2>
         </div>
 
-        <div className="mt-10 grid gap-5 sm:mt-12 sm:grid-cols-4">
+        <div className="mt-10 grid gap-5 sm:mt-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
           {CARDS.map((card, idx) => (
             <motion.div
               key={card.id}
-              className="relative flex h-full flex-col overflow-hidden rounded-[24px] bg-white/95 px-5 pb-5 pt-6 shadow-[0_26px_80px_rgba(15,23,42,0.13)] ring-1 ring-zinc-100/90"
+              className="relative flex h-full min-h-[360px] flex-col overflow-hidden rounded-[24px] bg-white/95 px-5 pb-5 pt-6 shadow-[0_26px_80px_rgba(15,23,42,0.13)] ring-1 ring-zinc-100/90"
               initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.4 }}
