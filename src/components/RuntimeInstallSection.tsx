@@ -55,7 +55,7 @@ export function RuntimeInstallSection() {
             <br className="hidden sm:inline" /> with no disruption to current ad delivery.
           </p>
         </div>
-        <div className="flex flex-col items-center gap-10 lg:flex-row lg:items-start lg:gap-14">
+        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
           {/* Step 01 – left text, right code */}
           <div className="w-full lg:max-w-md">
             <div className="mb-5 flex items-center gap-3">
@@ -91,7 +91,7 @@ export function RuntimeInstallSection() {
             </div>
           </div>
 
-          <div className="w-full lg:flex-1 lg:flex lg:justify-end">
+          <div className="w-full lg:justify-self-end">
             <TypewriterCodeWindow
               title="canvas-runtime.ts"
               tabs={["canvas-runtime.ts", "ssai.config.ts"]}

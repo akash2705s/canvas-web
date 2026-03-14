@@ -124,10 +124,17 @@ export function Navbar() {
   const desktopItems = useMemo(() => NAV, []);
 
   const isActiveLink = (href: string) => {
-    const [pathOnly] = href.split("#");
+    const [pathOnly, hash] = href.split("#");
+
+    // Do not mark hash-only links (like "/#demo") as active in the top nav.
+    if (hash) {
+      return false;
+    }
+
     if (!pathOnly || pathOnly === "/") {
       return pathname === "/";
     }
+
     return pathname === pathOnly;
   };
 
@@ -178,6 +185,7 @@ export function Navbar() {
                       "relative pb-1 transition-colors",
                       isActive ? "text-zinc-900" : "text-zinc-600 hover:text-zinc-900",
                     ].join(" ")}
+                    onMouseEnter={() => setOpenMenu(null)}
                   >
                     <span>{item.label}</span>
                     {isActive && (
@@ -407,7 +415,7 @@ export function Navbar() {
                       Meet Canvas Team
                     </p>
                     <p className="mt-1 text-[13px] font-medium leading-snug text-[rgba(106,114,130,1)]">
-                    See Canvas live at NAB Show, Las Vegas. April 5–9.
+                      See Canvas live at NAB Show, Las Vegas. April 5–9.
                     </p>
                     <button
                       type="button"
