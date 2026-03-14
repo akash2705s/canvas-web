@@ -313,11 +313,10 @@ export function CampaignResultsSection() {
                   <button
                     key={`${logo.id}-${pass}`}
                     type="button"
-                    className={`flex shrink-0 items-center justify-center transition ${
-                      hoveredLogoId && hoveredLogoId !== logo.id
+                    className={`flex shrink-0 items-center justify-center transition ${hoveredLogoId && hoveredLogoId !== logo.id
                         ? "opacity-40 grayscale"
                         : "opacity-100 grayscale-0"
-                    }`}
+                      }`}
                     onMouseEnter={() => {
                       setHoveredLogoId(logo.id);
                       ecoControls.stop();
@@ -397,11 +396,10 @@ export function CampaignResultsSection() {
                   <button
                     key={`${logo.id}-${pass}`}
                     type="button"
-                    className={`flex shrink-0 items-center justify-center transition ${
-                      hoveredLogoId && hoveredLogoId !== logo.id
+                    className={`flex shrink-0 items-center justify-center transition ${hoveredLogoId && hoveredLogoId !== logo.id
                         ? "opacity-40 grayscale"
                         : "opacity-100 grayscale-0"
-                    }`}
+                      }`}
                     onMouseEnter={() => {
                       setHoveredLogoId(logo.id);
                       ctvControls.stop();

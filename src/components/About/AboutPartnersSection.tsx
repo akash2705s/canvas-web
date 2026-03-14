@@ -1,55 +1,34 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 
 type PartnerGroup = {
   title: string;
   color: string;
-  pills: { label: string; initials: string }[];
+  description: string;
 };
 
 const PARTNER_GROUPS: PartnerGroup[] = [
   {
     title: "Streaming Platforms",
     color: "#F97316",
-    pills: [
-      { label: "Tubi", initials: "TU" },
-      { label: "Xumo", initials: "XU" },
-      { label: "Pluto TV", initials: "PL" },
-      { label: "Peacock", initials: "PC" },
-      { label: "Paramount+", initials: "PA" },
-    ],
+    description: "Enable interactive experiences across FAST channels and CTV apps.",
   },
   {
     title: "Demand-Side Platforms",
     color: "#6366F1",
-    pills: [
-      { label: "The Trade Desk", initials: "TT" },
-      { label: "DV360", initials: "DV" },
-      { label: "Amazon DSP", initials: "AD" },
-      { label: "Magnite", initials: "MG" },
-      { label: "PubMatic", initials: "PM" },
-    ],
+    description: "Intent signals from Canvas campaigns enrich programmatic buying workflows.",
   },
   {
     title: "Ad Serving & Infrastructure",
     color: "#FACC15",
-    pills: [
-      { label: "FreeWheel", initials: "FW" },
-      { label: "Innovid", initials: "IN" },
-      { label: "SpringServe", initials: "SS" },
-      { label: "Beachfront", initials: "BF" },
-    ],
+    description: "Works alongside existing ad servers and SSAI environments.",
   },
   {
     title: "Industry Organizations",
     color: "#A855F7",
-    pills: [
-      { label: "SVTA", initials: "SV" },
-      { label: "IAB Tech Lab", initials: "IA" },
-      { label: "CTV Alliance", initials: "CA" },
-      { label: "Streaming Video Alliance", initials: "SA" },
-    ],
+    description: "Aligned with emerging standards from the streaming and ad-tech ecosystem.",
   },
 ];
 
@@ -70,91 +49,75 @@ export function AboutPartnersSection() {
               <span className="absolute left-1/2 top-1/2 inline-flex h-full w-full -translate-x-1/2 -translate-y-1/2 animate-ping rounded-full bg-[#4F46E5]/60" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-[#4F46E5]" />
             </span>
-            Partners &amp; Ecosystem
+            The Canvas ecosystem
           </div>
 
           <h2 className="mt-5 text-balance text-3xl font-extrabold leading-[1.1] tracking-tight text-slate-900 sm:text-[32px]">
-            Built for the streaming ecosystem.
+            Built to work across the CTV advertising stack
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-slate-600 sm:text-[15px]">
             Canvas integrates with the platforms, DSPs, measurement partners, and ad infrastructure you already run.
           </p>
         </div>
 
-        {/* grid */}
-        <div className="grid gap-4 rounded-[32px] bg-[#FDFBFF] p-4 shadow-[0_26px_60px_rgba(15,23,42,0.06)] ring-1 ring-slate-100/80 sm:gap-5 sm:p-6 lg:grid-cols-2">
-          {PARTNER_GROUPS.map((group, index) => (
-            <motion.section
-              key={group.title}
-              initial={{ opacity: 0, y: 18, filter: "blur(14px)" }}
-              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              viewport={{ once: true, amount: 0.5 }}
-              transition={{
-                duration: 0.7,
-                delay: 0.15 + index * 0.07,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-              className={[
-                "flex flex-col gap-3 rounded-3xl bg-white px-4 py-4.5 shadow-[0_16px_40px_rgba(15,23,42,0.04)] ring-1 ring-slate-100/90",
-                index === 0 ? "lg:col-span-1" : "",
-              ].join(" ")}
-            >
-              <div className="flex items-center justify-between gap-3">
-                <div className="flex items-center gap-2">
-                  <span
-                    className="inline-flex h-2.5 w-2.5 rounded-full"
-                    style={{ backgroundColor: group.color }}
-                  />
-                  <h3
-                    className="text-[13px] font-semibold uppercase tracking-[0.14em]"
-                    style={{ color: group.color }}
-                  >
-                    {group.title}
-                  </h3>
+        {/* grid + central connector */}
+        <div className="relative">
+          <div className="grid gap-4 rounded-[32px] bg-[#FDFBFF] p-4 shadow-[0_26px_60px_rgba(15,23,42,0.06)] ring-1 ring-slate-100/80 sm:gap-5 sm:p-6 lg:grid-cols-2">
+            {PARTNER_GROUPS.map((group, index) => (
+              <motion.section
+                key={group.title}
+                initial={{ opacity: 0, y: 18, filter: "blur(14px)" }}
+                whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                viewport={{ once: true, amount: 0.5 }}
+                transition={{
+                  duration: 0.7,
+                  delay: 0.15 + index * 0.07,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+                className="flex flex-col gap-3 rounded-3xl bg-white px-4 py-4.5 shadow-[0_16px_40px_rgba(15,23,42,0.04)] ring-1 ring-slate-100/90"
+              >
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center gap-2">
+                    <span
+                      className="inline-flex h-2.5 w-2.5 rounded-full"
+                      style={{ backgroundColor: group.color }}
+                    />
+                    <h3
+                      className="text-[13px] font-semibold uppercase tracking-[0.14em]"
+                      style={{ color: group.color }}
+                    >
+                      {group.title}
+                    </h3>
+                  </div>
+                  <p className="text-[10px] font-bold leading-[16px] tracking-[1.2px] uppercase text-black">
+                    {group.description}
+                  </p>
+                </div>
+              </motion.section>
+            ))}
+          </div>
+
+          {/* central Canvas logo and connecting lines */}
+          <div className="pointer-events-none absolute inset-0 hidden lg:flex items-center justify-center">
+            <div className="relative flex items-center justify-center">
+              {/* horizontal connector */}
+              <div className="absolute h-[2px] w-[420px] bg-gradient-to-r from-transparent via-[#4F46E5]/50 to-transparent">
+                <div className="h-full w-full animate-pulse bg-[radial-gradient(circle_at_center,rgba(79,70,229,0.7)_0,transparent_70%)] opacity-70" />
+              </div>
+              {/* vertical connector */}
+              <div className="absolute h-[260px] w-[2px] bg-gradient-to-b from-transparent via-[#4F46E5]/50 to-transparent">
+                <div className="h-full w-full animate-pulse bg-[radial-gradient(circle_at_center,rgba(79,70,229,0.7)_0,transparent_70%)] opacity-70" />
+              </div>
+
+              {/* Canvas logo node */}
+              <div className="relative flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-[0_18px_45px_rgba(15,23,42,0.25)] ring-2 ring-[#4F46E5]/40">
+                <div className="pointer-events-none absolute inset-0 rounded-full border border-[#4F46E5]/40 animate-ping" />
+                <div className="relative h-9 w-9">
+                  <Image src="/CanvasLogo.svg" alt="Canvas" fill className="object-contain" />
                 </div>
               </div>
-
-              <div className="flex flex-wrap gap-2 pt-1">
-                {group.pills.map((pill) => {
-                  const gradient =
-                    group.color === "#F97316"
-                      ? "linear-gradient(135deg,#FDBA74,#F97316)"
-                      : group.color === "#6366F1"
-                        ? "linear-gradient(135deg,#A5B4FC,#6366F1)"
-                        : group.color === "#FACC15"
-                          ? "linear-gradient(135deg,#FDE68A,#FACC15)"
-                          : "linear-gradient(135deg,#E9D5FF,#A855F7)";
-
-                  const softBg =
-                    group.color === "#F97316"
-                      ? "#F9731618"
-                      : group.color === "#6366F1"
-                        ? "#6366F118"
-                        : group.color === "#FACC15"
-                          ? "#FACC1518"
-                          : "#A855F718";
-
-                  return (
-                    <div
-                      key={pill.label}
-                      className="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[13px] font-medium text-slate-900 shadow-sm ring-1 ring-black/5"
-                      style={{ backgroundColor: softBg }}
-                    >
-                      <span
-                        className="flex h-6 w-6 items-center justify-center rounded-full bg-white/10 text-[11px] font-semibold text-white shadow-sm"
-                        style={{ background: gradient }}
-                      >
-                        {pill.initials}
-                      </span>
-                      <span className="text-slate-900">
-                        {pill.label}
-                      </span>
-                    </div>
-                  );
-                })}
-              </div>
-            </motion.section>
-          ))}
+            </div>
+          </div>
         </div>
 
         {/* footer pill */}
