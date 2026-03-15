@@ -318,7 +318,7 @@ export function Navbar() {
                       <div className="cursor-pointer">
                         <div className="flex items-start gap-2">
                           <Image src={editorIcon} alt="" className="h-10 w-10 rounded-[10px] border border-zinc-200" />
-                          <div className="group min-w-0">
+                          <Link href="/product" className="group min-w-0">
                             <p className="font-semibold">Canvas Editor</p>
                             <p className="mt-0.5 text-xs text-zinc-500">
                               Build interactive units visually.
@@ -326,7 +326,7 @@ export function Navbar() {
                             <div className="mt-2 h-[2px] w-full overflow-hidden rounded-full bg-zinc-200/40">
                               <div className="h-full w-full origin-left scale-x-0 bg-[linear-gradient(90deg,#F97316_0%,#EAB308_32.21%,#16A34A_57.21%,#6366F1_100%)] transition-transform duration-300 ease-out group-hover:scale-x-100" />
                             </div>
-                          </div>
+                          </Link>
                         </div>
                       </div>
                       <div className="cursor-default">
@@ -356,7 +356,7 @@ export function Navbar() {
                       <div className="cursor-pointer">
                         <div className="flex items-start gap-2">
                           <Image src={publishersIcon} alt="" className="h-10 w-10 rounded-[10px] border border-zinc-200" />
-                          <div className="group min-w-0">
+                          <Link href="/product" className="group min-w-0">
                             <p className="font-semibold">Publishers</p>
                             <p className="mt-0.5 text-xs text-zinc-500">
                               Enable interactive inventory.
@@ -364,13 +364,13 @@ export function Navbar() {
                             <div className="mt-2 h-[2px] w-full overflow-hidden rounded-full bg-zinc-200/40">
                               <div className="h-full w-full origin-left scale-x-0 bg-[linear-gradient(90deg,#F97316_0%,#EAB308_32.21%,#16A34A_57.21%,#6366F1_100%)] transition-transform duration-300 ease-out group-hover:scale-x-100" />
                             </div>
-                          </div>
+                          </Link>
                         </div>
                       </div>
                       <div className="cursor-pointer">
                         <div className="flex items-start gap-2">
                           <Image src={agenciesIcon} alt="" className="h-10 w-10 rounded-[10px] border border-zinc-200" />
-                          <div className="group min-w-0">
+                          <Link href="/product" className="group min-w-0">
                             <p className="font-semibold">Agencies &amp; Brands</p>
                             <p className="mt-0.5 text-xs text-zinc-500">
                               Convert existing creatives.
@@ -378,13 +378,13 @@ export function Navbar() {
                             <div className="mt-2 h-[2px] w-full overflow-hidden rounded-full bg-zinc-200/40">
                               <div className="h-full w-full origin-left scale-x-0 bg-[linear-gradient(90deg,#F97316_0%,#EAB308_32.21%,#16A34A_57.21%,#6366F1_100%)] transition-transform duration-300 ease-out group-hover:scale-x-100" />
                             </div>
-                          </div>
+                          </Link>
                         </div>
                       </div>
                       <div className="cursor-pointer">
                         <div className="flex items-start gap-2">
                           <Image src={measurementIcon} alt="" className="h-10 w-10 rounded-[10px] border border-zinc-200" />
-                          <div className="group min-w-0">
+                          <Link href="/product" className="group min-w-0">
                             <p className="font-semibold">Measurement</p>
                             <p className="mt-0.5 text-xs text-zinc-500">
                               Track real viewer intent.
@@ -392,7 +392,7 @@ export function Navbar() {
                             <div className="mt-2 h-[2px] w-full overflow-hidden rounded-full bg-zinc-200/40">
                               <div className="h-full w-full origin-left scale-x-0 bg-[linear-gradient(90deg,#F97316_0%,#EAB308_32.21%,#16A34A_57.21%,#6366F1_100%)] transition-transform duration-300 ease-out group-hover:scale-x-100" />
                             </div>
-                          </div>
+                          </Link>
                         </div>
                       </div>
                     </div>
