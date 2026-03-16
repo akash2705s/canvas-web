@@ -4,12 +4,14 @@ import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
+import interactRateIcon from "@/assets/case_Studies/Hero/interact_rate.svg";
+import avgEngageIcon from "@/assets/case_Studies/Hero/avg_engae.svg";
+import tfiIcon from "@/assets/case_Studies/Hero/tfi.svg";
+import intentLiftIcon from "@/assets/case_Studies/Hero/intent_lift.svg";
+
 export function CaseStudyHero() {
   return (
-    <section
-      className="relative overflow-hidden"
-      style={{ backgroundColor: "rgba(238, 240, 251, 1)" }}
-    >
+    <section className="relative overflow-hidden" style={{ backgroundColor: "rgba(238, 240, 251, 1)" }}>
       <div className="pointer-events-none absolute inset-0">
         {/* Left yellow glow + circle */}
         <div
@@ -32,7 +34,7 @@ export function CaseStudyHero() {
         />
       </div>
 
-      <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-6 py-16 sm:px-10 sm:py-20 lg:flex-row lg:items-center lg:justify-between lg:gap-12">
+      <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-6 pt-16 pb-10 sm:px-10 sm:pt-20 sm:pb-12 lg:flex-row lg:items-center lg:justify-between lg:gap-12">
         {/* Left copy */}
         <div className="max-w-xl">
           <div className="inline-flex items-center gap-2 rounded-full bg-white/80 px-4 py-1.5 text-xs font-semibold text-[rgba(79,70,229,1)] shadow-sm ring-1 ring-black/5 backdrop-blur">
@@ -151,7 +153,7 @@ export function CaseStudyHero() {
               <div className="text-center">
                 <p
                   className="font-extrabold"
-                  style={{ fontSize: 24, lineHeight: "24px", color: "rgba(129,140,248,1)" }}
+                  style={{ fontSize: 24, lineHeight: "24px", color: "rgba(79, 70, 229, 1)" }}
                 >
                   6s+
                 </p>
@@ -163,6 +165,177 @@ export function CaseStudyHero() {
             <InteractionBreakdown />
           </div>
         </div>
+      </div>
+
+      {/* Bottom metric cards row */}
+      <div className="relative mx-auto mt-2 flex max-w-6xl flex-col gap-4 px-6 pb-16 sm:px-10 sm:pb-20 lg:flex-row lg:gap-5">
+        {[
+          {
+            icon: interactRateIcon,
+            value: "26.2%",
+            valueColor: "rgba(249,115,22,1)",
+            lineColor: "rgba(249,115,22,1)",
+            barColor: "rgba(251,191,36,0.7)",
+            label: "Interaction rate",
+            sublabel: "6×+ vs industry average",
+            bgFrom: "rgba(251,191,36,0.08)",
+            bgTo: "rgba(248,250,252,1)",
+          },
+          {
+            icon: avgEngageIcon,
+            value: "14s+",
+            valueColor: "rgba(129,140,248,1)",
+            lineColor: "rgba(129,140,248,1)",
+            barColor: "rgba(191,219,254,0.9)",
+            label: "Avg engagement duration",
+            sublabel: "Per interactive session",
+            bgFrom: "rgba(129,140,248,0.08)",
+            bgTo: "rgba(248,250,252,1)",
+          },
+          {
+            icon: tfiIcon,
+            value: "6s+",
+            valueColor: "rgba(79,70,229,1)",
+            lineColor: "rgba(79,70,229,1)",
+            barColor: "rgba(191,219,254,0.9)",
+            label: "Time to first interaction",
+            sublabel: "From ad start",
+            bgFrom: "rgba(129,140,248,0.06)",
+            bgTo: "rgba(248,250,252,1)",
+          },
+          {
+            icon: intentLiftIcon,
+            value: "3x",
+            valueColor: "rgba(245,158,11,1)",
+            lineColor: "rgba(245,158,11,1)",
+            barColor: "rgba(254,215,170,0.9)",
+            label: "Intent lift",
+            sublabel: "Vs passive CTV benchmark",
+            bgFrom: "rgba(252,211,77,0.12)",
+            bgTo: "rgba(248,250,252,1)",
+          },
+        ].map((item) => {
+          const isPrimary = item.value === "26.2%";
+          return (
+          <div
+            key={item.label}
+            className="relative h-[228px] w-[258px] rounded-[24px] border-[1.11px] border-white/70 bg-gradient-to-b from-white/95 to-white/80 shadow-[0_18px_45px_rgba(15,23,42,0.08)] ring-1 ring-slate-100/70 backdrop-blur-sm"
+          >
+            <div className="relative flex h-full flex-col overflow-hidden rounded-[24px]">
+              <div
+                className="pointer-events-none absolute inset-0"
+                style={{
+                  backgroundImage: `linear-gradient(180deg, ${item.bgFrom}, ${item.bgTo})`,
+                }}
+              />
+              {/* Top: icon + text */}
+              <div className="relative px-5 pt-4 pb-1 sm:px-6 sm:pt-5 sm:pb-1">
+                <div className="flex justify-center">
+                    <span
+                      className="inline-flex h-8 w-8 items-center justify-center rounded-full shadow-sm ring-1"
+                      style={{
+                        backgroundColor: "rgba(255,255,255,0.9)",
+                        borderColor: "transparent",
+                        boxShadow: "0 10px 25px rgba(15,23,42,0.12)",
+                      }}
+                    >
+                      <span
+                        className="flex h-7 w-7 items-center justify-center rounded-full"
+                        style={{
+                          background:
+                            item.value === "26.2%"
+                              ? "rgba(251,191,36,0.25)"
+                              : item.value === "14s+"
+                                ? "rgba(129,140,248,0.20)"
+                                : item.value === "6s+"
+                                  ? "rgba(129,140,248,0.18)"
+                                  : "rgba(252,211,77,0.25)",
+                          borderRadius: "999px",
+                        }}
+                      >
+                        <Image src={item.icon} alt="" className="h-4 w-4" />
+                      </span>
+                    </span>
+                  </div>
+                  <div className="mt-4 text-center">
+                    <p
+                      className="font-extrabold"
+                      style={{
+                        fontSize: isPrimary ? 32 : 24,
+                        lineHeight: isPrimary ? "32px" : "24px",
+                        color: item.valueColor,
+                      }}
+                    >
+                      {item.value}
+                    </p>
+                    <p className={`mt-1 font-semibold text-slate-800 ${isPrimary ? "text-[14px]" : "text-[12px]"}`}>
+                      {item.label}
+                    </p>
+                    <p className={`mt-1 text-slate-500 ${isPrimary ? "text-[12px]" : "text-[11px]"}`}>
+                      {item.sublabel}
+                    </p>
+                  </div>
+              </div>
+
+              {/* Bottom: bar + line graph */}
+              <div className="relative mt-auto px-3 pb-3 pt-1">
+                <div className="h-20 w-full">
+                    <svg
+                      viewBox="0 0 200 96"
+                      preserveAspectRatio="none"
+                      className="h-full w-full"
+                      aria-hidden
+                    >
+                      {/* Bars – tightly packed, no gaps */}
+                      <g fill={item.barColor ?? "rgba(251,191,36,0.8)"} opacity="0.9">
+                        {[
+                          { x: 4, h: 26 },
+                          { x: 18, h: 34 },
+                          { x: 32, h: 40 },
+                          { x: 46, h: 50 },
+                          { x: 60, h: 58 },
+                          { x: 74, h: 50 },
+                          { x: 88, h: 66 },
+                          { x: 102, h: 60 },
+                          { x: 116, h: 74 },
+                          { x: 130, h: 68 },
+                          { x: 144, h: 80 },
+                          { x: 158, h: 72 },
+                          { x: 172, h: 88 },
+                          { x: 186, h: 80 },
+                        ].map((bar) => (
+                          <rect
+                            key={bar.x}
+                            x={bar.x}
+                            y={96 - bar.h}
+                            width="12"
+                            height={bar.h}
+                            rx="2"
+                          />
+                        ))}
+                      </g>
+                      {/* Line – sample points taken from bar tops */}
+                      <path
+                        d="M10,72 L24,64 L38,56 L52,46 L66,38 L80,46 L94,32 L108,38 L122,22 L136,28 L150,16 L164,24 L178,8 L196,16"
+                        fill="none"
+                        stroke={item.lineColor ?? "rgba(249,115,22,1)"}
+                        strokeWidth="2.2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        opacity="0.95"
+                    />
+                    </svg>
+                </div>
+              </div>
+
+              {/* Bottom-right logo accent */}
+              <div className="pointer-events-none absolute right-1 -bottom-2 opacity-70">
+                <Image src={item.icon} alt="" className="h-14 w-14 rotate-6" />
+              </div>
+            </div>
+          </div>
+          )
+        })}
       </div>
     </section>
   );
