@@ -447,7 +447,7 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
                     // Mobile: consistent boxes so logos align cleanly
                     "relative w-full h-10 max-w-[140px]",
                     // Mobile-only nudge for OTT Studio
-                    idx === 0 ? "ml-6 sm:ml-0" : "",
+                    idx === 0 ? "ml-16 sm:ml-0" : "",
                     // Desktop: keep previous per-logo sizing + spacing tweaks
                     idx === 0 ? "sm:h-9 sm:max-w-[110px]" : "sm:h-11 sm:max-w-[160px]",
                     idx === 1 ? "sm:mr-8" : "",

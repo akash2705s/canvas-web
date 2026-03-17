@@ -143,7 +143,7 @@ export function RuntimeInstallSection() {
           </div>
 
           <div className="lg:order-1 lg:justify-self-start lg:ml-10 lg:overflow-visible">
-            <div className="relative h-[320px] w-[540px] max-w-none overflow-hidden rounded-2xl bg-black shadow-xl ring-1 ring-black/10">
+            <div className="relative aspect-[16/9] w-full max-w-[540px] overflow-hidden rounded-2xl bg-black shadow-xl ring-1 ring-black/10">
               <video
                 src="/videos/Ad_convert.mov"
                 autoPlay
@@ -152,7 +152,7 @@ export function RuntimeInstallSection() {
                 playsInline
                 preload="auto"
                 onEnded={(e) => e.currentTarget.play()}
-                className="h-full w-full object-contain bg-black"
+                className="absolute inset-0 h-full w-full object-contain bg-black"
               />
             </div>
           </div>
@@ -196,7 +196,7 @@ export function RuntimeInstallSection() {
           </div>
 
           <div className="w-full lg:justify-self-end lg:overflow-visible">
-            <div className="relative h-[320px] w-[540px] max-w-none overflow-hidden rounded-2xl bg-black shadow-xl ring-1 ring-black/10">
+            <div className="relative aspect-[16/9] w-full max-w-[540px] overflow-hidden rounded-2xl bg-black shadow-xl ring-1 ring-black/10">
               <video
                 src="/videos/capture_signals.mp4"
                 autoPlay
@@ -205,7 +205,7 @@ export function RuntimeInstallSection() {
                 playsInline
                 preload="auto"
                 onEnded={(e) => e.currentTarget.play()}
-                className="h-full w-full object-contain bg-black"
+                className="absolute inset-0 h-full w-full object-contain bg-black"
               />
             </div>
           </div>

@@ -173,7 +173,7 @@ export function Footer() {
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500">Company</p>
             <div className="mt-3 space-y-2">
-              <Link href="/#case-studies" className="block hover:text-zinc-900">
+              <Link href="/case-studies" className="block hover:text-zinc-900">
                 Case Studies
               </Link>
               <Link
