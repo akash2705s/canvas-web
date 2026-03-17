@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 
-import productHeroCard from "@/assets/Product/Hero/inner_card.png";
 import scriptIcon from "@/assets/Product/Hero/script.svg";
 import interactRateIcon from "@/assets/Product/Hero/interact_rate.svg";
 import avgEngageIcon from "@/assets/Product/Hero/avg_engage.svg";
@@ -28,12 +27,14 @@ export function ProductHero() {
       <div className="relative mx-auto flex max-w-7xl flex-col gap-12 px-6 py-12 sm:px-10 sm:py-16 lg:flex-row lg:items-center lg:justify-between lg:px-16 lg:py-20">
         {/* Left column */}
         <div className="max-w-xl space-y-6 lg:pl-4">
-          <div className="inline-flex items-center gap-2 rounded-full bg-white/80 px-4 py-1.5 text-xs font-semibold text-[rgba(79,70,229,1)] shadow-sm ring-1 ring-black/5 backdrop-blur">
-            <span className="relative inline-flex h-2.5 w-2.5 shrink-0 items-center justify-center align-middle">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[rgba(79,70,229,0.7)]" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-[rgba(79,70,229,1)]" />
+          <div className="mb-6 flex justify-start">
+            <span className="inline-flex items-center gap-2 rounded-full border-[0.56px] border-[rgba(79,70,229,0.15)] bg-[rgba(79,70,229,0.03)] px-5 py-1.5 text-sm font-semibold text-[rgba(79,70,229,1)] shadow-sm">
+              <span className="relative inline-flex h-2.5 w-2.5 shrink-0 items-center justify-center">
+                <span className="absolute left-1/2 top-1/2 inline-flex h-full w-full -translate-x-1/2 -translate-y-1/2 animate-ping rounded-full bg-[rgba(79,70,229,1)]/40" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-[rgba(79,70,229,1)]" />
+              </span>
+              The Canvas Platform
             </span>
-            <span>The Canvas Platform</span>
           </div>
 
           {reduceMotion ? (
@@ -50,15 +51,19 @@ export function ProductHero() {
               viewport={{ once: true, amount: 0.7 }}
               className="text-[32px] font-extrabold leading-[1.12] tracking-[-0.04em] text-slate-900 sm:text-[40px] lg:text-[52px] [font-family:var(--font-display)]"
             >
-              {[
-                "The runtime and",
-                <>
-                  editor <span className="text-[#F97316]">powering</span> interactive CTV
-                </>,
-              ].map((line, index) => (
+              {([
+                { key: "line-1", node: "The runtime and" },
+                {
+                  key: "line-2",
+                  node: (
+                    <>
+                      editor <span className="text-[#F97316]">powering</span> interactive CTV
+                    </>
+                  ),
+                },
+              ] as const).map((line, index) => (
                 <motion.span
-                  // eslint-disable-next-line react/no-array-index-key
-                  key={index}
+                  key={line.key}
                   variants={{
                     hidden: { opacity: 0, y: 20, filter: "blur(16px)" },
                     visible: {
@@ -74,7 +79,7 @@ export function ProductHero() {
                   }}
                   className="block will-change-transform"
                 >
-                  {line}
+                  {line.node}
                 </motion.span>
               ))}
             </motion.h1>
@@ -105,7 +110,9 @@ export function ProductHero() {
                     strokeWidth="2.5"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    aria-hidden
+                    aria-hidden="true"
+                    role="presentation"
+                    focusable="false"
                   >
                     <path d="M5 12h14" />
                     <path d="M12 5l7 7-7 7" />
@@ -133,7 +140,9 @@ export function ProductHero() {
                     strokeWidth="2.5"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    aria-hidden
+                    aria-hidden="true"
+                    role="presentation"
+                    focusable="false"
                   >
                     <path d="M5 12h14" />
                     <path d="M12 5l7 7-7 7" />
@@ -192,41 +201,20 @@ export function ProductHero() {
         {/* Right column */}
         <div className="relative w-full max-w-[580px]">
           <div className="relative overflow-hidden rounded-[32px] bg-white/90 shadow-[0_26px_80px_rgba(15,23,42,0.35)] ring-1 ring-slate-900/5 backdrop-blur">
-            {/* Browser chrome */}
-            <div className="flex items-center justify-between border-b border-slate-100 bg-slate-50/80 px-5 py-3">
-              <div className="flex items-center gap-1.5">
-                <span className="h-2.5 w-2.5 rounded-full bg-red-400" />
-                <span className="h-2.5 w-2.5 rounded-full bg-amber-300" />
-                <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
-              </div>
-              <div className="flex items-center gap-2 rounded-full bg-white/90 px-3 py-1 text-[11px] text-slate-500 shadow-inner">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                <span>canvas.io/editor</span>
-              </div>
-              <div className="rounded-full bg-indigo-600 px-3 py-1 text-[11px] font-semibold text-white">
-                Live
-              </div>
-            </div>
-
-            {/* Tabs */}
-            <div className="flex items-center gap-4 border-b border-slate-100 px-5 py-2.5 text-xs font-medium text-slate-500">
-              <div className="rounded-full bg-slate-900 text-white px-3 py-1 text-[11px]">Canvas Editor</div>
-              <button type="button" className="cursor-default text-[11px] text-slate-400">
-                Analytics
-              </button>
-              <button type="button" className="cursor-default text-[11px] text-slate-400">
-                Deploy
-              </button>
-            </div>
-
-            {/* Main image */}
-            <div className="relative w-full">
-              <Image
-                src={productHeroCard}
-                alt="The Canvas runtime and editor powering interactive CTV"
+            {/* Main video */}
+            <div className="p-5">
+              <div className="relative w-full overflow-hidden rounded-2xl bg-white ring-1 ring-slate-100">
+              <video
                 className="block h-auto w-full"
-                priority
+                src="/videos/hero_product.mp4"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="auto"
+                onEnded={(e) => e.currentTarget.play()}
               />
+              </div>
             </div>
           </div>
         </div>

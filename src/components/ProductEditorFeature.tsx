@@ -2,8 +2,6 @@
 
 import Image from "next/image";
 
-import runtimeCard2 from "../assets/Product/runtime/card2.svg";
-import tickIcon from "../assets/Product/runtime/tick.svg";
 import tickIcon2 from "../assets/Product/runtime/tick2.png";
 
 export function ProductEditorFeature() {
@@ -22,49 +20,18 @@ export function ProductEditorFeature() {
         {/* Left: editor mock */}
         <div className="relative w-full lg:flex-[1.15] lg:-ml-2">
           <div className="relative overflow-hidden rounded-[30px] bg-white shadow-[0_30px_90px_rgba(15,23,42,0.45)] ring-1 ring-slate-200/70">
-            {/* Window chrome */}
-            <div className="flex items-center justify-between border-b border-slate-100 bg-slate-50/80 px-5 py-3">
-              <div className="flex items-center gap-1.5">
-                <span className="h-2.5 w-2.5 rounded-full bg-red-400" />
-                <span className="h-2.5 w-2.5 rounded-full bg-amber-300" />
-                <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
-              </div>
-              <div className="flex-1 px-4">
-                <div className="mx-auto flex max-w-xs items-center justify-center rounded-full bg-white/90 px-3 py-1 text-[11px] text-slate-400 shadow-inner">
-                  Canvas Editor — canvas.io/editor
-                </div>
-              </div>
-              <span className="rounded-full bg-violet-600 px-3 py-1 text-[11px] font-semibold text-white">
-                AI Ready
-              </span>
-            </div>
-
-            {/* Tabs */}
-            <div className="flex items-center gap-3 border-b border-slate-100 px-5 py-2.5 text-[11px] font-semibold text-slate-500">
-              {["Select", "Text", "QR", "CTA", "Overlay"].map((tab, idx) => (
-                <button
-                  // eslint-disable-next-line react/no-array-index-key
-                  key={tab + idx}
-                  type="button"
-                  className={
-                    tab === "QR"
-                      ? "rounded-full bg-indigo-600 px-3 py-1 text-[11px] font-semibold text-white shadow-sm"
-                      : "rounded-full px-3 py-1 text-[11px] text-slate-500"
-                  }
-                >
-                  {tab}
-                </button>
-              ))}
-            </div>
-
-            {/* Body image */}
-            <div className="px-5 pb-5 pt-4">
+            {/* Body video */}
+            <div className="p-5">
               <div className="relative w-full overflow-hidden rounded-2xl bg-slate-100">
-                <Image
-                  src={runtimeCard2}
-                  alt="AI suggestions, video preview, and workflow in Canvas Editor"
+                <video
                   className="block h-auto w-full object-contain"
-                  priority
+                  src="/videos/convert_ads_product.mov"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="auto"
+                  onEnded={(e) => e.currentTarget.play()}
                 />
               </div>
             </div>
@@ -135,7 +102,9 @@ export function ProductEditorFeature() {
                   strokeWidth="2.5"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  aria-hidden
+                  aria-hidden="true"
+                  role="presentation"
+                  focusable="false"
                 >
                   <path d="M5 12h14" />
                   <path d="M12 5l7 7-7 7" />

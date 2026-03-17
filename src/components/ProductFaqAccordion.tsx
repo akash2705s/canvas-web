@@ -55,10 +55,10 @@ export function ProductFaqAccordion() {
     <section className="relative overflow-hidden bg-gradient-to-b from-white via-[#F9FAFB] to-[#F3F4FF] py-16 sm:py-20 lg:py-24">
       <div className="relative mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <div className="flex justify-center">
-          <span className="inline-flex items-center gap-2 rounded-full bg-[#4F46E50F] px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.22em] text-[#4F46E5]">
+          <span className="inline-flex items-center gap-2 rounded-full border-[0.56px] border-[rgba(79,70,229,0.15)] bg-[rgba(79,70,229,0.03)] px-5 py-1.5 text-sm font-semibold text-[rgba(79,70,229,1)] shadow-sm">
             <span className="relative inline-flex h-2.5 w-2.5 shrink-0 items-center justify-center">
-              <span className="absolute left-1/2 top-1/2 inline-flex h-full w-full -translate-x-1/2 -translate-y-1/2 animate-ping rounded-full bg-[#4F46E5]/60" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-[#4F46E5]" />
+              <span className="absolute left-1/2 top-1/2 inline-flex h-full w-full -translate-x-1/2 -translate-y-1/2 animate-ping rounded-full bg-[rgba(79,70,229,1)]/40" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-[rgba(79,70,229,1)]" />
             </span>
             Product &amp; Infrastructure FAQs
           </span>
@@ -100,6 +100,9 @@ export function ProductFaqAccordion() {
                       viewBox="0 0 20 20"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
+                      role="presentation"
+                      focusable="false"
                     >
                       <path
                         d="M5.5 8L10 12.5L14.5 8"

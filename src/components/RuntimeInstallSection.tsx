@@ -3,8 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { TypewriterCodeWindow } from "@/components/TypewriterCodeWindow";
-import { AiConvertWindow } from "@/components/AiConvertWindow";
-import { IntentSignalDashboard } from "@/components/IntentSignalDashboard";
 import runtimeIcon from "@/assets/works/runtime.svg";
 import convertAdsIcon from "@/assets/works/convertads.svg";
 import captureSignalsIcon from "@/assets/works/capture_signals.svg";
@@ -199,7 +197,7 @@ export function RuntimeInstallSection() {
 
           <div className="w-full lg:justify-self-end lg:overflow-visible">
             <div className="relative h-[320px] w-[540px] max-w-none overflow-hidden rounded-2xl bg-black shadow-xl ring-1 ring-black/10">
-            <video
+              <video
                 src="/videos/capture_signals.mp4"
                 autoPlay
                 muted
