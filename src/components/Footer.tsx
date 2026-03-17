@@ -124,7 +124,7 @@ export function Footer() {
             <span className="text-sm font-semibold text-zinc-900">Canvas</span>
           </div>
           <p className="text-sm leading-6 text-zinc-600">
-          Infrastructure to turn video into interactive experiences and real-time intent data across streaming, web and mobile.
+            Infrastructure to turn video into interactive experiences and real-time intent data across streaming, web and mobile.
           </p>
           <div className="relative inline-block">
             {showConfetti ? (
@@ -154,18 +154,19 @@ export function Footer() {
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500">Product</p>
             <div className="mt-3 space-y-2">
-              <Link href="/#product" className="block hover:text-zinc-900">
+              <Link href="/product#runtime" className="block hover:text-zinc-900">
                 Canvas Runtime
               </Link>
-              <Link href="/#product" className="block hover:text-zinc-900">
+              <Link href="/product" className="block hover:text-zinc-900">
                 Canvas Editor
               </Link>
-              <Link href="/#product" className="block hover:text-zinc-900">
-                AI Conversion
-              </Link>
-              <RequestDemoTrigger className="block text-left hover:text-zinc-900">
+
+              <Link href="/product" className="block hover:text-zinc-900">
                 Interactive Demo
-              </RequestDemoTrigger>
+              </Link>
+              <span className="block cursor-not-allowed select-none opacity-50 blur-[0.6px]">
+                AI Conversion
+              </span>
             </div>
           </div>
 
@@ -190,15 +191,12 @@ export function Footer() {
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500">Resources</p>
             <div className="mt-3 space-y-2">
-              <Link href="/#how-it-works" className="block hover:text-zinc-900">
+              <Link href="/product" className="block hover:text-zinc-900">
                 How It Works
               </Link>
-              <Link href="/#docs" className="block hover:text-zinc-900">
+              <span className="block cursor-not-allowed select-none opacity-50 blur-[0.6px]">
                 Documentation
-              </Link>
-              <Link href="/#svta" className="block hover:text-zinc-900">
-                SVTA Grant
-              </Link>
+              </span>
             </div>
           </div>
         </div>

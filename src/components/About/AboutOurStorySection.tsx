@@ -69,6 +69,9 @@ const timelineLineVariants = {
 } as const;
 
 export function AboutOurStorySection() {
+  const ENABLE_ABOUT_OUR_STORY_SECTION = false;
+  if (!ENABLE_ABOUT_OUR_STORY_SECTION) return null;
+
   return (
     <section className="relative overflow-hidden bg-[#EEF0FB] py-14 sm:py-18 lg:py-22">
       {/* soft background glow */}

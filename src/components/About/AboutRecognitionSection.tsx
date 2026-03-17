@@ -4,7 +4,6 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 
 import svtaGrantIcon from "@/assets/About/recognition/svta_grand.svg";
-import svtaPrincipalIcon from "@/assets/About/recognition/svta_principal.svg";
 import svtaPrincipalBandIcon from "@/assets/About/recognition/svta_principal2.svg";
 import benchmark26xIcon from "@/assets/About/recognition/26x.svg";
 
@@ -26,14 +25,6 @@ const RECOGNITION_CARDS: RecognitionCard[] = [
     body: "Recognized by the Streaming Video Technology Alliance for innovation in interactive CTV infrastructure.",
     accentColor: "#F97316",
     icon: svtaGrantIcon,
-  },
-  {
-    id: "svta-principal",
-    title: "SVTA Principal Member",
-    badge: "Active",
-    body: "Canvas holds Principal Member status at the SVTA — shaping standards for streaming technology.",
-    accentColor: "#4F46E5",
-    icon: svtaPrincipalIcon,
   },
   {
     id: "benchmark",
@@ -121,7 +112,7 @@ export function AboutRecognitionSection() {
                 <Image src={svtaPrincipalBandIcon} alt="" className="h-12 w-12" aria-hidden />
               </div>
               <div>
-                <h3 className="text-[14px] font-semibold text-slate-900">SVTA: Principal Member</h3>
+                <h3 className="text-[14px] font-semibold text-slate-900">SVTA: Grant Recipient</h3>
                 <p className="mt-1 text-[13px] leading-relaxed text-slate-600">
                   Canvas received the Streaming Video Advertise Alliance Grant.
                   <br />
