@@ -443,7 +443,16 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
               {(logos ?? ECO_LOGO).map((logo, idx) => (
                 <div
                   key={logo.alt}
-                  className={`relative w-full ${idx === 0 ? "h-9 max-w-[110px]" : idx === 1 ? "h-11 max-w-[160px]" : "h-11 max-w-[160px]"} ${idx === 1 ? "sm:mr-8" : ""} ${idx === 2 ? "-ml-6" : ""}`}
+                  className={[
+                    // Mobile: consistent boxes so logos align cleanly
+                    "relative w-full h-10 max-w-[140px]",
+                    // Mobile-only nudge for OTT Studio
+                    idx === 0 ? "ml-2 sm:ml-0" : "",
+                    // Desktop: keep previous per-logo sizing + spacing tweaks
+                    idx === 0 ? "sm:h-9 sm:max-w-[110px]" : "sm:h-11 sm:max-w-[160px]",
+                    idx === 1 ? "sm:mr-8" : "",
+                    idx === 2 ? "sm:-ml-6" : "",
+                  ].join(" ")}
                 >
                   <Image
                     src={logo.src}

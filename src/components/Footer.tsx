@@ -216,8 +216,8 @@ export function Footer() {
           </div>
         </div>
       </div>
-      <div className="mt-6 flex justify-center pb-6 text-[150px] font-extrabold tracking-tight text-[#e4e1f5]">
-        <span className="leading-none" style={{ letterSpacing: "-0.06em" }}>
+      <div className="mt-6 flex justify-center overflow-hidden pb-6 text-[72px] font-extrabold tracking-tight text-[#e4e1f5] sm:text-[110px] lg:text-[150px]">
+        <span className="whitespace-nowrap leading-none" style={{ letterSpacing: "-0.06em" }}>
           Canvas
         </span>
       </div>
