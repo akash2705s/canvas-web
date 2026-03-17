@@ -1,6 +1,9 @@
 "use client";
 
 export function CaseStudyArchitecture() {
+  const ENABLE_CASE_STUDY_ARCHITECTURE = false;
+  if (!ENABLE_CASE_STUDY_ARCHITECTURE) return null;
+
   const leftSteps = [
     {
       title: "OTT Streaming Partner",

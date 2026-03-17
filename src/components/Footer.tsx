@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { RequestDemoTrigger } from "@/components/RequestDemoTrigger";
 
 export function Footer() {
   const [showConfetti, setShowConfetti] = useState(false);
@@ -163,9 +164,9 @@ export function Footer() {
               <Link href="/#product" className="block hover:text-zinc-900">
                 AI Conversion
               </Link>
-              <Link href="/#demo" className="block hover:text-zinc-900">
+              <RequestDemoTrigger className="block text-left hover:text-zinc-900">
                 Interactive Demo
-              </Link>
+              </RequestDemoTrigger>
             </div>
           </div>
 
@@ -178,9 +179,9 @@ export function Footer() {
               <Link href="/#partners" className="block hover:text-zinc-900">
                 Partners
               </Link>
-              <Link href="/#demo" className="block hover:text-zinc-900">
+              <RequestDemoTrigger className="block text-left hover:text-zinc-900">
                 Request Demo
-              </Link>
+              </RequestDemoTrigger>
             </div>
           </div>
 

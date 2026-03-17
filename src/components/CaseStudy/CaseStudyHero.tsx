@@ -8,6 +8,7 @@ import interactRateIcon from "@/assets/case_Studies/Hero/interact_rate.svg";
 import avgEngageIcon from "@/assets/case_Studies/Hero/avg_engae.svg";
 import tfiIcon from "@/assets/case_Studies/Hero/tfi.svg";
 import intentLiftIcon from "@/assets/case_Studies/Hero/intent_lift.svg";
+import { RequestDemoTrigger } from "@/components/RequestDemoTrigger";
 
 export function CaseStudyHero() {
   return (
@@ -106,13 +107,10 @@ export function CaseStudyHero() {
               </span>
             </button>
 
-            <button
-              type="button"
-              className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-6 py-2.5 text-sm font-semibold text-slate-800 shadow-sm transition hover:bg-slate-50"
-            >
+            <RequestDemoTrigger className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-6 py-2.5 text-sm font-semibold text-slate-800 shadow-sm transition hover:bg-slate-50">
               Request Demo
               <span className="text-slate-400">→</span>
-            </button>
+            </RequestDemoTrigger>
           </div>
         </div>
 

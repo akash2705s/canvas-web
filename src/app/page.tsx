@@ -2,7 +2,6 @@ import { Hero } from "@/components/Hero";
 import { RuntimeInstallSection } from "@/components/RuntimeInstallSection";
 import { OutcomesSection } from "@/components/OutcomesSection";
 import { CampaignResultsSection } from "@/components/CampaignResultsSection";
-import { ProductFaqAccordion } from "@/components/ProductFaqAccordion";
 import { WhyInteractiveSection } from "@/components/WhyInteractiveSection";
 import { PlatformCapabilitiesSection } from "@/components/PlatformCapabilitiesSection";
 import { Reveal } from "@/components/motion/Reveal";

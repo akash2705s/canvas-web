@@ -11,7 +11,7 @@ import tickIcon from "../assets/Product/runtime/tick.svg";
 
 export function ProductRuntimeFeature() {
   return (
-    <section className="relative overflow-hidden bg-white">
+    <section id="runtime" className="relative overflow-hidden bg-white scroll-mt-24">
       <div className="mx-auto flex max-w-6xl flex-col gap-10 px-6 py-16 sm:px-8 lg:flex-row lg:items-start lg:gap-14 lg:py-20">
         {/* Left copy */}
         <div className="max-w-xl">
@@ -152,7 +152,9 @@ export function ProductRuntimeFeature() {
                       strokeWidth="2.5"
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      aria-hidden
+                      aria-hidden="true"
+                      role="presentation"
+                      focusable="false"
                     >
                       <path d="M5 12h14" />
                       <path d="M12 5l7 7-7 7" />

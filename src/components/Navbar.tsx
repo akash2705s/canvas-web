@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
+import { RequestDemoTrigger } from "@/components/RequestDemoTrigger";
 
 import runtimeIcon from "@/assets/navbar/product/rt.svg";
 import editorIcon from "@/assets/navbar/product/ce.svg";
@@ -13,9 +14,6 @@ import publishersIcon from "@/assets/navbar/product/publisher.svg";
 import agenciesIcon from "@/assets/navbar/product/ab.svg";
 import measurementIcon from "@/assets/navbar/product/measure.svg";
 import nabEventImage from "@/assets/navbar/product/img.png";
-
-import csIconKm from "@/assets/navbar/case_studies/km.svg";
-import csIconEngage from "@/assets/navbar/case_studies/engage.svg";
 
 type NavItem =
   | { kind: "link"; label: string; href: string }
@@ -30,7 +28,7 @@ const NAV: NavItem[] = [
   },
   {
     kind: "menu",
-    label: "Case Studies",
+    label: "Case Study",
     items: [],
   },
   { kind: "link", label: "Demo", href: "/#demo" },
@@ -152,7 +150,7 @@ export function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-30 bg-white">
+    <header className="sticky top-0 z-50 bg-white">
       {bannerOpen ? (
         <div className="relative bg-[#4F46E5] px-4 py-2 text-center text-[13px] leading-[19px] font-normal text-white/80">
           <span>
@@ -178,7 +176,7 @@ export function Navbar() {
       ) : null}
 
       <div className="relative border-b border-zinc-200/70">
-        <div className="mx-auto flex h-16 max-w-[1280px] items-center justify-between px-4 sm:px-6">
+        <div className="flex h-16 w-full items-center justify-between px-4 sm:px-6">
           {/* Left: brand */}
           <Link href="/" className="flex flex-col items-center gap-1">
             <Image src="/CanvasLogo.svg" alt="Canvas" width={40} height={40} priority />
@@ -190,6 +188,19 @@ export function Navbar() {
             {desktopItems.map((item) => {
               if (item.kind === "link") {
                 const isActive = isActiveLink(item.href);
+
+                if (item.label === "Demo") {
+                  return (
+                    <RequestDemoTrigger
+                      key={item.label}
+                      className="relative pb-1 text-zinc-600 transition-colors hover:text-zinc-900"
+                      onClick={() => setOpenMenu(null)}
+                    >
+                      <span>{item.label}</span>
+                    </RequestDemoTrigger>
+                  );
+                }
+
                 if (isActive) {
                   return (
                     <Link
@@ -224,7 +235,7 @@ export function Navbar() {
                   {(() => {
                     const isMenuActive =
                       (item.label === "Product" && pathname.startsWith("/product")) ||
-                      (item.label === "Case Studies" && pathname.startsWith("/case-studies"));
+                      (item.label === "Case Study" && pathname.startsWith("/case-studies"));
 
                     const buttonEl = (
                       <button
@@ -264,8 +275,7 @@ export function Navbar() {
 
           {/* Right: actions */}
           <div className="flex items-center gap-2">
-            <Link
-              href="/#get-started"
+            <RequestDemoTrigger
               className="group inline-flex items-center gap-2 rounded-full bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] p-[3px] shadow-sm transition hover:shadow-md"
             >
               <span className="relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-white px-4 py-2 text-sm font-semibold text-zinc-900">
@@ -281,7 +291,7 @@ export function Navbar() {
                   </svg>
                 </span>
               </span>
-            </Link>
+            </RequestDemoTrigger>
 
             <button
               type="button"
@@ -294,7 +304,7 @@ export function Navbar() {
           </div>
         </div>
 
-        {(openMenu === "Product" || openMenu === "Case Studies") && (
+        {(openMenu === "Product" || openMenu === "Case Study") && (
           <div
             className="fixed inset-x-0 bottom-0 z-20 bg-black/10 backdrop-blur-[2px] top-[360px] sm:top-[380px]"
             aria-hidden
@@ -345,11 +355,11 @@ export function Navbar() {
                     <div className="mt-3 space-y-4">
                       <div className="cursor-pointer">
                         <div className="flex items-start gap-2">
-                          <Image src={runtimeIcon} alt="" className="h-10 w-10 rounded-[10px] border border-zinc-200" />
-                          <Link href="/product" className="group min-w-0">
-                            <p className="font-semibold">Canvas Runtime</p>
+                          <Image src={editorIcon} alt="" className="h-10 w-10 rounded-[10px] border border-zinc-200" />
+                          <Link href="/product" className="group min-w-0" onClick={() => setOpenMenu(null)}>
+                            <p className="font-semibold">Canvas Editor</p>
                             <p className="mt-0.5 text-xs text-zinc-500">
-                              Zero-disruption interactive playback.
+                              Build interactive units visually.
                             </p>
                             <div className="mt-2 h-[2px] w-full overflow-hidden rounded-full bg-zinc-200/40">
                               <div className="h-full w-full origin-left scale-x-0 bg-[linear-gradient(90deg,#F97316_0%,#EAB308_32.21%,#16A34A_57.21%,#6366F1_100%)] transition-transform duration-300 ease-out group-hover:scale-x-100" />
@@ -359,11 +369,11 @@ export function Navbar() {
                       </div>
                       <div className="cursor-pointer">
                         <div className="flex items-start gap-2">
-                          <Image src={editorIcon} alt="" className="h-10 w-10 rounded-[10px] border border-zinc-200" />
-                          <Link href="/product" className="group min-w-0">
-                            <p className="font-semibold">Canvas Editor</p>
+                          <Image src={runtimeIcon} alt="" className="h-10 w-10 rounded-[10px] border border-zinc-200" />
+                          <Link href="/product#runtime" className="group min-w-0" onClick={() => setOpenMenu(null)}>
+                            <p className="font-semibold">Canvas Runtime</p>
                             <p className="mt-0.5 text-xs text-zinc-500">
-                              Build interactive units visually.
+                              Zero-disruption interactive playback.
                             </p>
                             <div className="mt-2 h-[2px] w-full overflow-hidden rounded-full bg-zinc-200/40">
                               <div className="h-full w-full origin-left scale-x-0 bg-[linear-gradient(90deg,#F97316_0%,#EAB308_32.21%,#16A34A_57.21%,#6366F1_100%)] transition-transform duration-300 ease-out group-hover:scale-x-100" />
@@ -398,7 +408,7 @@ export function Navbar() {
                       <div className="cursor-pointer">
                         <div className="flex items-start gap-2">
                           <Image src={publishersIcon} alt="" className="h-10 w-10 rounded-[10px] border border-zinc-200" />
-                          <Link href="/product" className="group min-w-0">
+                          <Link href="/product" className="group min-w-0" onClick={() => setOpenMenu(null)}>
                             <p className="font-semibold">Publishers</p>
                             <p className="mt-0.5 text-xs text-zinc-500">
                               Enable interactive inventory.
@@ -412,7 +422,7 @@ export function Navbar() {
                       <div className="cursor-pointer">
                         <div className="flex items-start gap-2">
                           <Image src={agenciesIcon} alt="" className="h-10 w-10 rounded-[10px] border border-zinc-200" />
-                          <Link href="/product" className="group min-w-0">
+                          <Link href="/product" className="group min-w-0" onClick={() => setOpenMenu(null)}>
                             <p className="font-semibold">Agencies &amp; Brands</p>
                             <p className="mt-0.5 text-xs text-zinc-500">
                               Convert existing creatives.
@@ -426,7 +436,7 @@ export function Navbar() {
                       <div className="cursor-pointer">
                         <div className="flex items-start gap-2">
                           <Image src={measurementIcon} alt="" className="h-10 w-10 rounded-[10px] border border-zinc-200" />
-                          <Link href="/product" className="group min-w-0">
+                          <Link href="/product" className="group min-w-0" onClick={() => setOpenMenu(null)}>
                             <p className="font-semibold">Measurement</p>
                             <p className="mt-0.5 text-xs text-zinc-500">
                               Track real viewer intent.
@@ -472,29 +482,20 @@ export function Navbar() {
                 </div>
               </div>
               <div className="border-t border-zinc-200 bg-white">
-                <div className="mx-auto flex max-w-[1280px] items-center justify-between gap-4 px-4 py-2.5 sm:px-6">
+                <div className="mx-auto flex max-w-[1280px] items-center justify-center gap-4 px-4 py-2.5 sm:px-6">
                   <span className="text-sm font-medium text-[rgba(153,161,175,1)]">
                     Canvas — Interactive CTV advertising platform
                   </span>
-                  <Link
-                    href="/#product"
-                    className="inline-flex items-center gap-2 text-sm font-semibold text-zinc-800 hover:text-zinc-950"
-                  >
-                    <span className="relative after:absolute after:left-0 after:right-0 after:bottom-[-2px] after:h-[1.5px] after:origin-left after:scale-x-0 after:bg-zinc-900/80 after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100">
-                      View all
-                    </span>
-                    <span aria-hidden>→</span>
-                  </Link>
                 </div>
               </div>
             </motion.section>
           )}
 
-          {openMenu === "Case Studies" && (
+          {openMenu === "Case Study" && (
             <motion.section
               key="case-studies"
               className="absolute left-0 right-0 top-full z-30 hidden border-t border-zinc-200 bg-white md:block"
-              onMouseEnter={() => setOpenMenu("Case Studies")}
+              onMouseEnter={() => setOpenMenu("Case Study")}
               onMouseLeave={() => setOpenMenu(null)}
               aria-label="Case studies navigation panel"
               initial={{ opacity: 0, y: 8 }}
@@ -503,116 +504,80 @@ export function Navbar() {
               transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
             >
               <div className="mx-auto flex max-w-[1280px] gap-8 px-4 pt-9 pb-3 sm:px-6">
-                <div className="flex h-[280px] w-[230px] flex-col justify-between rounded-[14px] bg-gradient-to-br from-slate-900 via-slate-900 to-slate-800 p-6 text-white shadow-xl">
+                <div className="flex h-[300px] w-[300px] flex-col justify-between rounded-[14px] bg-gradient-to-br from-slate-900 via-slate-900 to-slate-800 p-7 text-white shadow-xl">
                   <p className="text-[11px] font-semibold tracking-[0.2em] text-white/50">
                     CASE STUDY
                   </p>
-                  <h3 className="mt-3 text-xl font-semibold">
-                    Proven results from real CTV campaigns
-                  </h3>
-                  <p className="mt-3 text-sm text-white/70">
-                    26.2% interaction rate, 14s+ average engagement. See the full data.
-                  </p>
-                  <button
-                    type="button"
-                    className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-white/90"
-                  >
-                    <span className="relative after:absolute after:left-0 after:right-0 after:bottom-[-2px] after:h-[1.5px] after:origin-left after:scale-x-0 after:bg-white after:opacity-70 after:transition-all after:duration-300 after:ease-out hover:after:scale-x-100 hover:after:opacity-100">
-                      View campaign
-                    </span>{" "}
-                    <span aria-hidden>→</span>
-                  </button>
+                  <div className="mt-3">
+                    <h3 className="text-[19px] font-semibold leading-snug">
+                      How OTT Studio Turned Standard CTV Ads into Interactive Experiences
+                    </h3>
+                    <div className="mt-4 space-y-2 text-[13px] font-semibold text-white/85">
+                      <p className="inline-flex items-center gap-2">
+                        <span aria-hidden>→</span>
+                        Interactive CTV in action
+                      </p>
+                      <p className="inline-flex items-center gap-2">
+                        <span aria-hidden>→</span>
+                        26%+ interaction rate
+                      </p>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="flex flex-1 flex-col gap-6 text-sm text-zinc-800 sm:flex-row sm:gap-10">
                   <div className="min-w-[220px]">
                     <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-zinc-500">
-                      Campaign results
+                      Explore
                     </p>
-                    <div className="mt-3 space-y-4">
-                      <div className="cursor-pointer">
-                        <div className="flex items-start gap-2">
-                          <Image src={csIconKm} alt="" className="h-10 w-10 rounded-[10px] border border-zinc-200" />
-                          <Link href="/case-studies" className="group min-w-0">
-                            <p className="font-semibold">Key Metrics</p>
-                            <p className="mt-0.5 text-xs text-zinc-500">
-                              26.2% interaction rate achieved.
-                            </p>
-                            <div className="mt-2 h-[2px] w-full overflow-hidden rounded-full bg-zinc-200/40">
-                              <div className="h-full w-full origin-left scale-x-0 bg-[linear-gradient(90deg,#F97316_0%,#EAB308_32.21%,#16A34A_57.21%,#6366F1_100%)] transition-transform duration-300 ease-out group-hover:scale-x-100" />
-                            </div>
+                    <div className="mt-3 space-y-3">
+                      {[
+                        { label: "Canvas Runtime", href: "/case-studies" },
+                        { label: "Interactive Demo", href: "/#demo" },
+                        { label: "Request Demo", href: "/#get-started" },
+                      ].map((link) => (
+                        link.label.includes("Demo") ? (
+                          <RequestDemoTrigger
+                            key={link.label}
+                            onClick={() => setOpenMenu(null)}
+                            className="group flex w-full items-center justify-between gap-3 rounded-xl border border-zinc-200/70 bg-white px-4 py-3 text-sm font-semibold text-zinc-900 shadow-sm hover:bg-zinc-50"
+                          >
+                            <span>{link.label}</span>
+                            <span
+                              className="text-zinc-400 transition group-hover:translate-x-0.5 group-hover:text-zinc-700"
+                              aria-hidden
+                            >
+                              →
+                            </span>
+                          </RequestDemoTrigger>
+                        ) : (
+                          <Link
+                            key={link.label}
+                            href={link.href}
+                            onClick={() => setOpenMenu(null)}
+                            className="group flex items-center justify-between gap-3 rounded-xl border border-zinc-200/70 bg-white px-4 py-3 text-sm font-semibold text-zinc-900 shadow-sm hover:bg-zinc-50"
+                          >
+                            <span>{link.label}</span>
+                            <span
+                              className="text-zinc-400 transition group-hover:translate-x-0.5 group-hover:text-zinc-700"
+                              aria-hidden
+                            >
+                              →
+                            </span>
                           </Link>
-                        </div>
-                      </div>
-                      <div className="cursor-pointer">
-                        <div className="flex items-start gap-2">
-                          <Image src={csIconEngage} alt="" className="h-10 w-10 rounded-[10px] border border-zinc-200" />
-                          <div className="group min-w-0">
-                            <p className="font-semibold">Engagement</p>
-                            <p className="mt-0.5 text-xs text-zinc-500">
-                              14s+ seconds average duration.
-                            </p>
-                            <div className="mt-2 h-[2px] w-full overflow-hidden rounded-full bg-zinc-200/40">
-                              <div className="h-full w-full origin-left scale-x-0 bg-[linear-gradient(90deg,#F97316_0%,#EAB308_32.21%,#16A34A_57.21%,#6366F1_100%)] transition-transform duration-300 ease-out group-hover:scale-x-100" />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                        )
+                      ))}
                     </div>
                   </div>
                 </div>
 
-                {/* Blog card (right) */}
-                <div
-                  className="hidden h-[230px] w-[230px] flex-col overflow-hidden rounded-[16px] px-4 pb-4 pt-4 text-slate-50 shadow-[0_20px_50px_rgba(15,23,42,0.9)] ring-1 ring-slate-800/60 sm:flex self-start"
-                  style={{
-                    background: "linear-gradient(145deg, #0D1120 6.17%, #1A0E2E 93.83%)",
-                  }}
-                >
-                  <div
-                    className="inline-flex items-center justify-center rounded-full px-4 py-1 text-[11px] font-semibold tracking-[0.12em] text-slate-100/80 mx-auto"
-                    style={{ backgroundColor: "rgba(99, 102, 241, 0.25)" }}
-                  >
-                    <span>CANVAS BLOG</span>
-                  </div>
-                  <div className="mt-5 space-y-2">
-                    <p className="text-[18px] font-semibold leading-snug text-slate-50">
-                      Canvas Is Amazing
-                    </p>
-                    <p className="text-[13px] leading-snug text-slate-300/80">
-                      How Canvas is rewriting the rules of connected TV advertising.
-                    </p>
-                  </div>
-                  <div className="mt-auto pt-4">
-                    <Link
-                      href="/blog"
-                      className="inline-flex items-center text-[13px] font-semibold"
-                      style={{ color: "rgba(165, 180, 252, 1)" }}
-                    >
-                      <span className="relative after:absolute after:left-0 after:right-0 after:bottom-[-1px] after:h-[1.5px] after:origin-left after:scale-x-0 after:bg-[rgba(165,180,252,1)] after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100">
-                        Read article
-                      </span>
-                      <span className="ml-1" aria-hidden>
-                        →
-                      </span>
-                    </Link>
-                  </div>
-                </div>
+
               </div>
               <div className="border-t border-zinc-200 bg-white">
-                <div className="mx-auto flex max-w-[1280px] items-center justify-between gap-4 px-4 py-2.5 sm:px-6">
+                <div className="mx-auto flex max-w-[1280px] items-center justify-center gap-4 px-4 py-2.5 sm:px-6">
                   <span className="text-sm font-medium text-[rgba(153,161,175,1)]">
                     Canvas — Interactive CTV advertising platform
                   </span>
-                  <Link
-                    href="/#case-studies"
-                    className="inline-flex items-center gap-2 text-sm font-semibold text-zinc-800 hover:text-zinc-950"
-                  >
-                    <span className="relative after:absolute after:left-0 after:right-0 after:bottom-[-2px] after:h-[1.5px] after:origin-left after:scale-x-0 after:bg-zinc-900/80 after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100">
-                      View all
-                    </span>
-                    <span aria-hidden>→</span>
-                  </Link>
                 </div>
               </div>
             </motion.section>
@@ -628,6 +593,20 @@ export function Navbar() {
                   {NAV.map((item) => {
                     if (item.kind === "link") {
                       const isActive = isActiveLink(item.href);
+                      if (item.label === "Demo") {
+                        return (
+                          <RequestDemoTrigger
+                            key={item.label}
+                            className={[
+                              "w-full rounded-lg px-3 py-2 text-left text-sm font-semibold",
+                              isActive ? "bg-zinc-900 text-white" : "text-zinc-800 hover:bg-zinc-50",
+                            ].join(" ")}
+                            onClick={() => setMobileOpen(false)}
+                          >
+                            {item.label}
+                          </RequestDemoTrigger>
+                        );
+                      }
                       return (
                         <Link
                           key={item.label}
@@ -645,25 +624,22 @@ export function Navbar() {
                       );
                     }
 
+                    const mobileHref =
+                      item.label === "Product"
+                        ? "/product"
+                        : item.label === "Case Study"
+                          ? "/case-studies"
+                          : "/";
+
                     return (
-                      <details key={item.label} className="group rounded-lg px-3 py-2 hover:bg-zinc-50">
-                        <summary className="flex cursor-pointer list-none items-center justify-between text-sm font-semibold text-zinc-800">
-                          {item.label}
-                          <ChevronDown className="opacity-70 transition group-open:rotate-180" />
-                        </summary>
-                        <div className="mt-2 flex flex-col gap-1 pb-1">
-                          {item.items.map((sub) => (
-                            <Link
-                              key={sub.label}
-                              href={sub.href}
-                              className="rounded-md px-3 py-2 text-sm text-zinc-700 hover:bg-white"
-                              onClick={() => setMobileOpen(false)}
-                            >
-                              {sub.label}
-                            </Link>
-                          ))}
-                        </div>
-                      </details>
+                      <Link
+                        key={item.label}
+                        href={mobileHref}
+                        className="rounded-lg px-3 py-2 text-sm font-semibold text-zinc-800 hover:bg-zinc-50"
+                        onClick={() => setMobileOpen(false)}
+                      >
+                        {item.label}
+                      </Link>
                     );
                   })}
 

@@ -5,6 +5,7 @@ import type { StaticImageData } from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { motion, useAnimation, useInView, useReducedMotion } from "framer-motion";
+import { RequestDemoTrigger } from "@/components/RequestDemoTrigger";
 import proofImpressions from "@/assets/proof/impressions.svg";
 import proofInteractionRate from "@/assets/proof/interaction_rate.svg";
 import proofTimeTo from "@/assets/proof/time_to.svg";
@@ -660,8 +661,7 @@ export function CampaignResultsSection() {
           </p>
 
           <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link
-              href="/#get-started"
+            <RequestDemoTrigger
               className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#F97316] via-[#22C55E] to-[#6366F1] p-[2px] shadow-sm"
             >
               <span className="relative flex items-center gap-3 overflow-hidden rounded-full bg-white px-5 py-2 text-[13px] font-semibold text-zinc-900">
@@ -671,7 +671,7 @@ export function CampaignResultsSection() {
                 </span>
                 <ArrowBox />
               </span>
-            </Link>
+            </RequestDemoTrigger>
 
             <Link
               href="/#case-studies"

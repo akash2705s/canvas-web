@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { RequestDemoTrigger } from "@/components/RequestDemoTrigger";
 
-function GradientButton({ href, label }: { href: string; label: string }) {
+function GradientButton({ label }: { label: string }) {
   return (
-    <Link
-      href={href}
+    <RequestDemoTrigger
       className="group inline-flex items-center gap-2 rounded-full bg-[linear-gradient(90deg,#F97316_0%,#EAB308_18%,#22C55E_36%,#06B6D4_54%,#3B82F6_72%,#8B5CF6_100%)] p-[3px] shadow-sm transition hover:shadow-md"
     >
       <span className="relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-zinc-900">
@@ -24,14 +24,16 @@ function GradientButton({ href, label }: { href: string; label: string }) {
             strokeWidth="2.5"
             strokeLinecap="round"
             strokeLinejoin="round"
-            aria-hidden
+            aria-hidden="true"
+            role="presentation"
+            focusable="false"
           >
             <path d="M5 12h14" />
             <path d="M12 5l7 7-7 7" />
           </svg>
         </span>
       </span>
-    </Link>
+    </RequestDemoTrigger>
   );
 }
 
@@ -74,7 +76,7 @@ export function AboutCtaSection() {
           viewport={{ once: true, amount: 0.6 }}
           transition={{ duration: 0.8, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
         >
-          <GradientButton href="/#get-started" label="Request Demo" />
+          <GradientButton label="Request Demo" />
 
           <Link
             href="/#partners"
@@ -91,7 +93,9 @@ export function AboutCtaSection() {
                 strokeWidth="2.1"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                aria-hidden
+                aria-hidden="true"
+                role="presentation"
+                focusable="false"
               >
                 <path d="M5 12h14" />
                 <path d="M12 5l7 7-7 7" />

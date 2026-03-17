@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
+import { RequestDemoTrigger } from "@/components/RequestDemoTrigger";
 
 import scriptIcon from "@/assets/Product/Hero/script.svg";
 import interactRateIcon from "@/assets/Product/Hero/interact_rate.svg";
@@ -91,8 +92,7 @@ export function ProductHero() {
           </p>
 
           <div className="mt-4 flex flex-wrap items-center gap-3">
-            <Link
-              href="/#get-started"
+            <RequestDemoTrigger
               className="group inline-flex items-center gap-2 rounded-full bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] p-[3px] text-sm font-semibold shadow-sm transition hover:shadow-md"
             >
               <span className="relative flex items-center gap-2 overflow-hidden rounded-full bg-white px-6 py-2.5 text-slate-900">
@@ -119,7 +119,7 @@ export function ProductHero() {
                   </svg>
                 </span>
               </span>
-            </Link>
+            </RequestDemoTrigger>
 
             <Link
               href="/#demo"
@@ -200,22 +200,18 @@ export function ProductHero() {
 
         {/* Right column */}
         <div className="relative w-full max-w-[580px]">
-          <div className="relative overflow-hidden rounded-[32px] bg-white/90 shadow-[0_26px_80px_rgba(15,23,42,0.35)] ring-1 ring-slate-900/5 backdrop-blur">
-            {/* Main video */}
-            <div className="p-5">
-              <div className="relative w-full overflow-hidden rounded-2xl bg-white ring-1 ring-slate-100">
-              <video
-                className="block h-auto w-full"
-                src="/videos/hero_product.mp4"
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="auto"
-                onEnded={(e) => e.currentTarget.play()}
-              />
-              </div>
-            </div>
+          {/* Main video (no backplate/frame) */}
+          <div className="relative aspect-[16/9] w-full overflow-hidden rounded-[20px]">
+            <video
+              className="absolute inset-0 h-full w-full object-cover"
+              src="/videos/hero_product.mp4"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              onEnded={(e) => e.currentTarget.play()}
+            />
           </div>
         </div>
       </div>

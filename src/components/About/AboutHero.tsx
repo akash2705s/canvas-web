@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
+import { RequestDemoTrigger } from "@/components/RequestDemoTrigger";
 
 import arrowRight from "@/assets/About/Hero/ArrowRight.svg";
 
@@ -105,8 +106,7 @@ export function AboutHero() {
 
           <div className="mt-8 flex flex-wrap items-center gap-3">
             {reduceMotion ? (
-              <Link
-                href="/#get-started"
+              <RequestDemoTrigger
                 className="group inline-flex items-center gap-2 rounded-full bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] p-[3px] shadow-sm transition hover:shadow-md"
               >
                 <span className="relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-white px-4 py-2 text-sm font-semibold text-zinc-900">
@@ -132,7 +132,7 @@ export function AboutHero() {
                     </svg>
                   </span>
                 </span>
-              </Link>
+              </RequestDemoTrigger>
             ) : (
               <motion.div
                 initial={{ opacity: 0, y: 18, filter: "blur(12px)" }}
@@ -140,8 +140,7 @@ export function AboutHero() {
                 transition={{ duration: 0.8, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
                 viewport={{ once: true, amount: 0.7 }}
               >
-                <Link
-                  href="/#get-started"
+                <RequestDemoTrigger
                   className="group inline-flex items-center gap-2 rounded-full bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] p-[3px] shadow-sm transition hover:shadow-md"
                 >
                   <span className="relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-white px-4 py-2 text-sm font-semibold text-zinc-900">
@@ -167,7 +166,7 @@ export function AboutHero() {
                       </svg>
                     </span>
                   </span>
-                </Link>
+                </RequestDemoTrigger>
               </motion.div>
             )}
 

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
 import { animate, motion, useReducedMotion } from "framer-motion";
 import gsap from "gsap";
+import { RequestDemoTrigger } from "@/components/RequestDemoTrigger";
 
 import bitmovin from "@/assets/proof/ecosystems/movin.svg";
 
@@ -366,8 +367,7 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
             )}
             {reduceMotion ? (
               <div className="mt-8 flex flex-wrap items-center gap-3">
-                <Link
-                  href="/#get-started"
+                <RequestDemoTrigger
                   className="group inline-flex items-center gap-2 rounded-full bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] p-[3px] shadow-sm transition hover:shadow-md"
                 >
                   <span className="relative flex items-center gap-2 overflow-hidden rounded-full bg-white px-6 py-3 text-sm font-semibold text-zinc-900">
@@ -383,7 +383,7 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
                       </svg>
                     </span>
                   </span>
-                </Link>
+                </RequestDemoTrigger>
                 <Link
                   href="/#demo"
                   className="inline-flex items-center gap-2 rounded-full border-2 border-zinc-300 bg-transparent px-5 py-3 text-sm font-semibold text-zinc-800 transition hover:border-zinc-400 hover:bg-zinc-50"
@@ -402,8 +402,7 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
                   transition={{ duration: 0.8, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
                   viewport={{ once: true, amount: 0.7 }}
                 >
-                  <Link
-                    href="/#get-started"
+                  <RequestDemoTrigger
                     className="group inline-flex items-center gap-2 rounded-full bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] p-[3px] shadow-sm transition hover:shadow-md"
                   >
                     <span className="relative flex items-center gap-2 overflow-hidden rounded-full bg-white px-6 py-3 text-sm font-semibold text-zinc-900">
@@ -419,7 +418,7 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
                         </svg>
                       </span>
                     </span>
-                  </Link>
+                  </RequestDemoTrigger>
                 </motion.div>
                 <motion.div
                   initial={{ opacity: 0, y: 18, filter: "blur(12px)" }}
@@ -461,28 +460,28 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
 
           {/* Right: hero visual with intersecting circles */}
           <div className="relative z-10 flex justify-center lg:justify-end">
-            <div className="relative flex h-[520px] w-full max-w-[980px] items-center justify-center">
+            <div className="relative flex h-[560px] w-full max-w-[1020px] items-center justify-center">
               {/* Intersecting circles backdrop */}
               <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-                <div className="relative h-[480px] w-[480px]">
+                <div className="relative h-[520px] w-[520px]">
                   {/* Big middle circle */}
-                  <div className="absolute left-1/2 top-1/2 h-[420px] w-[420px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-violet-200/90 mix-blend-multiply shadow-[0_60px_150px_rgba(167,139,250,0.85)]" />
+                  <div className="absolute left-1/2 top-1/2 h-[455px] w-[455px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-violet-200/90 mix-blend-multiply shadow-[0_60px_150px_rgba(167,139,250,0.85)]" />
                   {/* Small bottom-left */}
                   <div
                     ref={orbitLeftRef}
-                    className="absolute -left-14 -bottom-12 h-48 w-48 rounded-full bg-amber-200/90 mix-blend-multiply shadow-[0_28px_70px_rgba(248,180,75,0.65)]"
+                    className="absolute -left-16 -bottom-14 h-52 w-52 rounded-full bg-amber-200/90 mix-blend-multiply shadow-[0_28px_70px_rgba(248,180,75,0.65)]"
                   />
                   {/* Small top-right */}
                   <div
                     ref={orbitRightRef}
-                    className="absolute -right-14 -top-12 h-48 w-48 rounded-full bg-pink-200/90 mix-blend-multiply shadow-[0_28px_70px_rgba(244,114,182,0.65)]"
+                    className="absolute -right-16 -top-14 h-52 w-52 rounded-full bg-pink-200/90 mix-blend-multiply shadow-[0_28px_70px_rgba(244,114,182,0.65)]"
                   />
                 </div>
               </div>
 
               {/* Central hero visual: autoplaying video instead of static image */}
               <motion.div
-                className="relative flex h-[330px] w-[360px] max-w-full flex-col overflow-hidden rounded-[26px] bg-[#050816]/95 shadow-2xl ring-1 ring-black/40 sm:w-[420px]"
+                className="relative flex h-[360px] w-[390px] max-w-full flex-col overflow-hidden rounded-[26px] bg-[#050816]/95 shadow-2xl ring-1 ring-black/40 sm:w-[460px]"
                 whileHover={{
                   y: -10,
                   scale: 1.02,
@@ -492,12 +491,7 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
                 transition={{ type: "spring", stiffness: 260, damping: 24 }}
               >
                 <div className="relative w-full flex-[1.25] overflow-hidden rounded-t-[24px]">
-                  <motion.div
-                    className="absolute inset-0"
-                    initial={{ scale: 1, rotate: 0 }}
-                    whileHover={{ scale: 1.03, rotate: -0.25 }}
-                    transition={{ type: "spring", stiffness: 220, damping: 26 }}
-                  >
+                  <div className="absolute inset-0">
                     <video
                       src="/videos/hero_section.mov"
                       autoPlay
@@ -508,7 +502,7 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
                       onEnded={(e) => e.currentTarget.play()}
                       className="h-full w-full object-cover"
                     />
-                  </motion.div>
+                  </div>
                 </div>
 
                 {/* Metrics bar inside the card (bottom), centered text */}

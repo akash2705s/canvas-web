@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Preloader } from "@/components/Preloader";
+import { RequestDemoProvider } from "@/components/RequestDemoProvider";
 
 type AppShellProps = {
   children: React.ReactNode;
@@ -38,19 +39,26 @@ export function AppShell({ children }: AppShellProps) {
   };
 
   return (
-    <div className="site-frame">
-      <div className="site-content">
-        {!hydrated ? null : showPreloader ? (
-          <Preloader onDone={handlePreloaderDone} />
-        ) : (
+    <>
+      {!hydrated ? null : showPreloader ? (
+        <Preloader onDone={handlePreloaderDone} />
+      ) : (
+        <RequestDemoProvider>
           <div className="animate-fade-in">
+            {/* Full-bleed header (outside the framed layout) */}
             <Navbar />
-            {children}
-            <Footer />
+
+            {/* Framed page content */}
+            <div className="site-frame">
+              <div className="site-content">
+                {children}
+                <Footer />
+              </div>
+            </div>
           </div>
-        )}
-      </div>
-    </div>
+        </RequestDemoProvider>
+      )}
+    </>
   );
 }
 

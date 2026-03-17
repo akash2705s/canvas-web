@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { RequestDemoTrigger } from "@/components/RequestDemoTrigger";
 
 export function ProductFinalCta() {
   return (
@@ -64,8 +65,7 @@ export function ProductFinalCta() {
         </p>
 
         <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-          <Link
-            href="/#get-started"
+          <RequestDemoTrigger
             className="group inline-flex items-center gap-2 rounded-full bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] p-[3px] text-sm font-semibold shadow-sm transition hover:shadow-md"
           >
             <span className="relative flex items-center gap-2 overflow-hidden rounded-full bg-white px-6 py-2.5 text-slate-900">
@@ -83,14 +83,16 @@ export function ProductFinalCta() {
                   strokeWidth="2.5"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  aria-hidden
+                  aria-hidden="true"
+                  role="presentation"
+                  focusable="false"
                 >
                   <path d="M5 12h14" />
                   <path d="M12 5l7 7-7 7" />
                 </svg>
               </span>
             </span>
-          </Link>
+          </RequestDemoTrigger>
 
           <Link
             href="/#demo"
@@ -111,7 +113,9 @@ export function ProductFinalCta() {
                   strokeWidth="2.5"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  aria-hidden
+                  aria-hidden="true"
+                  role="presentation"
+                  focusable="false"
                 >
                   <path d="M5 12h14" />
                   <path d="M12 5l7 7-7 7" />
