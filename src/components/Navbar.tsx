@@ -16,10 +16,6 @@ import nabEventImage from "@/assets/navbar/product/img.png";
 
 import csIconKm from "@/assets/navbar/case_studies/km.svg";
 import csIconEngage from "@/assets/navbar/case_studies/engage.svg";
-import csIconIt from "@/assets/navbar/case_studies/it.svg";
-import csIconImplement from "@/assets/navbar/case_studies/implement.svg";
-import csIconCt from "@/assets/navbar/case_studies/ct.svg";
-import csIconInsights from "@/assets/navbar/case_studies/insights.svg";
 
 type NavItem =
   | { kind: "link"; label: string; href: string }
@@ -131,19 +127,28 @@ export function Navbar() {
 
   const desktopItems = useMemo(() => NAV, []);
 
+  const normalizePath = (p: string) => {
+    if (!p) return "/";
+    if (p === "/") return "/";
+    return p.endsWith("/") ? p.slice(0, -1) : p;
+  };
+
   const isActiveLink = (href: string) => {
     const [pathOnly, hash] = href.split("#");
 
+    const current = normalizePath(pathname);
+    const target = normalizePath(pathOnly || "/");
+
     // Do not mark hash-only links (like "/#demo") as active in the top nav.
-    if (hash) {
-      return false;
+    // But DO allow hash links to be active when they point to another page
+    // (e.g. "/about#partners" should be active while on "/about").
+    if (hash && target === "/") return false;
+
+    if (target === "/") {
+      return current === "/";
     }
 
-    if (!pathOnly || pathOnly === "/") {
-      return pathname === "/";
-    }
-
-    return pathname === pathOnly;
+    return current === target || current.startsWith(`${target}/`);
   };
 
   return (

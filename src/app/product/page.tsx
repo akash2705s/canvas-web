@@ -1,5 +1,6 @@
 import { ProductHero } from "@/components/ProductHero";
 import { ProductRuntimeFeature } from "@/components/ProductRuntimeFeature";
+import { ProductIntegrationsSection } from "@/components/ProductIntegrationsSection";
 import { ProductEditorFeature } from "@/components/ProductEditorFeature";
 import { ProductIntentFeature } from "@/components/ProductIntentFeature";
 import { ProductEnterpriseGradeSection } from "@/components/ProductEnterpriseGradeSection";
@@ -27,6 +28,9 @@ export default function ProductPage() {
         <ProductEnterpriseGradeSection />
       </Reveal>
       <Reveal delay={0.32}>
+        <ProductIntegrationsSection />
+      </Reveal>
+      <Reveal delay={0.36}>
         <ProductFaqAccordion />
       </Reveal>
       <Reveal delay={0.4}>

@@ -326,7 +326,6 @@ export function ProductEnterpriseGradeSection() {
   return (
     <section className="relative overflow-hidden bg-white pt-16 pb-10 sm:pt-20 sm:pb-12 lg:pt-24 lg:pb-14">
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -left-40 bottom-0 h-72 w-72 rounded-full bg-amber-200/35 blur-3xl" />
         <div className="absolute -right-40 top-14 h-80 w-80 rounded-full bg-violet-200/35 blur-3xl" />
         <div className="absolute right-16 bottom-14 h-56 w-56 rounded-full bg-indigo-200/25 blur-3xl" />
       </div>
