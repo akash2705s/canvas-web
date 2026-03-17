@@ -1,6 +1,7 @@
 "use client";
 
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
+import type { StaticImageData } from "next/image";
 import { motion } from "framer-motion";
 
 import ceoPhoto from "@/assets/About/the_team/vignesh.png";
@@ -41,6 +42,9 @@ const TEAM_MEMBERS: TeamMember[] = [
 ] as const;
 
 export function AboutTeamSection() {
+  const ENABLE_ABOUT_TEAM_SECTION = false;
+  if (!ENABLE_ABOUT_TEAM_SECTION) return null;
+
   return (
     <section className="relative overflow-hidden bg-[#EEF0FB] pt-10 pb-16 sm:pt-14 sm:pb-20 lg:pt-16 lg:pb-24">
       <div className="pointer-events-none absolute top-[-40px] right-[-10%] h-[260px] w-1/3 bg-[radial-gradient(circle_at_top_right,#4F46E51F_0,#4F46E51F_20%,transparent_60%)] opacity-70" />

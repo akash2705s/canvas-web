@@ -22,13 +22,11 @@ import ctvHtml5 from "@/assets/proof/ctv/html.svg";
 import ctvHp from "@/assets/proof/ctv/hp.svg";
 import ctvShaka from "@/assets/proof/ctv/shaka.svg";
 import ecoSvta from "@/assets/proof/ecosystems/svta.svg";
-import ecoIab from "@/assets/proof/ecosystems/iab.svg";
 import ecoSteveAi from "@/assets/proof/ecosystems/steveai.svg";
-import ecoSabio from "@/assets/proof/ecosystems/sabio.svg";
 import ecoOneStudio from "@/assets/proof/ecosystems/onestudio.svg";
 import ecoOttStudio from "@/assets/proof/ecosystems/ott_studio.svg";
 import ecoMovin from "@/assets/proof/ecosystems/movin.svg";
-import ecoBitcentral from "@/assets/proof/ecosystems/bitcentral.svg";
+import ecoCineverse from "@/assets/proof/ecosystems/cineverse.png";
 
 type Metric = {
   id: string;
@@ -92,13 +90,11 @@ const METRICS: Metric[] = [
 
 const ECOSYSTEM_LOGOS = [
   { id: "eco-svta", src: ecoSvta },
-  { id: "eco-iab", src: ecoIab },
   { id: "eco-steveai", src: ecoSteveAi },
-  { id: "eco-sabio", src: ecoSabio },
   { id: "eco-onestudio", src: ecoOneStudio },
   { id: "eco-ottstudio", src: ecoOttStudio },
   { id: "eco-movin", src: ecoMovin },
-  { id: "eco-bitcentral", src: ecoBitcentral },
+  { id: "eco-cineverse", src: ecoCineverse },
 ];
 
 const CTV_LOGOS = [
@@ -366,7 +362,7 @@ export function CampaignResultsSection() {
 
         <div className="mt-6 text-center">
           <h2 className="text-[30px] font-extrabold tracking-tight text-center text-zinc-900 sm:text-[34px]">
-            Results from our earlier campaigns
+            Results from our recent campaigns
           </h2>
           <p className="mt-3 text-[13px] leading-6 text-zinc-600 sm:text-[14px]">
             From a major streaming platform&apos;s first interactive CTV
@@ -674,7 +670,7 @@ export function CampaignResultsSection() {
             </RequestDemoTrigger>
 
             <Link
-              href="/#case-studies"
+              href="/case-studies"
               className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#F97316] via-[#22C55E] to-[#6366F1] p-[2px] shadow-sm"
             >
               <span className="relative flex items-center gap-3 overflow-hidden rounded-full bg-white px-5 py-2 text-[13px] font-semibold text-zinc-900">

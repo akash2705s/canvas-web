@@ -124,8 +124,7 @@ export function Footer() {
             <span className="text-sm font-semibold text-zinc-900">Canvas</span>
           </div>
           <p className="text-sm leading-6 text-zinc-600">
-            The runtime and editor infrastructure enabling interactive CTV ads across streaming
-            platforms.
+          Infrastructure to turn video into interactive experiences and real-time intent data across streaming, web and mobile.
           </p>
           <div className="relative inline-block">
             {showConfetti ? (
@@ -176,7 +175,10 @@ export function Footer() {
               <Link href="/#case-studies" className="block hover:text-zinc-900">
                 Case Studies
               </Link>
-              <Link href="/#partners" className="block hover:text-zinc-900">
+              <Link
+                href="/blog/turning-passive-ctv-ads-into-active-experiences"
+                className="block hover:text-zinc-900"
+              >
                 Partners
               </Link>
               <RequestDemoTrigger className="block text-left hover:text-zinc-900">

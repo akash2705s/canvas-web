@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 
 import canvasRuntimeIcon from "../assets/Product/runtime/canvas_runtime.svg";
 import interactOverlayIcon from "../assets/Product/runtime/interact_overlay.png";
@@ -132,8 +133,8 @@ export function ProductRuntimeFeature() {
               </div>
             </div>
 
-            <button
-              type="button"
+            <Link
+              href="/blog/turning-passive-ctv-ads-into-active-experiences"
               className="group inline-flex items-center text-sm font-semibold text-slate-900 cursor-pointer"
             >
               <span className="inline-flex items-center gap-2 rounded-full bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] p-[3px] shadow-sm transition hover:shadow-md">
@@ -162,7 +163,7 @@ export function ProductRuntimeFeature() {
                   </span>
                 </span>
               </span>
-            </button>
+            </Link>
           </div>
         </div>
 

@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion, useAnimation, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
@@ -109,8 +110,8 @@ export function ProductIntentFeature() {
             ))}
           </ul>
 
-          <button
-            type="button"
+          <Link
+            href="/blog/turning-passive-ctv-ads-into-active-experiences"
             className="group mt-8 inline-flex cursor-pointer items-center gap-2 rounded-full bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] p-[3px] text-sm font-semibold text-slate-900 shadow-sm transition hover:shadow-md"
           >
             <span className="relative flex items-center gap-2 overflow-hidden rounded-full bg-white px-6 py-2.5 whitespace-nowrap">
@@ -128,14 +129,16 @@ export function ProductIntentFeature() {
                   strokeWidth="2.5"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  aria-hidden
+                  aria-hidden="true"
+                  role="presentation"
+                  focusable="false"
                 >
                   <path d="M5 12h14" />
                   <path d="M12 5l7 7-7 7" />
                 </svg>
               </span>
             </span>
-          </button>
+          </Link>
         </div>
 
         {/* Right: dashboard replica */}
@@ -296,7 +299,9 @@ export function ProductIntentFeature() {
                   viewBox="0 0 200 60"
                   preserveAspectRatio="none"
                   className="h-full w-full"
-                  aria-hidden
+                  aria-hidden="true"
+                  role="presentation"
+                  focusable="false"
                 >
                   <defs>
                     <linearGradient id="intent-line-gradient" x1="0" y1="0" x2="200" y2="0" gradientUnits="userSpaceOnUse">

@@ -78,7 +78,7 @@ export function RuntimeInstallSection() {
 
             <div className="mt-8">
               <Link
-                href="/#learn-more"
+                href="/product"
                 className="group inline-flex items-center gap-2 text-sm font-semibold text-[#F97316] hover:text-[#fb923c]"
               >
                 <span className="relative after:absolute after:left-0 after:right-0 after:bottom-[-2px] after:h-[1.5px] after:origin-left after:scale-x-0 after:bg-[#F97316] after:transition-transform after:duration-300 after:ease-out after:transform-gpu group-hover:after:scale-x-100">
@@ -131,7 +131,7 @@ export function RuntimeInstallSection() {
 
             <div className="mt-8">
               <Link
-                href="/#learn-more"
+                href="/product"
                 className="group inline-flex items-center gap-2 text-sm font-semibold text-[rgba(79,70,229,1)] hover:text-[rgba(79,70,229,0.9)]"
               >
                 <span className="relative after:absolute after:left-0 after:right-0 after:bottom-[-2px] after:h-[1.5px] after:origin-left after:scale-x-0 after:bg-[rgba(79,70,229,1)] after:transition-transform after:duration-300 after:ease-out after:transform-gpu group-hover:after:scale-x-100">
@@ -184,7 +184,7 @@ export function RuntimeInstallSection() {
 
             <div className="mt-8">
               <Link
-                href="/#learn-more"
+                href="/product"
                 className="group inline-flex items-center gap-2 text-sm font-semibold text-[rgba(79,70,229,1)] hover:text-[rgba(79,70,229,0.9)]"
               >
                 <span className="relative after:absolute after:left-0 after:right-0 after:bottom-[-2px] after:h-[1.5px] after:origin-left after:scale-x-0 after:bg-[rgba(79,70,229,1)] after:transition-transform after:duration-300 after:ease-out after:transform-gpu group-hover:after:scale-x-100">

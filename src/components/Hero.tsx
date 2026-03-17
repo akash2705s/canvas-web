@@ -7,10 +7,9 @@ import { animate, motion, useReducedMotion } from "framer-motion";
 import gsap from "gsap";
 import { RequestDemoTrigger } from "@/components/RequestDemoTrigger";
 
-import bitmovin from "@/assets/proof/ecosystems/movin.svg";
-
 import svta from "@/assets/proof/ecosystems/svta.svg";
 import ottStudio from "@/assets/proof/ecosystems/ott_studio.svg";
+import freeLiveSports from "@/assets/Eco/fls.png";
 import statLogo1 from "@/assets/Hero/logos/1.svg";
 import statLogo2 from "@/assets/Hero/logos/2.svg";
 import statLogo3 from "@/assets/Hero/logos/3.svg";
@@ -32,9 +31,9 @@ type StatCardConfig = {
 };
 
 const ECO_LOGO: HeroLogo[] = [
-  { src: svta, alt: "SVTA" },
-  { src: bitmovin, alt: "Bitmovin" },
   { src: ottStudio, alt: "OTT Studio" },
+  { src: freeLiveSports, alt: "Free Live Sports" },
+  { src: svta, alt: "SVTA" },
 ];
 
 const STAT_CARDS: StatCardConfig[] = [
@@ -337,14 +336,13 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
             )}
             {reduceMotion ? (
               <p className="mt-4 max-w-xl text-base text-zinc-600 sm:text-lg">
-                Convert CTV ads into interactive experiences—capture intent signals without changing your streaming
-                stack.
+                Powering interactive video and real-time intent signals across CTV, web and mobile without changing your stack.
               </p>
             ) : (
               <motion.p className="mt-4 max-w-xl text-base text-zinc-600 sm:text-lg" aria-label="Convert CTV ads into interactive experiences—capture intent signals without changing your streaming stack.">
                 {(() => {
                   const text =
-                    "Convert CTV ads into interactive experiences—capture intent signals without changing your streaming stack.";
+                    "Powering interactive video and real-time intent signals across CTV, web and mobile without changing your stack.";
                   const words = text.split(" ");
                   return words.map((word, idx) => (
                     <motion.span
@@ -385,7 +383,7 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
                   </span>
                 </RequestDemoTrigger>
                 <Link
-                  href="/#demo"
+                  href="/case-studies"
                   className="inline-flex items-center gap-2 rounded-full border-2 border-zinc-300 bg-transparent px-5 py-3 text-sm font-semibold text-zinc-800 transition hover:border-zinc-400 hover:bg-zinc-50"
                 >
                   View Case Study
@@ -427,7 +425,7 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
                   viewport={{ once: true, amount: 0.7 }}
                 >
                   <Link
-                    href="/#demo"
+                    href="/case-studies"
                     className="inline-flex items-center gap-2 rounded-full border-2 border-zinc-300 bg-transparent px-5 py-3 text-sm font-semibold text-zinc-800 transition hover:border-zinc-400 hover:bg-zinc-50"
                   >
                     View Case Study
@@ -445,7 +443,7 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
               {(logos ?? ECO_LOGO).map((logo, idx) => (
                 <div
                   key={logo.alt}
-                  className={`relative w-full ${idx === 0 ? "h-9 max-w-[110px]" : idx === 1 ? "h-11 max-w-[160px]" : "h-11 max-w-[160px]"} ${idx === 2 ? "-ml-6" : ""}`}
+                  className={`relative w-full ${idx === 0 ? "h-9 max-w-[110px]" : idx === 1 ? "h-11 max-w-[160px]" : "h-11 max-w-[160px]"} ${idx === 1 ? "sm:mr-8" : ""} ${idx === 2 ? "-ml-6" : ""}`}
                 >
                   <Image
                     src={logo.src}

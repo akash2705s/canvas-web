@@ -79,7 +79,7 @@ export function AboutCtaSection() {
           <GradientButton label="Request Demo" />
 
           <Link
-            href="/#partners"
+            href="/blog/turning-passive-ctv-ads-into-active-experiences"
             className="inline-flex items-center gap-2 rounded-full border border-white/18 bg-white/5 px-5 py-2.5 text-sm font-semibold text-slate-100 transition hover:border-white/40 hover:bg-white/10"
           >
             View partners

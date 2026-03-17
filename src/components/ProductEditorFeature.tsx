@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 
 import tickIcon2 from "../assets/Product/runtime/tick2.png";
 
@@ -81,8 +82,8 @@ export function ProductEditorFeature() {
             ))}
           </ul>
 
-          <button
-            type="button"
+          <Link
+            href="/blog/turning-passive-ctv-ads-into-active-experiences"
             className="group mt-8 inline-flex cursor-pointer items-center gap-2 rounded-full bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] p-[3px] text-sm font-semibold text-slate-900 shadow-sm transition hover:shadow-md"
           >
             <span className="relative flex items-center gap-2 overflow-hidden rounded-full bg-white px-6 py-2.5 whitespace-nowrap">
@@ -109,7 +110,7 @@ export function ProductEditorFeature() {
                 </svg>
               </span>
             </span>
-          </button>
+          </Link>
         </div>
       </div>
     </section>

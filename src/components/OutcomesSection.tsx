@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useMemo, useState } from "react";
+import { RequestDemoTrigger } from "@/components/RequestDemoTrigger";
 
 import agenciesIcon from "@/assets/who/agencies.svg";
 import publishersIcon from "@/assets/who/publishers.svg";
@@ -182,8 +183,7 @@ export function OutcomesSection() {
         </div>
 
         <div className="mt-10 flex justify-center">
-          <button
-            type="button"
+          <RequestDemoTrigger
             className="group inline-flex cursor-pointer items-center gap-2 rounded-full bg-gradient-to-r from-[#F97316] via-[#22C55E] to-[#6366F1] p-[2px] shadow-sm"
           >
             <span className="relative flex items-center gap-3 overflow-hidden rounded-full bg-white px-5 py-2 text-[13px] font-semibold text-zinc-900">
@@ -201,7 +201,9 @@ export function OutcomesSection() {
                   strokeWidth="2.5"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  aria-hidden
+                  aria-hidden="true"
+                  role="presentation"
+                  focusable="false"
                 >
                   <title>Arrow right</title>
                   <path d="M5 12h14" />
@@ -209,7 +211,7 @@ export function OutcomesSection() {
                 </svg>
               </span>
             </span>
-          </button>
+          </RequestDemoTrigger>
         </div>
 
         {/* Micro-feedback for selection (screen readers + subtle UX) */}

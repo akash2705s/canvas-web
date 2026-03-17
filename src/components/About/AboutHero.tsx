@@ -172,7 +172,7 @@ export function AboutHero() {
 
             {reduceMotion ? (
               <Link
-                href="/#partners"
+                href="/blog/turning-passive-ctv-ads-into-active-experiences"
                 className="inline-flex items-center gap-2 rounded-xl border border-white/15 bg-transparent px-5 py-3.5 text-sm font-semibold text-slate-100 transition hover:border-white/30"
               >
                 See our partners
@@ -186,7 +186,7 @@ export function AboutHero() {
                 viewport={{ once: true, amount: 0.7 }}
               >
                 <Link
-                  href="/#partners"
+                  href="/blog/turning-passive-ctv-ads-into-active-experiences"
                   className="inline-flex items-center gap-2 rounded-xl border border-white/15 bg-transparent px-5 py-3.5 text-sm font-semibold text-slate-100 transition hover:border-white/30"
                 >
                   See our partners

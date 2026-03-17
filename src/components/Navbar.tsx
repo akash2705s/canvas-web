@@ -32,7 +32,7 @@ const NAV: NavItem[] = [
     items: [],
   },
   { kind: "link", label: "Demo", href: "/#demo" },
-  { kind: "link", label: "About/Partners", href: "/about" },
+  { kind: "link", label: "About", href: "/about" },
 ];
 
 function ChevronDown({ className }: { className?: string }) {
@@ -154,10 +154,10 @@ export function Navbar() {
       {bannerOpen ? (
         <div className="relative bg-[#4F46E5] px-4 py-2 text-center text-[13px] leading-[19px] font-normal text-white/80">
           <span>
-            Introducing Canvas Interactive CTV — the future of connected TV advertising.
+            Introducing Canvas Interactive CTV: the future of connected TV advertising.
           </span>{" "}
           <Link
-            href="/#learn-more"
+            href="/blog/turning-passive-ctv-ads-into-active-experiences"
             className="relative text-[13px] font-semibold text-white after:absolute after:left-0 after:right-0 after:bottom-[-2px] after:h-[1.5px] after:origin-left after:scale-x-0 after:bg-white after:opacity-70 after:transition-all after:duration-300 after:ease-out hover:after:scale-x-100 hover:after:opacity-100"
           >
             Learn more →
@@ -336,15 +336,16 @@ export function Navbar() {
                   <p className="mt-3 text-sm text-white/70">
                     Enable interactive ads across streaming platforms without disrupting existing ad stacks.
                   </p>
-                  <button
-                    type="button"
+                  <Link
+                    href="/blog/turning-passive-ctv-ads-into-active-experiences"
+                    onClick={() => setOpenMenu(null)}
                     className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-white/90"
                   >
                     <span className="relative after:absolute after:left-0 after:right-0 after:bottom-[-2px] after:h-[1.5px] after:origin-left after:scale-x-0 after:bg-white after:opacity-70 after:transition-all after:duration-300 after:ease-out hover:after:scale-x-100 hover:after:opacity-100">
                       Explore Canvas
                     </span>{" "}
                     <span aria-hidden>→</span>
-                  </button>
+                  </Link>
                 </div>
 
                 <div className="flex flex-1 flex-col gap-6 text-sm text-zinc-800 sm:flex-row sm:gap-10">
@@ -408,7 +409,11 @@ export function Navbar() {
                       <div className="cursor-pointer">
                         <div className="flex items-start gap-2">
                           <Image src={publishersIcon} alt="" className="h-10 w-10 rounded-[10px] border border-zinc-200" />
-                          <Link href="/product" className="group min-w-0" onClick={() => setOpenMenu(null)}>
+                          <Link
+                            href="/blog/turning-passive-ctv-ads-into-active-experiences"
+                            className="group min-w-0"
+                            onClick={() => setOpenMenu(null)}
+                          >
                             <p className="font-semibold">Publishers</p>
                             <p className="mt-0.5 text-xs text-zinc-500">
                               Enable interactive inventory.
@@ -422,7 +427,11 @@ export function Navbar() {
                       <div className="cursor-pointer">
                         <div className="flex items-start gap-2">
                           <Image src={agenciesIcon} alt="" className="h-10 w-10 rounded-[10px] border border-zinc-200" />
-                          <Link href="/product" className="group min-w-0" onClick={() => setOpenMenu(null)}>
+                          <Link
+                            href="/blog/turning-passive-ctv-ads-into-active-experiences"
+                            className="group min-w-0"
+                            onClick={() => setOpenMenu(null)}
+                          >
                             <p className="font-semibold">Agencies &amp; Brands</p>
                             <p className="mt-0.5 text-xs text-zinc-500">
                               Convert existing creatives.
@@ -436,7 +445,11 @@ export function Navbar() {
                       <div className="cursor-pointer">
                         <div className="flex items-start gap-2">
                           <Image src={measurementIcon} alt="" className="h-10 w-10 rounded-[10px] border border-zinc-200" />
-                          <Link href="/product" className="group min-w-0" onClick={() => setOpenMenu(null)}>
+                          <Link
+                            href="/blog/turning-passive-ctv-ads-into-active-experiences"
+                            className="group min-w-0"
+                            onClick={() => setOpenMenu(null)}
+                          >
                             <p className="font-semibold">Measurement</p>
                             <p className="mt-0.5 text-xs text-zinc-500">
                               Track real viewer intent.
@@ -504,25 +517,36 @@ export function Navbar() {
               transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
             >
               <div className="mx-auto flex max-w-[1280px] gap-8 px-4 pt-9 pb-3 sm:px-6">
-                <div className="flex h-[300px] w-[300px] flex-col justify-between rounded-[14px] bg-gradient-to-br from-slate-900 via-slate-900 to-slate-800 p-7 text-white shadow-xl">
-                  <p className="text-[11px] font-semibold tracking-[0.2em] text-white/50">
-                    CASE STUDY
-                  </p>
-                  <div className="mt-3">
-                    <h3 className="text-[19px] font-semibold leading-snug">
+                <div className="flex h-[280px] w-[440px] flex-col rounded-[14px] bg-gradient-to-br from-slate-900 via-slate-900 to-slate-800 p-7 text-white shadow-xl">
+                  <div>
+                    <p className="text-[11px] font-semibold tracking-[0.2em] text-white/50">
+                      CASE STUDY
+                    </p>
+
+                    <h3 className="mt-3 text-[19px] font-semibold leading-snug">
                       How OTT Studio Turned Standard CTV Ads into Interactive Experiences
                     </h3>
-                    <div className="mt-4 space-y-2 text-[13px] font-semibold text-white/85">
-                      <p className="inline-flex items-center gap-2">
-                        <span aria-hidden>→</span>
-                        Interactive CTV in action
-                      </p>
-                      <p className="inline-flex items-center gap-2">
-                        <span aria-hidden>→</span>
-                        26%+ interaction rate
-                      </p>
-                    </div>
+
+                    <ul className="mt-4 space-y-2 text-[13px] font-semibold text-white/85">
+                      {["Interactive CTV in action", "26%+ interaction rate"].map((item) => (
+                        <li key={item} className="flex items-start gap-2">
+                          <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-white/70" aria-hidden />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
+
+                  <Link
+                    href="/case-studies"
+                    onClick={() => setOpenMenu(null)}
+                    className="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-white/90"
+                  >
+                    <span className="relative after:absolute after:left-0 after:right-0 after:bottom-[-2px] after:h-[1.5px] after:origin-left after:scale-x-0 after:bg-white after:opacity-70 after:transition-all after:duration-300 after:ease-out hover:after:scale-x-100 hover:after:opacity-100">
+                      View Case Study
+                    </span>{" "}
+                    <span aria-hidden>→</span>
+                  </Link>
                 </div>
 
                 <div className="flex flex-1 flex-col gap-6 text-sm text-zinc-800 sm:flex-row sm:gap-10">
@@ -532,17 +556,74 @@ export function Navbar() {
                     </p>
                     <div className="mt-3 space-y-3">
                       {[
-                        { label: "Canvas Runtime", href: "/case-studies" },
-                        { label: "Interactive Demo", href: "/#demo" },
-                        { label: "Request Demo", href: "/#get-started" },
+                        {
+                          label: "Canvas Runtime",
+                          href: "/product#runtime",
+                          icon: (
+                            <span className="flex h-9 w-9 items-center justify-center rounded-[12px] border border-zinc-200 bg-white shadow-sm">
+                              <Image src={runtimeIcon} alt="" className="h-5 w-5" />
+                            </span>
+                          ),
+                        },
+                        {
+                          label: "Interactive Demo",
+                          href: "/product",
+                          icon: (
+                            <span className="flex h-9 w-9 items-center justify-center rounded-[12px] border border-zinc-200 bg-white shadow-sm text-zinc-800">
+                              <svg
+                                width="18"
+                                height="18"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                aria-hidden="true"
+                                role="presentation"
+                                focusable="false"
+                              >
+                                <path d="M10 8l6 4-6 4V8z" />
+                                <path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" />
+                              </svg>
+                            </span>
+                          ),
+                        },
+                        {
+                          label: "Request Demo",
+                          href: "/#get-started",
+                          icon: (
+                            <span className="flex h-9 w-9 items-center justify-center rounded-[12px] border border-zinc-200 bg-white shadow-sm text-zinc-800">
+                              <svg
+                                width="18"
+                                height="18"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                aria-hidden="true"
+                                role="presentation"
+                                focusable="false"
+                              >
+                                <path d="M22 2L11 13" />
+                                <path d="M22 2l-7 20-4-9-9-4 20-7z" />
+                              </svg>
+                            </span>
+                          ),
+                        },
                       ].map((link) => (
-                        link.label.includes("Demo") ? (
+                        link.label === "Request Demo" ? (
                           <RequestDemoTrigger
                             key={link.label}
                             onClick={() => setOpenMenu(null)}
                             className="group flex w-full items-center justify-between gap-3 rounded-xl border border-zinc-200/70 bg-white px-4 py-3 text-sm font-semibold text-zinc-900 shadow-sm hover:bg-zinc-50"
                           >
-                            <span>{link.label}</span>
+                            <span className="flex min-w-0 items-center gap-3">
+                              {link.icon}
+                              <span className="truncate">{link.label}</span>
+                            </span>
                             <span
                               className="text-zinc-400 transition group-hover:translate-x-0.5 group-hover:text-zinc-700"
                               aria-hidden
@@ -557,7 +638,10 @@ export function Navbar() {
                             onClick={() => setOpenMenu(null)}
                             className="group flex items-center justify-between gap-3 rounded-xl border border-zinc-200/70 bg-white px-4 py-3 text-sm font-semibold text-zinc-900 shadow-sm hover:bg-zinc-50"
                           >
-                            <span>{link.label}</span>
+                            <span className="flex min-w-0 items-center gap-3">
+                              {link.icon}
+                              <span className="truncate">{link.label}</span>
+                            </span>
                             <span
                               className="text-zinc-400 transition group-hover:translate-x-0.5 group-hover:text-zinc-700"
                               aria-hidden

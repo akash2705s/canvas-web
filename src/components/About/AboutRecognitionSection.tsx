@@ -121,9 +121,9 @@ export function AboutRecognitionSection() {
                 <Image src={svtaPrincipalBandIcon} alt="" className="h-12 w-12" aria-hidden />
               </div>
               <div>
-                <h3 className="text-[14px] font-semibold text-slate-900">SVTA — Principal Member</h3>
+                <h3 className="text-[14px] font-semibold text-slate-900">SVTA: Principal Member</h3>
                 <p className="mt-1 text-[13px] leading-relaxed text-slate-600">
-                  Canvas holds Principal Member status at the Streaming Video Technology Alliance,
+                  Canvas received the Streaming Video Advertise Alliance Grant.
                   <br />
                   actively contributing to
                   open standards for interactive streaming infrastructure.
@@ -136,7 +136,7 @@ export function AboutRecognitionSection() {
                 Industry Recognition
               </span>
               <span className="inline-flex items-center rounded-full bg-[#F9731610] px-3 py-1 text-[11px] font-semibold text-[#F97316] ring-1 ring-[#F9731624]">
-                Principal Member
+                2026 Grant Recipient
               </span>
             </div>
           </div>

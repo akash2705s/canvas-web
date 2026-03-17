@@ -95,7 +95,7 @@ export function ProductFinalCta() {
           </RequestDemoTrigger>
 
           <Link
-            href="/#demo"
+            href="/case-studies"
             className="group inline-flex items-center gap-2 rounded-full bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] p-[3px] text-sm font-semibold shadow-sm transition hover:shadow-md"
           >
             <span className="relative flex items-center gap-2 overflow-hidden rounded-full bg-white px-6 py-2.5 text-slate-900">

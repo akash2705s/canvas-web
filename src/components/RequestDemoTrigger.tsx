@@ -13,7 +13,7 @@ export function RequestDemoTrigger({ className, children, onClick }: RequestDemo
   return (
     <button
       type="button"
-      className={className}
+      className={["cursor-pointer", className].filter(Boolean).join(" ")}
       onClick={() => {
         onClick?.();
         open();
