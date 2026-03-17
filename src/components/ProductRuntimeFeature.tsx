@@ -82,8 +82,8 @@ export function ProductRuntimeFeature() {
           </ul>
 
           {/* Code card */}
-          <div className="mt-8 inline-flex flex-col gap-4">
-            <div className="w-[520px] max-w-full overflow-hidden rounded-[18px] bg-[#050816] shadow-[0_26px_80px_rgba(15,23,42,0.7)] ring-1 ring-slate-900/60">
+          <div className="mt-8 flex w-full flex-col gap-4">
+            <div className="w-full overflow-hidden rounded-[18px] bg-[#050816] shadow-[0_26px_80px_rgba(15,23,42,0.7)] ring-1 ring-slate-900/60">
               <div className="flex items-center justify-between border-b border-white/5 bg-black/40 px-4 py-2.5">
                 <div className="flex items-center gap-1.5">
                   <span className="h-2.5 w-2.5 rounded-full bg-red-400" />
