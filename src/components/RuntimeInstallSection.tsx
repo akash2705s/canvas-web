@@ -142,7 +142,7 @@ export function RuntimeInstallSection() {
             </div>
           </div>
 
-          <div className="lg:order-1 lg:justify-self-start lg:ml-10 lg:overflow-visible">
+          <div className="w-full lg:order-1 lg:justify-self-start lg:ml-10 lg:overflow-visible">
             <div className="relative aspect-[16/9] w-full max-w-[540px] overflow-hidden rounded-2xl bg-black shadow-xl ring-1 ring-black/10">
               <video
                 src="/videos/Ad_convert.mov"
