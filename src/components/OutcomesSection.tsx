@@ -88,19 +88,15 @@ export function OutcomesSection() {
 
         <div className="mt-10 grid gap-6 sm:mt-12 sm:grid-cols-3">
           {cards.map((card, idx) => (
-            <motion.div
+            <motion.button
               key={card.id}
+              type="button"
               className={[
                 "relative flex h-full cursor-pointer flex-col rounded-[24px] bg-white/90 px-5 pb-5 pt-6 shadow-[0_28px_80px_rgba(15,23,42,0.18)] ring-1 transition",
                 activeId === card.id ? "ring-zinc-200/90" : "ring-zinc-100/90 hover:ring-zinc-200/80",
               ].join(" ")}
-              role="button"
-              tabIndex={0}
               aria-pressed={activeId === card.id}
               onClick={() => setActiveId(card.id)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") setActiveId(card.id);
-              }}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.4 }}
@@ -181,14 +177,14 @@ export function OutcomesSection() {
                   {card.quote}
                 </motion.span>
               </div>
-            </motion.div>
+            </motion.button>
           ))}
         </div>
 
         <div className="mt-10 flex justify-center">
           <button
             type="button"
-            className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#F97316] via-[#22C55E] to-[#6366F1] p-[2px] shadow-sm"
+            className="group inline-flex cursor-pointer items-center gap-2 rounded-full bg-gradient-to-r from-[#F97316] via-[#22C55E] to-[#6366F1] p-[2px] shadow-sm"
           >
             <span className="relative flex items-center gap-3 overflow-hidden rounded-full bg-white px-5 py-2 text-[13px] font-semibold text-zinc-900">
               <span className="pointer-events-none absolute inset-[-1px] origin-right scale-x-0 bg-black transition-transform duration-300 ease-out will-change-transform group-hover:scale-x-[1.02]" />

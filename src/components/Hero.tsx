@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { animate, motion, useReducedMotion } from "framer-motion";
 import gsap from "gsap";
 
@@ -10,7 +10,10 @@ import bitmovin from "@/assets/proof/ecosystems/movin.svg";
 
 import svta from "@/assets/proof/ecosystems/svta.svg";
 import ottStudio from "@/assets/proof/ecosystems/ott_studio.svg";
-import heroCard from "@/assets/Hero/card.png";
+import statLogo1 from "@/assets/Hero/logos/1.svg";
+import statLogo2 from "@/assets/Hero/logos/2.svg";
+import statLogo3 from "@/assets/Hero/logos/3.svg";
+import statLogo4 from "@/assets/Hero/logos/4.svg";
 
 
 export type HeroLogo = { src: string | typeof svta; alt: string };
@@ -23,7 +26,8 @@ type StatCardConfig = {
   label: string;
   sub: string;
   color: string;
-  icon: typeof CursorIcon;
+  spark: { color: string };
+  badge: HeroLogo;
 };
 
 const ECO_LOGO: HeroLogo[] = [
@@ -41,7 +45,8 @@ const STAT_CARDS: StatCardConfig[] = [
     label: "Interaction rate",
     sub: "+12% vs industry avg",
     color: "text-amber-500",
-    icon: CursorIcon,
+    spark: { color: "#F59E0B" },
+    badge: { src: statLogo1, alt: "Interaction" },
   },
   {
     value: "14+s",
@@ -50,7 +55,8 @@ const STAT_CARDS: StatCardConfig[] = [
     label: "Avg engagement",
     sub: "+8s vs passive ads",
     color: "text-violet-400",
-    icon: WaveIcon,
+    spark: { color: "#A78BFA" },
+    badge: { src: statLogo2, alt: "Engagement" },
   },
   {
     value: "6+s",
@@ -58,8 +64,9 @@ const STAT_CARDS: StatCardConfig[] = [
     suffix: "s",
     label: "Time to first action",
     sub: "2x faster response",
-    color: "text-emerald-400",
-    icon: PlayIcon,
+    color: "text-[rgba(167,139,250,1)]",
+    spark: { color: "rgba(167,139,250,1)" },
+    badge: { src: statLogo3, alt: "Time to action" },
   },
   {
     value: "3x",
@@ -68,7 +75,8 @@ const STAT_CARDS: StatCardConfig[] = [
     label: "Intent signals vs passive",
     sub: "+200% signal lift",
     color: "text-amber-500",
-    icon: ArrowIcon,
+    spark: { color: "#F59E0B" },
+    badge: { src: statLogo4, alt: "Intent signals" },
   },
 ];
 
@@ -112,35 +120,6 @@ function AnimatedNumber({ value, decimals = 0, suffix = "", className, delay = 0
   );
 }
 
-function CursorIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <title>Cursor</title>
-      <path d="M5 3l4 4-2 6 5-5 4 4" />
-      <path d="M12 19l3 3" />
-    </svg>
-  );
-}
-
-function WaveIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <title>Wave</title>
-      <path d="M2 12c2 2 4 4 6 4s4-2 6-4 4-4 6-4 4 2 6 4" />
-      <path d="M2 17c2 2 4 4 6 4s4-2 6-4 4-4 6-4 4 2 6 4" />
-    </svg>
-  );
-}
-
-function PlayIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-      <title>Play</title>
-      <polygon points="5 3 19 12 5 21 5 3" />
-    </svg>
-  );
-}
-
 function ArrowIcon({ className }: { className?: string }) {
   return (
     <svg className={className} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
@@ -151,6 +130,87 @@ function ArrowIcon({ className }: { className?: string }) {
   );
 }
 
+function StatSparkline({
+  color,
+  reduceMotion,
+  hovered,
+}: {
+  color: string;
+  reduceMotion: boolean;
+  hovered: boolean;
+}) {
+  const id = useId();
+  const gradId = `spark-grad-${id}`;
+  const glowId = `spark-glow-${id}`;
+  const points = "0,70 28,62 54,52 82,58 112,46 138,56 168,40 198,50 226,34 254,40 278,30 300,30";
+
+  return (
+    <div className={`pointer-events-none absolute inset-x-0 bottom-[-6px] h-[76px] ${hovered ? "opacity-[0.85]" : "opacity-[0.55]"}`}>
+      <svg className="h-full w-full" viewBox="0 0 300 80" preserveAspectRatio="none" aria-hidden>
+        <title>Trend line</title>
+        <defs>
+          <linearGradient id={gradId} x1="0" y1="0" x2="300" y2="0" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stopColor={color} stopOpacity="0.0" />
+            <stop offset="0.18" stopColor={color} stopOpacity="0.9" />
+            <stop offset="0.82" stopColor={color} stopOpacity="0.9" />
+            <stop offset="1" stopColor={color} stopOpacity="0.1" />
+          </linearGradient>
+          <filter id={glowId} x="-30%" y="-70%" width="160%" height="240%">
+            <feGaussianBlur stdDeviation="2.2" result="blur" />
+            <feColorMatrix
+              in="blur"
+              type="matrix"
+              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.55 0"
+              result="glow"
+            />
+            <feMerge>
+              <feMergeNode in="glow" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+
+        {/* soft lift */}
+        <path d={`M0 80 L ${points} L 300 80 Z`} fill={color} opacity={hovered ? 0.085 : 0.05} />
+
+        {/* baseline */}
+        <polyline points={points} stroke="rgba(15,23,42,0.10)" strokeWidth="1.25" fill="none" strokeLinejoin="miter" strokeMiterlimit={4} />
+
+        {/* animated line passing left->right */}
+        <motion.polyline
+          points={points}
+          pathLength={1}
+          stroke={`url(#${gradId})`}
+          strokeWidth="2.5"
+          strokeLinecap="butt"
+          strokeLinejoin="miter"
+          strokeMiterlimit={6}
+          fill="none"
+          filter={`url(#${glowId})`}
+          initial={reduceMotion ? { opacity: 0.35 } : { opacity: 0.45, strokeDasharray: 1, strokeDashoffset: 1 }}
+          animate={
+            reduceMotion
+              ? { opacity: hovered ? 0.55 : 0.35 }
+              : {
+                opacity: hovered ? 0.75 : 0.45,
+                strokeDasharray: 1,
+                strokeDashoffset: hovered ? [1, 0] : 0,
+              }
+          }
+          transition={
+            reduceMotion
+              ? { duration: 0.2 }
+              : {
+                opacity: { duration: 0.18, ease: "linear" },
+                strokeDashoffset: { duration: 0.75, ease: "linear" },
+              }
+          }
+        />
+      </svg>
+    </div>
+  );
+}
+
 export function Hero({ logos }: { logos?: HeroLogo[] }) {
   const reduceMotion = useReducedMotion();
   const blobARef = useRef<HTMLDivElement | null>(null);
@@ -158,6 +218,7 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
   const blobCRef = useRef<HTMLDivElement | null>(null);
   const orbitLeftRef = useRef<HTMLDivElement | null>(null);
   const orbitRightRef = useRef<HTMLDivElement | null>(null);
+  const [hoveredStat, setHoveredStat] = useState<string | null>(null);
 
   useEffect(() => {
     if (reduceMotion) return;
@@ -495,12 +556,23 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
           {STAT_CARDS.map((card) => (
             <motion.div
               key={card.label}
-              whileHover={{ y: -8, scale: 1.02, boxShadow: "0 24px 60px rgba(15,23,42,0.18)" }}
+              whileHover={{ y: -8, scale: 1.02 }}
               transition={{ type: "spring", stiffness: 260, damping: 24 }}
-              className="relative"
+              className={[
+                "relative transition-[filter,opacity] duration-200 ease-out",
+                hoveredStat && hoveredStat !== card.label ? "opacity-60 blur-[1.5px]" : "opacity-100 blur-0",
+              ].join(" ")}
+              onHoverStart={() => setHoveredStat(card.label)}
+              onHoverEnd={() => setHoveredStat(null)}
             >
               <div className="relative h-full overflow-hidden rounded-3xl bg-gradient-to-br from-amber-50 via-white to-violet-50 p-[1px] shadow-[0_16px_40px_rgba(15,23,42,0.08)]">
-                <div className="relative flex h-full flex-col justify-start rounded-[22px] bg-white/98 px-4 py-4 sm:px-5 sm:py-5">
+                <div className="relative flex h-full flex-col justify-start overflow-hidden rounded-[22px] bg-white/98 px-4 pt-4 pb-7 sm:px-5 sm:pt-5 sm:pb-8">
+                  <StatSparkline color={card.spark.color} reduceMotion={!!reduceMotion} hovered={hoveredStat === card.label} />
+                  <div className="pointer-events-none absolute bottom-[-2px] right-2">
+                    <div className={`relative h-9 w-9 ${hoveredStat === card.label ? "opacity-[0.62]" : "opacity-[0.24]"} transition-opacity duration-200 ease-linear`}>
+                      <Image src={card.badge.src} alt={card.badge.alt} fill className="object-contain" />
+                    </div>
+                  </div>
                   <div>
                     <AnimatedNumber
                       value={card.number}

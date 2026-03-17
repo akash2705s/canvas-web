@@ -1,9 +1,10 @@
 "use client";
 
 import Image from "next/image";
+import type { StaticImageData } from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { motion, useAnimation, useInView } from "framer-motion";
+import { motion, useAnimation, useInView, useReducedMotion } from "framer-motion";
 import proofImpressions from "@/assets/proof/impressions.svg";
 import proofInteractionRate from "@/assets/proof/interaction_rate.svg";
 import proofTimeTo from "@/assets/proof/time_to.svg";
@@ -30,7 +31,7 @@ import ecoBitcentral from "@/assets/proof/ecosystems/bitcentral.svg";
 
 type Metric = {
   id: string;
-  icon: any;
+  icon: StaticImageData;
   value: string;
   label: string;
   sub: string;
@@ -123,8 +124,108 @@ function ArrowBox() {
   );
 }
 
+function MetricMiniChart({
+  id,
+  accentRgb,
+  reduceMotion,
+  hovered,
+}: {
+  id: string;
+  accentRgb: string;
+  reduceMotion: boolean;
+  hovered: boolean;
+}) {
+  // consistent-but-varied shapes per metric id
+  const profiles: Record<
+    string,
+    { barsY: number[]; lineY: number[] }
+  > = {
+    impressions: {
+      barsY: [74, 68, 62, 52, 44, 52, 36, 44, 28, 34, 20, 30, 12, 20],
+      lineY: [72, 66, 60, 50, 42, 50, 38, 44, 28, 34, 20, 30, 12, 20],
+    },
+    ir: {
+      barsY: [78, 72, 64, 56, 48, 56, 44, 50, 36, 40, 30, 34, 18, 24],
+      lineY: [76, 70, 62, 54, 46, 54, 44, 48, 36, 40, 30, 34, 18, 24],
+    },
+    ttfa: {
+      barsY: [80, 74, 70, 58, 52, 58, 46, 50, 38, 42, 28, 34, 20, 26],
+      lineY: [78, 72, 68, 58, 52, 58, 46, 50, 38, 42, 28, 34, 20, 26],
+    },
+    dur: {
+      barsY: [78, 70, 64, 56, 48, 56, 40, 46, 32, 36, 22, 30, 10, 18],
+      lineY: [76, 68, 62, 54, 46, 54, 40, 44, 30, 34, 22, 28, 10, 16],
+    },
+    signals: {
+      barsY: [76, 68, 62, 56, 46, 56, 42, 48, 34, 40, 26, 34, 16, 22],
+      lineY: [74, 66, 60, 54, 44, 54, 42, 46, 34, 38, 26, 32, 16, 22],
+    },
+  };
+
+  const profile = profiles[id] ?? profiles.impressions;
+  const x0 = 4;
+  const w = 12;
+  const gap = 2;
+  const height = 96;
+  const rx = 2;
+  const linePoints = profile.lineY
+    .map((y, i) => `${x0 + i * (w + gap) + w / 2},${y}`)
+    .join(" ");
+
+  return (
+    <div className="h-16 w-full">
+      <svg viewBox={`0 0 200 ${height}`} preserveAspectRatio="none" className="h-full w-full" aria-hidden="true">
+        <title>Mini chart</title>
+        <g fill={`rgba(${accentRgb},0.20)`} opacity="0.9">
+          {profile.barsY.map((y, i) => (
+            <rect
+              key={`${id}-bar-x${x0 + i * (w + gap)}`}
+              x={x0 + i * (w + gap)}
+              y={y}
+              width={w}
+              height={height - y}
+              rx={rx}
+            />
+          ))}
+        </g>
+
+        <motion.path
+          d={`M${linePoints.replaceAll(" ", " L")}`}
+          fill="none"
+          stroke={`rgba(${accentRgb},1)`}
+          strokeWidth="2.2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          opacity="0.95"
+          pathLength={1}
+          initial={reduceMotion ? { opacity: 0.9 } : { opacity: 0.95, strokeDasharray: 1, strokeDashoffset: 1 }}
+          animate={
+            reduceMotion
+              ? { opacity: hovered ? 1 : 0.9 }
+              : {
+                opacity: hovered ? 1 : 0.95,
+                strokeDasharray: 1,
+                strokeDashoffset: hovered ? [1, 0] : 0,
+              }
+          }
+          transition={
+            reduceMotion
+              ? { duration: 0.18 }
+              : {
+                opacity: { duration: 0.16, ease: "linear" },
+                strokeDashoffset: { duration: 0.75, ease: "linear" },
+              }
+          }
+        />
+      </svg>
+    </div>
+  );
+}
+
 export function CampaignResultsSection() {
   const [hoveredLogoId, setHoveredLogoId] = useState<string | null>(null);
+  const [hoveredMetricId, setHoveredMetricId] = useState<string | null>(null);
+  const reduceMotion = useReducedMotion();
   const ecoControls = useAnimation();
   const ctvControls = useAnimation();
   const [showSvtaConfetti, setShowSvtaConfetti] = useState(false);
@@ -274,24 +375,89 @@ export function CampaignResultsSection() {
 
         <div className="mt-8 flex flex-wrap justify-center gap-4 sm:mt-10 sm:flex-nowrap">
           {METRICS.map((m, idx) => (
-            <motion.div
-              key={m.id}
-              className="h-[176px] w-[198px] shrink-0 rounded-[20px] border border-zinc-100/90 bg-white/90 px-3.5 py-3 shadow-[0_20px_54px_rgba(15,23,42,0.14)]"
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.35 }}
-              transition={{ duration: 0.55, delay: 0.05 + idx * 0.06, ease: [0.16, 1, 0.3, 1] }}
-              whileHover={{ y: -4 }}
-            >
-              <div className="flex items-start justify-center">
-                <span className={`inline-flex h-[34px] w-[34px] items-center justify-center rounded-[12px] ${m.tint} ring-1 ring-zinc-100`}>
-                  <Image src={m.icon} alt="" className="h-10 w-10 opacity-90" />
-                </span>
-              </div>
-              <p className={`mt-2.5 text-center text-[32px] font-extrabold leading-[34px] tracking-[-0.9px] ${m.accent}`}>{m.value}</p>
-              <p className="mt-1 text-center text-[12px] font-semibold leading-5 text-zinc-700">{m.label}</p>
-              <p className="mt-0.5 text-center text-[10px] font-normal leading-4 text-[rgba(153,161,175,1)]">{m.sub}</p>
-            </motion.div>
+            (() => {
+              const accentRgb =
+                m.id === "ir"
+                  ? "249,115,22"
+                  : m.id === "signals"
+                    ? "245,158,11"
+                    : m.id === "ttfa"
+                      ? "124,58,237"
+                      : m.id === "dur"
+                        ? "168,85,247"
+                        : "99,102,241";
+
+              return (
+                <motion.div
+                  key={m.id}
+                  className="h-[182px] w-[198px] shrink-0"
+                  initial={{ opacity: 0, y: 18 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.35 }}
+                  transition={{ duration: 0.55, delay: 0.05 + idx * 0.06, ease: [0.16, 1, 0.3, 1] }}
+                  whileHover={{ y: -6, scale: 1.02 }}
+                  whileTap={{ scale: 0.99, y: -2 }}
+                  onMouseEnter={() => setHoveredMetricId(m.id)}
+                  onMouseLeave={() => setHoveredMetricId(null)}
+                >
+                  <div
+                    className="relative flex h-full flex-col overflow-hidden rounded-[24px] border border-zinc-100/90 bg-white/90 shadow-[0_20px_54px_rgba(15,23,42,0.14)] transition-[filter,opacity] duration-200 ease-out"
+                    style={
+                      hoveredMetricId && hoveredMetricId !== m.id
+                        ? { opacity: 0.6, filter: "blur(2px)" }
+                        : undefined
+                    }
+                  >
+                    <div
+                      className="pointer-events-none absolute inset-0"
+                      style={{
+                        backgroundImage:
+                          `linear-gradient(rgba(129, 140, 248, 0.08), rgb(248, 250, 252))`,
+                      }}
+                    />
+
+                    <div className="relative px-5 pt-4 pb-0 sm:px-6 sm:pt-5 sm:pb-0">
+                      <div className="text-center">
+                        <p
+                          className={`font-extrabold ${m.accent} text-[42px] leading-[42px] tracking-[-1.1px] text-center`}
+                        >
+                          {m.value}
+                        </p>
+                        <p className="mt-2 text-center text-[13px] font-semibold leading-[18px] tracking-[0px] text-slate-800">
+                          {m.label}
+                        </p>
+                        <p className="mt-1 text-center text-[11px] font-normal leading-[15px] tracking-[0px] text-[rgba(153,161,175,1)]">
+                          {m.sub}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div
+                      className={[
+                        "relative mt-auto px-3 pb-0 pt-0 -translate-y-[18px] transition-opacity duration-200 ease-linear",
+                        hoveredMetricId === m.id ? "opacity-[0.85]" : "opacity-[0.55]",
+                      ].join(" ")}
+                    >
+                      <MetricMiniChart
+                        id={m.id}
+                        accentRgb={accentRgb}
+                        reduceMotion={!!reduceMotion}
+                        hovered={hoveredMetricId === m.id}
+                      />
+                    </div>
+
+                    <Image
+                      alt=""
+                      src={m.icon}
+                      className={[
+                        "pointer-events-none absolute right-1 bottom-2 h-14 w-14 rotate-6 transition-opacity duration-200 ease-linear",
+                        hoveredMetricId === m.id ? "opacity-[0.62]" : "opacity-[0.24]",
+                      ].join(" ")}
+                    />
+                  </div>
+                </motion.div>
+              );
+            })()
           ))}
         </div>
 
@@ -314,8 +480,8 @@ export function CampaignResultsSection() {
                     key={`${logo.id}-${pass}`}
                     type="button"
                     className={`flex shrink-0 items-center justify-center transition ${hoveredLogoId && hoveredLogoId !== logo.id
-                        ? "opacity-40 grayscale"
-                        : "opacity-100 grayscale-0"
+                      ? "opacity-40 grayscale"
+                      : "opacity-100 grayscale-0"
                       }`}
                     onMouseEnter={() => {
                       setHoveredLogoId(logo.id);
@@ -397,8 +563,8 @@ export function CampaignResultsSection() {
                     key={`${logo.id}-${pass}`}
                     type="button"
                     className={`flex shrink-0 items-center justify-center transition ${hoveredLogoId && hoveredLogoId !== logo.id
-                        ? "opacity-40 grayscale"
-                        : "opacity-100 grayscale-0"
+                      ? "opacity-40 grayscale"
+                      : "opacity-100 grayscale-0"
                       }`}
                     onMouseEnter={() => {
                       setHoveredLogoId(logo.id);
