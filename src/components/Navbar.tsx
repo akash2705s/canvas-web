@@ -121,6 +121,14 @@ export function Navbar() {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, []);
 
+  // Close any open desktop dropdown when route changes
+  useEffect(() => {
+    // Intentionally depend on pathname so we reset menus on navigation
+    void pathname;
+    setOpenMenu(null);
+    setMobileOpen(false);
+  }, [pathname]);
+
   const desktopItems = useMemo(() => NAV, []);
 
   const isActiveLink = (href: string) => {
@@ -177,42 +185,71 @@ export function Navbar() {
             {desktopItems.map((item) => {
               if (item.kind === "link") {
                 const isActive = isActiveLink(item.href);
+                if (isActive) {
+                  return (
+                    <Link
+                      key={item.label}
+                      href={item.href}
+                      className="relative text-zinc-900"
+                      onMouseEnter={() => setOpenMenu(null)}
+                    >
+                      <span className="inline-flex items-center rounded-full bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] p-[2px]">
+                        <span className="rounded-full bg-white px-4 py-1 text-sm font-semibold text-zinc-900">
+                          {item.label}
+                        </span>
+                      </span>
+                    </Link>
+                  );
+                }
+
                 return (
                   <Link
                     key={item.label}
                     href={item.href}
-                    className={[
-                      "relative pb-1 transition-colors",
-                      isActive ? "text-zinc-900" : "text-zinc-600 hover:text-zinc-900",
-                    ].join(" ")}
+                    className="relative pb-1 text-zinc-600 transition-colors hover:text-zinc-900"
                     onMouseEnter={() => setOpenMenu(null)}
                   >
                     <span>{item.label}</span>
-                    {isActive && (
-                      <span className="pointer-events-none absolute inset-x-0 bottom-0 h-[2px] rounded-full bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)]" />
-                    )}
                   </Link>
                 );
               }
 
               return (
                 <div key={item.label} className="relative">
-                  <button
-                    type="button"
-                    className="inline-flex items-center gap-1 hover:text-zinc-900"
-                    aria-haspopup="menu"
-                    aria-expanded={openMenu === item.label}
-                    onClick={() => setOpenMenu((v) => (v === item.label ? null : item.label))}
-                    onMouseEnter={() => setOpenMenu(item.label)}
-                  >
-                    {item.label}
-                    <ChevronDown
-                      className={[
-                        "mt-[1px] opacity-70 transition-transform duration-200",
-                        openMenu === item.label ? "rotate-180" : "rotate-0",
-                      ].join(" ")}
-                    />
-                  </button>
+                  {(() => {
+                    const isMenuActive =
+                      (item.label === "Product" && pathname.startsWith("/product")) ||
+                      (item.label === "Case Studies" && pathname.startsWith("/case-studies"));
+
+                    const buttonEl = (
+                      <button
+                        type="button"
+                        className="inline-flex items-center gap-1 hover:text-zinc-900"
+                        aria-haspopup="menu"
+                        aria-expanded={openMenu === item.label}
+                        onClick={() => setOpenMenu((v) => (v === item.label ? null : item.label))}
+                        onMouseEnter={() => setOpenMenu(item.label)}
+                      >
+                        {item.label}
+                        <ChevronDown
+                          className={[
+                            "mt-[1px] opacity-70 transition-transform duration-200",
+                            openMenu === item.label ? "rotate-180" : "rotate-0",
+                          ].join(" ")}
+                        />
+                      </button>
+                    );
+
+                    if (!isMenuActive) return buttonEl;
+
+                    return (
+                      <span className="inline-flex items-center rounded-full bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] p-[2px]">
+                        <span className="rounded-full bg-white px-4 py-1 text-sm font-semibold text-zinc-900">
+                          {buttonEl}
+                        </span>
+                      </span>
+                    );
+                  })()}
 
                   {/* Small dropdown list removed; mega panels are rendered below header */}
                 </div>
@@ -301,10 +338,10 @@ export function Navbar() {
                       Platform
                     </p>
                     <div className="mt-3 space-y-4">
-                      <div className="cursor-default">
+                      <div className="cursor-pointer">
                         <div className="flex items-start gap-2">
                           <Image src={runtimeIcon} alt="" className="h-10 w-10 rounded-[10px] border border-zinc-200" />
-                          <div className="group min-w-0">
+                          <Link href="/product" className="group min-w-0">
                             <p className="font-semibold">Canvas Runtime</p>
                             <p className="mt-0.5 text-xs text-zinc-500">
                               Zero-disruption interactive playback.
@@ -312,7 +349,7 @@ export function Navbar() {
                             <div className="mt-2 h-[2px] w-full overflow-hidden rounded-full bg-zinc-200/40">
                               <div className="h-full w-full origin-left scale-x-0 bg-[linear-gradient(90deg,#F97316_0%,#EAB308_32.21%,#16A34A_57.21%,#6366F1_100%)] transition-transform duration-300 ease-out group-hover:scale-x-100" />
                             </div>
-                          </div>
+                          </Link>
                         </div>
                       </div>
                       <div className="cursor-pointer">
@@ -400,8 +437,8 @@ export function Navbar() {
 
                 </div>
 
-                {/* Event card (right-most) */}
-                <div className="ml-auto hidden w-[230px] shrink-0 overflow-hidden rounded-[16px] border border-zinc-200 bg-white text-zinc-900 shadow-[0_16px_40px_rgba(15,23,42,0.12)] sm:flex sm:flex-col self-start">
+                {/* Right-side card: event */}
+                <div className="ml-auto hidden h-[230px] w-[230px] shrink-0 overflow-hidden rounded-[16px] border border-zinc-200 bg-white text-zinc-900 shadow-[0_16px_40px_rgba(15,23,42,0.12)] sm:flex sm:flex-col self-start">
                   <div className="relative h-[120px] w-full overflow-hidden">
                     <Image
                       src={nabEventImage}
@@ -491,7 +528,7 @@ export function Navbar() {
                       <div className="cursor-pointer">
                         <div className="flex items-start gap-2">
                           <Image src={csIconKm} alt="" className="h-10 w-10 rounded-[10px] border border-zinc-200" />
-                          <div className="group min-w-0">
+                          <Link href="/case-studies" className="group min-w-0">
                             <p className="font-semibold">Key Metrics</p>
                             <p className="mt-0.5 text-xs text-zinc-500">
                               26.2% interaction rate achieved.
@@ -499,7 +536,7 @@ export function Navbar() {
                             <div className="mt-2 h-[2px] w-full overflow-hidden rounded-full bg-zinc-200/40">
                               <div className="h-full w-full origin-left scale-x-0 bg-[linear-gradient(90deg,#F97316_0%,#EAB308_32.21%,#16A34A_57.21%,#6366F1_100%)] transition-transform duration-300 ease-out group-hover:scale-x-100" />
                             </div>
-                          </div>
+                          </Link>
                         </div>
                       </div>
                       <div className="cursor-pointer">
@@ -581,6 +618,43 @@ export function Navbar() {
                         </div>
                       </div>
                     </div>
+                  </div>
+                </div>
+
+                {/* Blog card (right) */}
+                <div
+                  className="hidden h-[230px] w-[230px] flex-col overflow-hidden rounded-[16px] px-4 pb-4 pt-4 text-slate-50 shadow-[0_20px_50px_rgba(15,23,42,0.9)] ring-1 ring-slate-800/60 sm:flex self-start"
+                  style={{
+                    background: "linear-gradient(145deg, #0D1120 6.17%, #1A0E2E 93.83%)",
+                  }}
+                >
+                  <div
+                    className="inline-flex items-center justify-center rounded-full px-4 py-1 text-[11px] font-semibold tracking-[0.12em] text-slate-100/80 mx-auto"
+                    style={{ backgroundColor: "rgba(99, 102, 241, 0.25)" }}
+                  >
+                    <span>CANVAS BLOG</span>
+                  </div>
+                  <div className="mt-5 space-y-2">
+                    <p className="text-[18px] font-semibold leading-snug text-slate-50">
+                      Canvas Is Amazing
+                    </p>
+                    <p className="text-[13px] leading-snug text-slate-300/80">
+                      How Canvas is rewriting the rules of connected TV advertising.
+                    </p>
+                  </div>
+                  <div className="mt-auto pt-4">
+                    <Link
+                      href="/blog"
+                      className="inline-flex items-center text-[13px] font-semibold"
+                      style={{ color: "rgba(165, 180, 252, 1)" }}
+                    >
+                      <span className="relative after:absolute after:left-0 after:right-0 after:bottom-[-1px] after:h-[1.5px] after:origin-left after:scale-x-0 after:bg-[rgba(165,180,252,1)] after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100">
+                        Read article
+                      </span>
+                      <span className="ml-1" aria-hidden>
+                        →
+                      </span>
+                    </Link>
                   </div>
                 </div>
               </div>

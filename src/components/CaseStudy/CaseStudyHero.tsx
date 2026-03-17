@@ -98,6 +98,7 @@ export function CaseStudyHero() {
                     strokeLinejoin="round"
                     aria-hidden
                   >
+                    <title>View live demo</title>
                     <path d="M5 12h14" />
                     <path d="M12 5l7 7-7 7" />
                   </svg>
@@ -280,14 +281,15 @@ export function CaseStudyHero() {
               {/* Bottom: bar + line graph */}
               <div className="relative mt-auto px-3 pb-3 pt-1">
                 <div className="h-20 w-full">
-                    <svg
-                      viewBox="0 0 200 96"
-                      preserveAspectRatio="none"
-                      className="h-full w-full"
-                      aria-hidden
-                    >
-                      {/* Bars – tightly packed, no gaps */}
-                      <g fill={item.barColor ?? "rgba(251,191,36,0.8)"} opacity="0.9">
+                  <svg
+                    viewBox="0 0 200 96"
+                    preserveAspectRatio="none"
+                    className="h-full w-full"
+                    aria-hidden
+                  >
+                    <title>{`${item.label} mini chart`}</title>
+                    {/* Bars – tightly packed, no gaps */}
+                    <g fill={item.barColor ?? "rgba(251,191,36,0.8)"} opacity="0.9">
                         {[
                           { x: 4, h: 26 },
                           { x: 18, h: 34 },

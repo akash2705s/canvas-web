@@ -145,7 +145,17 @@ export function RuntimeInstallSection() {
           </div>
 
           <div className="lg:order-1 lg:justify-self-start">
-            <AiConvertWindow />
+            <div className="relative h-[280px] w-full max-w-[520px] overflow-hidden rounded-2xl bg-black shadow-xl ring-1 ring-black/10">
+              <video
+                src="/videos/Ad_convert.mov"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="auto"
+                className="h-full w-full object-cover"
+              />
+            </div>
           </div>
         </div>
 
@@ -187,7 +197,17 @@ export function RuntimeInstallSection() {
           </div>
 
           <div className="w-full lg:justify-self-end">
-            <IntentSignalDashboard />
+            <div className="relative h-[280px] w-full max-w-[520px] overflow-hidden rounded-2xl bg-black shadow-xl ring-1 ring-black/10">
+              <video
+                src="/videos/capture_signals.mp4"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="auto"
+                className="h-full w-full object-cover"
+              />
+            </div>
           </div>
         </div>
       </div>

@@ -419,7 +419,7 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
                 </div>
               </div>
 
-              {/* Central hero image card (fixed height, wider) */}
+              {/* Central hero visual: autoplaying video instead of static image */}
               <motion.div
                 className="relative flex h-[290px] w-[320px] max-w-full flex-col overflow-hidden rounded-[24px] bg-[#050816]/95 shadow-2xl ring-1 ring-black/40 sm:w-[380px]"
                 whileHover={{
@@ -430,7 +430,6 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
                 whileTap={{ scale: 0.99, y: -4 }}
                 transition={{ type: "spring", stiffness: 260, damping: 24 }}
               >
-                {/* Image fills the top, slightly taller for better fit */}
                 <div className="relative w-full flex-[1.25] overflow-hidden rounded-t-[24px]">
                   <motion.div
                     className="absolute inset-0"
@@ -438,12 +437,14 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
                     whileHover={{ scale: 1.03, rotate: -0.25 }}
                     transition={{ type: "spring", stiffness: 220, damping: 26 }}
                   >
-                    <Image
-                      src={heroCard}
-                      alt="Interactive CTV ad experience"
-                      fill
-                      className="object-cover object-center"
-                      priority
+                    <video
+                      src="/videos/hero_section.mov"
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      preload="auto"
+                      className="h-full w-full object-cover"
                     />
                   </motion.div>
                 </div>
