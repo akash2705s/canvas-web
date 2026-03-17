@@ -62,7 +62,7 @@ export function AboutRecognitionSection() {
         </div>
 
         {/* top cards */}
-        <div className="grid gap-4 sm:grid-cols-3 sm:gap-5">
+        <div className="mx-auto grid max-w-4xl gap-4 sm:grid-cols-2 sm:gap-5">
           {RECOGNITION_CARDS.map((card, index) => (
             <motion.article
               key={card.id}
@@ -114,7 +114,7 @@ export function AboutRecognitionSection() {
               <div>
                 <h3 className="text-[14px] font-semibold text-slate-900">SVTA: Grant Recipient</h3>
                 <p className="mt-1 text-[13px] leading-relaxed text-slate-600">
-                  Canvas received the Streaming Video Advertise Alliance Grant.
+                  Canvas received the Streaming Video Advertise Alliance Grant,
                   <br />
                   actively contributing to
                   open standards for interactive streaming infrastructure.

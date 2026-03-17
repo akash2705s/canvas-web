@@ -88,7 +88,7 @@ export default function BlogPostTurningPassiveCtvAdsPage() {
           </h2>
           <p className="mt-3 text-[15px] leading-7 text-slate-700">
             CIS is designed to work everywhere video exists. It adapts to the playback environment and hooks into
-            player events—making it player-agnostic and deployment-friendly.
+            player events: making it player-agnostic and deployment-friendly.
           </p>
 
           <div className="mt-5 grid gap-4 rounded-[18px] bg-[#F6F7FF] p-5 ring-1 ring-slate-900/5 sm:grid-cols-3">
