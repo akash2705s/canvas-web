@@ -400,28 +400,28 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
 
           {/* Right: hero visual with intersecting circles */}
           <div className="relative z-10 flex justify-center lg:justify-end">
-            <div className="relative flex h-[460px] w-full max-w-2xl items-center justify-center">
+            <div className="relative flex h-[520px] w-full max-w-[980px] items-center justify-center">
               {/* Intersecting circles backdrop */}
               <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-                <div className="relative h-[420px] w-[420px]">
+                <div className="relative h-[480px] w-[480px]">
                   {/* Big middle circle */}
-                  <div className="absolute left-1/2 top-1/2 h-96 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full bg-violet-200/90 mix-blend-multiply shadow-[0_50px_130px_rgba(167,139,250,0.8)]" />
+                  <div className="absolute left-1/2 top-1/2 h-[420px] w-[420px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-violet-200/90 mix-blend-multiply shadow-[0_60px_150px_rgba(167,139,250,0.85)]" />
                   {/* Small bottom-left */}
                   <div
                     ref={orbitLeftRef}
-                    className="absolute -left-10 -bottom-10 h-40 w-40 rounded-full bg-amber-200/90 mix-blend-multiply shadow-[0_22px_55px_rgba(248,180,75,0.6)]"
+                    className="absolute -left-14 -bottom-12 h-48 w-48 rounded-full bg-amber-200/90 mix-blend-multiply shadow-[0_28px_70px_rgba(248,180,75,0.65)]"
                   />
                   {/* Small top-right */}
                   <div
                     ref={orbitRightRef}
-                    className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-pink-200/90 mix-blend-multiply shadow-[0_22px_55px_rgba(244,114,182,0.6)]"
+                    className="absolute -right-14 -top-12 h-48 w-48 rounded-full bg-pink-200/90 mix-blend-multiply shadow-[0_28px_70px_rgba(244,114,182,0.65)]"
                   />
                 </div>
               </div>
 
               {/* Central hero visual: autoplaying video instead of static image */}
               <motion.div
-                className="relative flex h-[290px] w-[320px] max-w-full flex-col overflow-hidden rounded-[24px] bg-[#050816]/95 shadow-2xl ring-1 ring-black/40 sm:w-[380px]"
+                className="relative flex h-[330px] w-[360px] max-w-full flex-col overflow-hidden rounded-[26px] bg-[#050816]/95 shadow-2xl ring-1 ring-black/40 sm:w-[420px]"
                 whileHover={{
                   y: -10,
                   scale: 1.02,
@@ -444,6 +444,7 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
                       loop
                       playsInline
                       preload="auto"
+                      onEnded={(e) => e.currentTarget.play()}
                       className="h-full w-full object-cover"
                     />
                   </motion.div>

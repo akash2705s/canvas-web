@@ -10,6 +10,7 @@ type PreloaderProps = {
 export function Preloader({ onDone }: PreloaderProps) {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const [done, setDone] = useState(false);
+  const [showVideo, setShowVideo] = useState(false);
   const latestOnDone = useRef<PreloaderProps["onDone"] | null>(null);
 
   useEffect(() => {
@@ -66,7 +67,7 @@ export function Preloader({ onDone }: PreloaderProps) {
         .to(".pre-root", {
           opacity: 0,
           duration: 0.6,
-          delay: 3.6,
+          delay: 3.4,
           ease: "power2.inOut",
           onComplete: () => {
             setDone(true);
@@ -80,17 +81,25 @@ export function Preloader({ onDone }: PreloaderProps) {
     };
   }, []);
 
+  // Delay mounting the video so the empty screen + tagline are visible first
+  useEffect(() => {
+    const id = window.setTimeout(() => {
+      setShowVideo(true);
+    }, 800);
+    return () => window.clearTimeout(id);
+  }, []);
+
   if (done) return null;
 
   return (
     <div
       ref={rootRef}
-      className="pre-root fixed inset-0 z-[9999] flex items-center justify-center bg-slate-950"
+      className="pre-root fixed inset-0 z-[9999] flex items-center justify-center bg-[radial-gradient(circle_at_top,#020617_0%,#020617_40%,#020617_70%,#020617_100%)]"
     >
-      <div className="relative flex flex-col items-center gap-7">
-        <div className="pointer-events-none absolute -inset-24 -z-10 bg-[radial-gradient(circle_at_10%_0%,rgba(56,189,248,0.28),transparent_60%),radial-gradient(circle_at_90%_10%,rgba(244,114,182,0.32),transparent_65%),radial-gradient(circle_at_50%_110%,rgba(249,115,22,0.32),transparent_70%)] blur-3xl" />
+      <div className="relative flex flex-col items-center gap-8">
+        <div className="pointer-events-none absolute -inset-28 -z-10 bg-[radial-gradient(circle_at_10%_0%,rgba(56,189,248,0.32),transparent_55%),radial-gradient(circle_at_90%_10%,rgba(244,114,182,0.36),transparent_60%),radial-gradient(circle_at_50%_110%,rgba(249,115,22,0.34),transparent_70%)] blur-[72px]" />
 
-        <div className="pre-tv relative w-[88vw] max-w-[560px] rounded-[30px] border border-slate-800/80 bg-[radial-gradient(circle_at_10%_-10%,#0f172a,#020617_55%)] p-5 shadow-[0_50px_200px_rgba(15,23,42,1)]">
+        <div className="pre-tv relative w-[92vw] max-w-[620px] rounded-[34px] border border-slate-700/70 bg-[radial-gradient(circle_at_10%_-10%,#020617,#020617_55%)] p-5 shadow-[0_40px_160px_rgba(15,23,42,0.95)] ring-1 ring-slate-900/60">
           <div className="flex items-center justify-between gap-3 rounded-2xl bg-slate-950/90 px-4 py-2.5">
             <div className="flex items-center gap-1.5">
               <span className="h-2 w-2 rounded-full bg-rose-500/80" />
@@ -113,41 +122,20 @@ export function Preloader({ onDone }: PreloaderProps) {
             />
 
             <div className="relative h-[260px] w-full md:h-[300px]">
-              <div className="pre-video absolute inset-0 overflow-hidden rounded-[22px]">
-                <video
-                  src="/video.mp4"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  className="h-full w-full object-cover"
-                />
-                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_10%_0%,rgba(15,23,42,0)_0%,rgba(15,23,42,0.3)_55%),radial-gradient(circle_at_90%_0%,rgba(15,23,42,0)_0%,rgba(15,23,42,0.35)_60%),linear-gradient(to_top,rgba(15,23,42,0.8),transparent_40%)]" />
-              </div>
-
-              <div className="pointer-events-none absolute inset-x-6 bottom-6 flex justify-between gap-3">
-                <div className="flex flex-col gap-2.5">
-                  <div className="pre-overlay-pill inline-flex items-center gap-2 rounded-full bg-slate-950/85 px-3.5 py-1.5 text-[12px] font-medium text-slate-100 shadow-[0_14px_38px_rgba(15,23,42,0.95)]">
-                    <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-emerald-400/90 text-[10px] text-slate-950">
-                      ●
-                    </span>
-                    <span>QR Scan</span>
-                  </div>
-                  <div className="pre-overlay-pill inline-flex items-center gap-2 rounded-full bg-slate-950/80 px-3.5 py-1.5 text-[12px] font-medium text-slate-100 shadow-[0_14px_38px_rgba(15,23,42,0.95)]">
-                    <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-sky-400/90 text-[10px] text-slate-950">
-                      ⟳
-                    </span>
-                    <span>Explore</span>
-                  </div>
-                </div>
-
-                <div className="pre-overlay-pill inline-flex items-center gap-2 self-end rounded-full bg-white/95 px-4 py-1.5 text-[12px] font-semibold text-slate-900 shadow-[0_16px_44px_rgba(15,23,42,0.98)]">
-                  <span className="h-[16px] w-[64px] rounded-full bg-slate-900/5" />
-                  <span>Learn more</span>
-                  <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-slate-900/90 text-[9px] text-white">
-                    →
-                  </span>
-                </div>
+              <div className="pre-video absolute inset-0 overflow-hidden rounded-[22px] bg-black">
+                {showVideo ? (
+                  <video
+                    src="/videos/preloader.mp4"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="auto"
+                    onEnded={(e) => e.currentTarget.play()}
+                    className="h-full w-full object-contain"
+                  />
+                ) : null}
+                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_10%_0%,rgba(15,23,42,0)_0%,rgba(15,23,42,0.3)_55%),radial-gradient(circle_at_90%_0%,rgba(15,23,42,0)_0%,rgba(15,23,42,0.35)_60%)]" />
               </div>
             </div>
           </div>
