@@ -125,7 +125,7 @@ export function DemoVAST() {
                     <span className="h-1.5 w-1.5 rounded-full bg-orange-500"></span>
                     Canvas parsing...
                   </div>
-                  <button className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-1.5 rounded-full transition text-xs">
+                  <button type="button" className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-1.5 rounded-full transition text-xs">
                     Import VAST Tag
                   </button>
                 </div>
@@ -161,9 +161,9 @@ export function DemoVAST() {
                 </div>
                 <div className="flex-1 p-3 flex flex-col gap-2.5">
                   <div className="flex gap-2">
-                    <button className="px-3 py-1.5 text-xs font-semibold text-blue-600 bg-blue-50 rounded-full hover:bg-blue-100">Overlay</button>
-                    <button className="px-3 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-full">QR</button>
-                    <button className="px-3 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-full">Poll</button>
+                    <button type="button" className="px-3 py-1.5 text-xs font-semibold text-blue-600 bg-blue-50 rounded-full hover:bg-blue-100">Overlay</button>
+                    <button type="button" className="px-3 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-full">QR</button>
+                    <button type="button" className="px-3 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-full">Poll</button>
                   </div>
                   <div className="space-y-2.5">
                     <div className="flex items-center gap-2 p-2.5 rounded-lg bg-blue-50 cursor-pointer border border-blue-200">
@@ -243,7 +243,7 @@ export function DemoVAST() {
                   </div>
                 </div>
                 <div className="px-3 pb-3">
-                  <button className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-1.5 rounded-full transition text-xs">
+                  <button type="button" className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-1.5 rounded-full transition text-xs">
                     Publish to All Platforms
                   </button>
                 </div>
