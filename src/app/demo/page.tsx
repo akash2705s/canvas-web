@@ -1,7 +1,9 @@
 import { DemoHero } from "@/components/Demo/DemoHero";
 import { DemoAdFormats } from "@/components/Demo/DemoAdFormats";
 import { DemoEditor } from "@/components/Demo/DemoEditor";
-import { DemoVastConversion } from "@/components/Demo/DemoVastConversion";
+import { DemoVAST } from "@/components/Demo/DemoVAST";
+import { DemoIntentIntelligence } from "@/components/Demo/DemoIntentIntelligence";
+import { DemoCta } from "@/components/Demo/DemoCta";
 
 export default function DemoPage() {
   return (
@@ -9,7 +11,9 @@ export default function DemoPage() {
       <DemoHero />
       <DemoAdFormats />
       <DemoEditor />
-      <DemoVastConversion />
+      <DemoVAST />
+      <DemoIntentIntelligence />
+      <DemoCta />
     </>
   );
 }
