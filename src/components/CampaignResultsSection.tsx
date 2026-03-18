@@ -189,18 +189,17 @@ function MetricMiniChart({
         <motion.path
           d={`M${linePoints.replaceAll(" ", " L")}`}
           fill="none"
-          stroke={`rgba(${accentRgb},1)`}
+          stroke={`rgba(${accentRgb},${hovered ? "1" : "0.55"})`}
           strokeWidth="2.2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          opacity="0.95"
           pathLength={1}
-          initial={reduceMotion ? { opacity: 0.9 } : { opacity: 0.95, strokeDasharray: 1, strokeDashoffset: 1 }}
+          initial={reduceMotion ? { opacity: 0.6 } : { opacity: 0.55, strokeDasharray: 1, strokeDashoffset: 1 }}
           animate={
             reduceMotion
-              ? { opacity: hovered ? 1 : 0.9 }
+              ? { opacity: hovered ? 0.92 : 0.6 }
               : {
-                opacity: hovered ? 1 : 0.95,
+                opacity: hovered ? 0.92 : 0.55,
                 strokeDasharray: 1,
                 strokeDashoffset: hovered ? [1, 0] : 0,
               }
@@ -443,14 +442,18 @@ export function CampaignResultsSection() {
                       />
                     </div>
 
-                    <Image
-                      alt=""
-                      src={m.icon}
-                      className={[
-                        "pointer-events-none absolute right-1 bottom-2 h-14 w-14 rotate-6 transition-opacity duration-200 ease-linear",
-                        hoveredMetricId === m.id ? "opacity-[0.62]" : "opacity-[0.24]",
-                      ].join(" ")}
-                    />
+                    <motion.div
+                      className="pointer-events-none absolute right-1 bottom-2 h-14 w-14 rotate-6"
+                      initial={{ opacity: 0.18, y: 6, scale: 0.98 }}
+                      animate={{
+                        opacity: hoveredMetricId === m.id ? 0.6 : 0.24,
+                        y: hoveredMetricId === m.id ? 0 : 6,
+                        scale: hoveredMetricId === m.id ? 1.02 : 0.98,
+                      }}
+                      transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                      <Image alt="" src={m.icon} className="h-14 w-14" />
+                    </motion.div>
                   </div>
                 </motion.div>
               );

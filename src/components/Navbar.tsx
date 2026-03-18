@@ -31,7 +31,7 @@ const NAV: NavItem[] = [
     label: "Case Study",
     items: [],
   },
-  { kind: "link", label: "Demo", href: "/#demo" },
+  { kind: "link", label: "Demo", href: "/demo" },
   { kind: "link", label: "About", href: "/about" },
 ];
 
@@ -188,18 +188,6 @@ export function Navbar() {
             {desktopItems.map((item) => {
               if (item.kind === "link") {
                 const isActive = isActiveLink(item.href);
-
-                if (item.label === "Demo") {
-                  return (
-                    <RequestDemoTrigger
-                      key={item.label}
-                      className="relative pb-1 text-zinc-600 transition-colors hover:text-zinc-900"
-                      onClick={() => setOpenMenu(null)}
-                    >
-                      <span>{item.label}</span>
-                    </RequestDemoTrigger>
-                  );
-                }
 
                 if (isActive) {
                   return (
@@ -677,20 +665,6 @@ export function Navbar() {
                   {NAV.map((item) => {
                     if (item.kind === "link") {
                       const isActive = isActiveLink(item.href);
-                      if (item.label === "Demo") {
-                        return (
-                          <RequestDemoTrigger
-                            key={item.label}
-                            className={[
-                              "w-full rounded-lg px-3 py-2 text-left text-sm font-semibold",
-                              isActive ? "bg-zinc-900 text-white" : "text-zinc-800 hover:bg-zinc-50",
-                            ].join(" ")}
-                            onClick={() => setMobileOpen(false)}
-                          >
-                            {item.label}
-                          </RequestDemoTrigger>
-                        );
-                      }
                       return (
                         <Link
                           key={item.label}
@@ -713,7 +687,9 @@ export function Navbar() {
                         ? "/product"
                         : item.label === "Case Study"
                           ? "/case-studies"
-                          : "/";
+                          : item.label === "Demo"
+                            ? "/demo"
+                            : "/";
 
                     return (
                       <Link

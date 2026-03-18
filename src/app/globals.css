@@ -137,6 +137,7 @@
 }
 
 @media (max-width: 768px) {
+
   .site-frame::before,
   .site-frame::after {
     display: none;
@@ -280,9 +281,11 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+
   html {
     @apply font-mono;
   }

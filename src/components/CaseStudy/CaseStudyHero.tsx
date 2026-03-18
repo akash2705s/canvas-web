@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 import interactRateIcon from "@/assets/case_Studies/Hero/interact_rate.svg";
 import avgEngageIcon from "@/assets/case_Studies/Hero/avg_engae.svg";
@@ -11,6 +11,8 @@ import intentLiftIcon from "@/assets/case_Studies/Hero/intent_lift.svg";
 import { RequestDemoTrigger } from "@/components/RequestDemoTrigger";
 
 export function CaseStudyHero() {
+  const [hoveredMetricId, setHoveredMetricId] = useState<string | null>(null);
+
   return (
     <section className="relative overflow-hidden" style={{ backgroundColor: "rgba(238, 240, 251, 1)" }}>
       <div className="pointer-events-none absolute inset-0">
@@ -167,7 +169,7 @@ export function CaseStudyHero() {
       </div>
 
       {/* Bottom metric cards row */}
-      <div className="relative mx-auto mt-2 flex max-w-6xl flex-col gap-4 px-6 pb-16 sm:px-10 sm:pb-20 lg:flex-row lg:gap-5">
+      <div className="relative mx-auto mt-2 flex max-w-6xl flex-col items-center gap-4 px-6 pb-16 sm:px-10 sm:pb-20 lg:flex-row lg:flex-wrap lg:justify-center lg:gap-5">
         {[
           {
             icon: interactRateIcon,
@@ -214,127 +216,126 @@ export function CaseStudyHero() {
             bgTo: "rgba(248,250,252,1)",
           },
         ].map((item) => {
-          const isPrimary = item.value === "26.2%";
+          const barFill = item.lineColor.replace("1)", "0.20)");
+          const lineStrokeIdle = item.lineColor.replace("1)", "0.45)");
+          const id = item.label;
+          const isActive = hoveredMetricId === id;
           return (
-          <div
-            key={item.label}
-            className="relative h-[228px] w-[258px] rounded-[24px] border-[1.11px] border-white/70 bg-gradient-to-b from-white/95 to-white/80 shadow-[0_18px_45px_rgba(15,23,42,0.08)] ring-1 ring-slate-100/70 backdrop-blur-sm"
-          >
-            <div className="relative flex h-full flex-col overflow-hidden rounded-[24px]">
+            <motion.div
+              key={item.label}
+              className="h-[182px] w-[198px] shrink-0"
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.35 }}
+              transition={{ duration: 0.55, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={{ y: -6, scale: 1.02 }}
+              whileTap={{ scale: 0.99, y: -2 }}
+              onMouseEnter={() => setHoveredMetricId(id)}
+              onMouseLeave={() => setHoveredMetricId(null)}
+              onFocus={() => setHoveredMetricId(id)}
+              onBlur={() => setHoveredMetricId(null)}
+              tabIndex={0}
+            >
               <div
-                className="pointer-events-none absolute inset-0"
-                style={{
-                  backgroundImage: `linear-gradient(180deg, ${item.bgFrom}, ${item.bgTo})`,
-                }}
-              />
-              {/* Top: icon + text */}
-              <div className="relative px-5 pt-4 pb-1 sm:px-6 sm:pt-5 sm:pb-1">
-                <div className="flex justify-center">
-                    <span
-                      className="inline-flex h-8 w-8 items-center justify-center rounded-full shadow-sm ring-1"
-                      style={{
-                        backgroundColor: "rgba(255,255,255,0.9)",
-                        borderColor: "transparent",
-                        boxShadow: "0 10px 25px rgba(15,23,42,0.12)",
-                      }}
-                    >
-                      <span
-                        className="flex h-7 w-7 items-center justify-center rounded-full"
-                        style={{
-                          background:
-                            item.value === "26.2%"
-                              ? "rgba(251,191,36,0.25)"
-                              : item.value === "14s+"
-                                ? "rgba(129,140,248,0.20)"
-                                : item.value === "6s+"
-                                  ? "rgba(129,140,248,0.18)"
-                                  : "rgba(252,211,77,0.25)",
-                          borderRadius: "999px",
-                        }}
-                      >
-                        <Image src={item.icon} alt="" className="h-4 w-4" />
-                      </span>
-                    </span>
-                  </div>
-                  <div className="mt-4 text-center">
+                className="relative flex h-full flex-col overflow-hidden rounded-[24px] border border-zinc-100/90 bg-white/90 shadow-[0_20px_54px_rgba(15,23,42,0.14)] transition-[filter,opacity] duration-200 ease-out"
+                style={
+                  hoveredMetricId && hoveredMetricId !== id
+                    ? { opacity: 0.6, filter: "blur(2px)" }
+                    : undefined
+                }
+              >
+                <div
+                  className="pointer-events-none absolute inset-0"
+                  style={{ backgroundImage: `linear-gradient(180deg, ${item.bgFrom}, ${item.bgTo})` }}
+                />
+
+                <div className="relative px-5 pt-4 pb-0 sm:px-6 sm:pt-5 sm:pb-0">
+                  <div className="text-center">
                     <p
-                      className="font-extrabold"
-                      style={{
-                        fontSize: isPrimary ? 32 : 24,
-                        lineHeight: isPrimary ? "32px" : "24px",
-                        color: item.valueColor,
-                      }}
+                      className="font-extrabold text-[42px] leading-[42px] tracking-[-1.1px] text-center"
+                      style={{ color: item.lineColor }}
                     >
                       {item.value}
                     </p>
-                    <p className={`mt-1 font-semibold text-slate-800 ${isPrimary ? "text-[14px]" : "text-[12px]"}`}>
+                    <p className="mt-2 text-center text-[13px] font-semibold leading-[18px] tracking-[0px] text-slate-800">
                       {item.label}
                     </p>
-                    <p className={`mt-1 text-slate-500 ${isPrimary ? "text-[12px]" : "text-[11px]"}`}>
+                    <p className="mt-1 text-center text-[11px] font-normal leading-[15px] tracking-[0px] text-[rgba(153,161,175,1)]">
                       {item.sublabel}
                     </p>
                   </div>
-              </div>
+                </div>
 
-              {/* Bottom: bar + line graph */}
-              <div className="relative mt-auto px-3 pb-3 pt-1">
-                <div className="h-20 w-full">
-                  <svg
-                    viewBox="0 0 200 96"
-                    preserveAspectRatio="none"
-                    className="h-full w-full"
-                    aria-hidden
-                  >
-                    <title>{`${item.label} mini chart`}</title>
-                    {/* Bars – tightly packed, no gaps */}
-                    <g fill={item.barColor ?? "rgba(251,191,36,0.8)"} opacity="0.9">
+                <div
+                  className={[
+                    "relative mt-auto px-3 pb-0 pt-0 -translate-y-[18px] transition-opacity duration-200 ease-linear",
+                    isActive ? "opacity-[0.85]" : "opacity-[0.55]",
+                  ].join(" ")}
+                >
+                  <div className="h-16 w-full">
+                    <svg viewBox="0 0 200 96" preserveAspectRatio="none" className="h-full w-full" aria-hidden="true">
+                      <title>Mini chart</title>
+                      <g fill={barFill} opacity="0.9">
                         {[
-                          { x: 4, h: 26 },
-                          { x: 18, h: 34 },
-                          { x: 32, h: 40 },
-                          { x: 46, h: 50 },
-                          { x: 60, h: 58 },
-                          { x: 74, h: 50 },
-                          { x: 88, h: 66 },
-                          { x: 102, h: 60 },
-                          { x: 116, h: 74 },
-                          { x: 130, h: 68 },
-                          { x: 144, h: 80 },
-                          { x: 158, h: 72 },
-                          { x: 172, h: 88 },
-                          { x: 186, h: 80 },
+                          { x: 4, h: 16 },
+                          { x: 18, h: 22 },
+                          { x: 32, h: 26 },
+                          { x: 46, h: 38 },
+                          { x: 60, h: 44 },
+                          { x: 74, h: 38 },
+                          { x: 88, h: 50 },
+                          { x: 102, h: 46 },
+                          { x: 116, h: 58 },
+                          { x: 130, h: 54 },
+                          { x: 144, h: 68 },
+                          { x: 158, h: 62 },
+                          { x: 172, h: 76 },
+                          { x: 186, h: 70 },
                         ].map((bar) => (
-                          <rect
-                            key={bar.x}
-                            x={bar.x}
-                            y={96 - bar.h}
-                            width="12"
-                            height={bar.h}
-                            rx="2"
-                          />
+                          <rect key={bar.x} x={bar.x} y={96 - bar.h} width="12" height={bar.h} rx="2" />
                         ))}
                       </g>
-                      {/* Line – sample points taken from bar tops */}
-                      <path
-                        d="M10,72 L24,64 L38,56 L52,46 L66,38 L80,46 L94,32 L108,38 L122,22 L136,28 L150,16 L164,24 L178,8 L196,16"
+                      <motion.path
+                        d="M10,78 L24,72 L38,68 L52,58 L66,52 L80,58 L94,46 L108,50 L122,38 L136,42 L150,28 L164,34 L178,20 L192,26"
                         fill="none"
-                        stroke={item.lineColor ?? "rgba(249,115,22,1)"}
+                        stroke={isActive ? item.lineColor : lineStrokeIdle}
                         strokeWidth="2.2"
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        opacity="0.95"
-                    />
+                        pathLength="1"
+                        strokeDasharray="1"
+                        initial={{ opacity: 0.22, strokeDashoffset: 1 }}
+                        animate={{
+                          opacity: isActive ? 0.9 : 0.42,
+                          strokeDashoffset: isActive ? [1, 0] : 1,
+                        }}
+                        transition={{
+                          opacity: { duration: 0.18, ease: "linear" },
+                          strokeDashoffset: { duration: 0.65, ease: "linear" },
+                        }}
+                      />
                     </svg>
+                  </div>
                 </div>
-              </div>
 
-              {/* Bottom-right logo accent */}
-              <div className="pointer-events-none absolute right-1 -bottom-2 opacity-70">
-                <Image src={item.icon} alt="" className="h-14 w-14 rotate-6" />
+                <motion.div
+                  className={[
+                    "pointer-events-none absolute right-1 h-14 w-14 rotate-6",
+                    item.label === "Avg engagement duration" ? "bottom-1" : "bottom-2",
+                  ].join(" ")}
+                  initial={{ opacity: 0.18, y: 6, scale: 0.98 }}
+                  animate={{
+                    opacity: isActive ? 0.58 : 0.18,
+                    y: isActive ? 0 : 6,
+                    scale: isActive ? 1.02 : 0.98,
+                  }}
+                  transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  <Image src={item.icon} alt="" className="h-14 w-14" />
+                </motion.div>
               </div>
-            </div>
-          </div>
-          )
+            </motion.div>
+          );
         })}
       </div>
     </section>
