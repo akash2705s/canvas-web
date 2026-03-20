@@ -74,7 +74,6 @@ export function AboutPartnersSection() {
               hidden: { opacity: 0, y: 15 },
               visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
             }}
-            whileHover={{ color: "#4F46E5", transition: { duration: 0.3 } }}
           >
             Built to work across the CTV advertising stack
           </motion.h2>
@@ -84,7 +83,6 @@ export function AboutPartnersSection() {
               hidden: { opacity: 0, y: 10 },
               visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
             }}
-            whileHover={{ color: "#374151" }}
           >
             Canvas integrates with the platforms, DSPs, measurement partners, and ad infrastructure you already run.
           </motion.p>

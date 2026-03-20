@@ -74,7 +74,6 @@ export function AboutRecognitionSection() {
               hidden: { opacity: 0, y: 15 },
               visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
             }}
-            whileHover={{ color: "#4F46E5" }}
           >
             Awards &amp; industry recognition
           </motion.h2>
@@ -84,7 +83,6 @@ export function AboutRecognitionSection() {
               hidden: { opacity: 0, y: 10 },
               visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
             }}
-            whileHover={{ color: "#374151" }}
           >
             Canvas has been recognized by the streaming industry&apos;s leading organizations for innovation in interactive
             CTV infrastructure.
@@ -142,10 +140,10 @@ export function AboutRecognitionSection() {
               </motion.div>
 
               <motion.div className="mt-4" whileHover={{ x: 4 }}>
-                <motion.h3 className="text-[15px] font-semibold leading-[1.3] text-slate-900 group-hover:text-[#4F46E5] transition-colors">
+                <motion.h3 className="text-[15px] font-semibold leading-[1.3] text-slate-900">
                   {card.title}
                 </motion.h3>
-                <motion.p className="mt-2 text-[13px] leading-relaxed text-slate-600 group-hover:text-slate-700 transition-colors">
+                <motion.p className="mt-2 text-[13px] leading-relaxed text-slate-600">
                   {card.body}
                 </motion.p>
               </motion.div>
@@ -180,10 +178,10 @@ export function AboutRecognitionSection() {
                 <Image src={svtaPrincipalBandIcon} alt="" className="h-12 w-12" aria-hidden />
               </motion.div>
               <motion.div whileHover={{ x: 2 }}>
-                <motion.h3 className="text-[14px] font-semibold text-slate-900 group-hover:text-[#4F46E5] transition-colors">
+                <motion.h3 className="text-[14px] font-semibold text-slate-900">
                   SVTA: Grant Recipient
                 </motion.h3>
-                <motion.p className="mt-1 text-[13px] leading-relaxed text-slate-600 group-hover:text-slate-700 transition-colors">
+                <motion.p className="mt-1 text-[13px] leading-relaxed text-slate-600">
                   Canvas received the Streaming Video Advertise Alliance Grant,
                   <br />
                   actively contributing to
