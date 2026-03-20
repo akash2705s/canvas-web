@@ -240,12 +240,11 @@ function StatCard({ value, label, sub, valueColor }: StatCardProps) {
   return (
     <motion.div
       whileHover={{ y: -8, scale: 1.02, boxShadow: "0 24px 60px rgba(0,0,0,0.55)" }}
-      transition={{ type: "spring", stiffness: 260, damping: 24 }}
-      className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.06] shadow-[0_20px_60px_rgba(0,0,0,0.7)] backdrop-blur-xl cursor-pointer"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.5 }}
+      transition={{ type: "spring", stiffness: 260, damping: 24, duration: 0.5 }}
+      className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.06] shadow-[0_20px_60px_rgba(0,0,0,0.7)] backdrop-blur-xl cursor-pointer"
     >
       {/* Animated glow on hover */}
       <motion.div

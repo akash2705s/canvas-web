@@ -417,7 +417,7 @@ export function ProductEnterpriseGradeSection() {
                 initial={{ opacity: 0, y: 16, filter: "blur(10px)" }}
                 whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                 viewport={{ once: true, amount: 0.35 }}
-                transition={{ duration: 0.65, delay: 0.06 + index * 0.06, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ type: "spring", stiffness: 260, damping: 24, duration: 0.65, delay: 0.06 + index * 0.06, ease: [0.16, 1, 0.3, 1] }}
                 whileHover={{
                   y: -4,
                   filter: "blur(0px)",
@@ -425,7 +425,6 @@ export function ProductEnterpriseGradeSection() {
                   scale: 1.01,
                 }}
                 whileTap={{ scale: 0.99 }}
-                transition={{ type: "spring", stiffness: 260, damping: 24 }}
               >
                 {content}
               </motion.div>
