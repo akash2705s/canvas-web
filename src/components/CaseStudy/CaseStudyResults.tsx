@@ -83,16 +83,17 @@ export function CaseStudyResults() {
               ].map((item, idx) => (
                 <motion.div
                   key={item.id}
-                  className="flex items-start gap-3"
+                  className="flex items-start gap-3 group cursor-pointer"
                   initial={{ opacity: 0, x: -10 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: 0.3 + idx * 0.05 }}
+                  whileHover={{ x: 4 }}
                 >
-                  <div className="mt-1 flex-shrink-0">
+                  <motion.div className="mt-1 flex-shrink-0" whileHover={{ scale: 1.15 }}>
                     <Image src={tickIcon} alt="checkmark" width={20} height={20} />
-                  </div>
-                  <span className="text-sm text-slate-700 leading-relaxed">{item.text}</span>
+                  </motion.div>
+                  <span className="text-sm text-slate-700 leading-relaxed group-hover:text-slate-900 transition-colors">{item.text}</span>
                 </motion.div>
               ))}
             </div>
@@ -106,7 +107,11 @@ export function CaseStudyResults() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <div className="w-full max-w-sm rounded-2xl bg-white p-8 shadow-[0_20px_60px_rgba(0,0,0,0.12)] border border-white/20 space-y-5" style={{ boxShadow: "0 20px 60px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.5)" }}>
+            <motion.div
+              className="w-full max-w-sm rounded-2xl bg-white p-8 shadow-[0_20px_60px_rgba(0,0,0,0.12)] border border-white/20 space-y-5 transition-shadow"
+              style={{ boxShadow: "0 20px 60px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.5)" }}
+              whileHover={{ y: -4, boxShadow: "0 30px 70px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.5)" }}
+            >
               {/* Header */}
               <div>
                 <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">Key Metric</p>
@@ -179,41 +184,55 @@ export function CaseStudyResults() {
                 <div className="grid grid-cols-2 gap-5">
                   {/* Canvas bar */}
                   <motion.div
-                    className="flex flex-col items-center"
+                    className="flex flex-col items-center cursor-pointer"
                     whileHover={{ scale: 1.05, y: -4 }}
                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
                   >
                     <motion.div
-                      className="mb-2 h-24 w-full rounded-lg"
+                      className="mb-2 h-24 w-full rounded-lg transition-shadow"
                       style={{ background: "linear-gradient(0deg, #F97316 0%, #FBBF24 100%)" }}
-                      whileHover={{ boxShadow: "0 12px 24px rgba(249, 115, 22, 0.3)" }}
+                      whileHover={{ boxShadow: "0 16px 32px rgba(249, 115, 22, 0.4)" }}
                     />
                     <p className="text-[11px] font-semibold text-slate-700">Canvas</p>
                     <p className="mt-0.5 text-[10px] font-bold" style={{ color: "rgba(249,115,22,1)" }}>26.2%</p>
                   </motion.div>
 
                   {/* Industry bar */}
-                  <div className="flex flex-col items-center">
-                    <div className="mb-2 h-24 w-full rounded-lg bg-slate-200" />
+                  <motion.div
+                    className="flex flex-col items-center cursor-pointer"
+                    whileHover={{ scale: 1.05, y: -4 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  >
+                    <motion.div
+                      className="mb-2 h-24 w-full rounded-lg bg-slate-200 transition-shadow"
+                      whileHover={{ boxShadow: "0 12px 24px rgba(0, 0, 0, 0.1)" }}
+                    />
                     <p className="text-[11px] font-semibold text-slate-700">Industry avg</p>
                     <p className="mt-0.5 text-[10px] font-bold text-slate-500">&lt;1%</p>
-                  </div>
+                  </motion.div>
                 </div>
               </div>
 
               {/* Bottom badge */}
-              <div className="rounded-lg bg-orange-50 border border-orange-200 px-3 py-2.5">
+              <motion.div
+                className="rounded-lg bg-orange-50 border border-orange-200 px-3 py-2.5 cursor-pointer"
+                whileHover={{ scale: 1.02, boxShadow: "0 8px 16px rgba(249, 115, 22, 0.2)" }}
+              >
                 <div className="flex items-center gap-2.5">
-                  <div className="flex-shrink-0 flex items-center justify-center font-bold text-white" style={{ width: "40px", height: "40px", borderRadius: "14px", background: "linear-gradient(0deg, #F97316 0%, #FBBF24 100%)", opacity: 1 }}>
+                  <motion.div
+                    className="flex-shrink-0 flex items-center justify-center font-bold text-white transition-all"
+                    style={{ width: "40px", height: "40px", borderRadius: "14px", background: "linear-gradient(0deg, #F97316 0%, #FBBF24 100%)", opacity: 1 }}
+                    whileHover={{ scale: 1.1 }}
+                  >
                     26x
-                  </div>
+                  </motion.div>
                   <div>
                     <p className="text-[11px] font-semibold text-slate-900">26x above CTV benchmark</p>
                     <p className="mt-0.5 text-[9px] text-slate-600">vs. &lt;1% passive industry average</p>
                   </div>
                 </div>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           </motion.div>
         </div>
       </div>

@@ -58,30 +58,61 @@ export function CaseStudyFaq() {
           </p>
         </div>
 
-        <div className="mt-8 space-y-3 sm:mt-10">
-          {FAQ_ITEMS.map((item) => {
+        <motion.div
+          className="mt-8 space-y-3 sm:mt-10"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: {
+                staggerChildren: 0.1,
+              },
+            },
+          }}
+        >
+          {FAQ_ITEMS.map((item, index) => {
             const isOpen = item.id === openId;
             return (
-              <div
+              <motion.div
                 key={item.id}
-                className="overflow-hidden rounded-[18px] bg-white shadow-[0_18px_45px_rgba(15,23,42,0.06)] ring-1 ring-slate-100/90"
+                className="overflow-hidden rounded-[18px] bg-white shadow-[0_18px_45px_rgba(15,23,42,0.06)] ring-1 ring-slate-100/90 cursor-pointer transition-all duration-300"
+                variants={{
+                  hidden: { opacity: 0, y: 16 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    transition: {
+                      duration: 0.5,
+                      ease: [0.16, 1, 0.3, 1],
+                    },
+                  },
+                }}
+                whileHover={{
+                  boxShadow: "0 24px 70px rgba(79,70,229,0.12)",
+                  scale: 1.01,
+                }}
+                whileTap={{ scale: 0.99 }}
               >
-                <button
+                <motion.button
                   type="button"
                   className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left sm:px-6 sm:py-4.5"
                   onClick={() => setOpenId(isOpen ? null : item.id)}
+                  whileHover={{ backgroundColor: "rgba(249,115,22,0.02)" }}
                 >
                   <span className="text-[14px] font-semibold text-slate-900 sm:text-[15px]">
                     {item.question}
                   </span>
-                  <span
+                  <motion.span
                     className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-slate-50 text-slate-500 ring-1 ring-slate-200"
                     aria-hidden
+                    animate={{ rotate: isOpen ? 180 : 0 }}
+                    transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                   >
                     <svg
-                      className={`h-3.5 w-3.5 transform transition-transform duration-200 ${
-                        isOpen ? "rotate-180" : "rotate-0"
-                      }`}
+                      className="h-3.5 w-3.5"
                       viewBox="0 0 20 20"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -97,8 +128,8 @@ export function CaseStudyFaq() {
                         strokeLinejoin="round"
                       />
                     </svg>
-                  </span>
-                </button>
+                  </motion.span>
+                </motion.button>
                 <AnimatePresence initial={false}>
                   {isOpen && (
                     <motion.div
@@ -114,10 +145,10 @@ export function CaseStudyFaq() {
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </div>
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

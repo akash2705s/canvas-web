@@ -362,12 +362,13 @@ export function ProductEnterpriseGradeSection() {
                     : "text-[rgba(167,139,250,0.40)]";
 
             const content = (
-              <div
+              <motion.div
                 key={card.id}
                 className={[
-                  "group relative overflow-hidden rounded-[22px] p-6 shadow-[0_18px_45px_rgba(15,23,42,0.08)] ring-1 ring-slate-100/90",
+                  "group relative overflow-hidden rounded-[22px] p-6 shadow-[0_18px_45px_rgba(15,23,42,0.08)] ring-1 ring-slate-100/90 cursor-pointer transition-all duration-300",
                   card.tint,
                 ].join(" ")}
+                whileHover={{ scale: 1.01 }}
               >
                 <div className="pointer-events-none absolute inset-0 opacity-[0.9]">
                   <div className="absolute -left-12 -bottom-10 h-40 w-40 rounded-full bg-white/60 blur-2xl" />
@@ -385,22 +386,28 @@ export function ProductEnterpriseGradeSection() {
                   +
                 </span>
 
-                <div className="relative z-10 flex items-start gap-4">
+                <motion.div
+                  className="relative z-10 flex items-start gap-4"
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                >
                   <IconBadge accent={card.accent}>
                     <Image src={card.icon as never} alt="" className={card.iconClassName ?? "h-7 w-7"} />
                   </IconBadge>
-                </div>
+                </motion.div>
 
                 <div className="relative z-10 mt-4">
                   <h3 className="text-[15px] font-extrabold text-slate-900">{card.title}</h3>
                   <p className="mt-2 text-[12.5px] leading-relaxed text-slate-600">{card.description}</p>
                 </div>
 
-                <div
-                  className="pointer-events-none absolute inset-x-0 bottom-0 h-[2px] bg-[linear-gradient(90deg,rgba(249,115,22,0.0)_0%,rgba(234,179,8,0.0)_30%,rgba(79,70,229,0.0)_60%,rgba(167,139,250,0.0)_100%)]"
+                <motion.div
+                  className="pointer-events-none absolute inset-x-0 bottom-0 h-[2px] group-hover:h-[3px] bg-[linear-gradient(90deg,rgba(249,115,22,0.0)_0%,rgba(234,179,8,0.0)_30%,rgba(79,70,229,0.0)_60%,rgba(167,139,250,0.0)_100%)]"
                   aria-hidden
+                  whileHover={{ opacity: 1 }}
+                  initial={{ opacity: 0.5 }}
                 />
-              </div>
+              </motion.div>
             );
 
             if (reduceMotion) return content;
@@ -411,6 +418,14 @@ export function ProductEnterpriseGradeSection() {
                 whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                 viewport={{ once: true, amount: 0.35 }}
                 transition={{ duration: 0.65, delay: 0.06 + index * 0.06, ease: [0.16, 1, 0.3, 1] }}
+                whileHover={{
+                  y: -4,
+                  filter: "blur(0px)",
+                  boxShadow: "0 20px 40px rgba(79,70,229,0.10)",
+                  scale: 1.01,
+                }}
+                whileTap={{ scale: 0.99 }}
+                transition={{ type: "spring", stiffness: 260, damping: 24 }}
               >
                 {content}
               </motion.div>

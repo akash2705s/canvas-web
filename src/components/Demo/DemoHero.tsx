@@ -12,7 +12,7 @@ export function DemoHero() {
         {/* Yellow glow top right corner */}
         <div className="absolute -right-32 -top-32 h-96 w-96 rounded-full blur-3xl" style={{ backgroundColor: "rgba(252, 211, 77, 0.3)" }} />
       </div>
-      
+
       <div className="w-full max-w-5xl relative z-10">
         {/* Header */}
         <div className="mb-12 text-center">
@@ -42,9 +42,14 @@ export function DemoHero() {
               { key: "line-1", content: "Experience an" },
               {
                 key: "line-2",
-                content: <span style={{ color: "rgba(79, 70, 229, 1)" }}>interactive</span>,
+                content: (
+                  <>
+                    <span style={{ color: "rgba(79, 70, 229, 1)" }}>interactive</span>
+                    {" "}
+                    <span className="text-orange-500">CTV ad</span>
+                  </>
+                ),
               },
-              { key: "line-3", content: <span className="text-orange-500">CTV ad</span> },
             ].map((line, index) => (
               <motion.span
                 key={line.key}

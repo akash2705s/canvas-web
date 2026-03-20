@@ -71,7 +71,8 @@ export function CaseStudyInteractionTypes() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="rounded-2xl bg-slate-50 p-8"
+            whileHover={{ y: -4, boxShadow: "0 25px 50px rgba(0,0,0,0.1)" }}
+            className="rounded-2xl bg-slate-50 p-8 transition-shadow"
           >
             <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-8">Interaction Breakdown</p>
 
@@ -83,17 +84,27 @@ export function CaseStudyInteractionTypes() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: 0.2 + idx * 0.08 }}
+                  whileHover={{ x: 4 }}
+                  className="group cursor-pointer"
                 >
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-lg" style={{ backgroundColor: item.bgColor }}>
+                      <motion.div
+                        className="flex h-10 w-10 items-center justify-center rounded-lg transition-all"
+                        style={{ backgroundColor: item.bgColor }}
+                        whileHover={{ scale: 1.1, backgroundColor: item.color }}
+                      >
                         <Image src={item.icon} alt={item.label} width={24} height={24} />
-                      </div>
-                      <span className="text-sm font-semibold text-slate-700">{item.label}</span>
+                      </motion.div>
+                      <span className="text-sm font-semibold text-slate-700 group-hover:text-slate-900 transition-colors">{item.label}</span>
                     </div>
-                    <span className="text-sm font-bold" style={{ color: item.color }}>
+                    <motion.span
+                      className="text-sm font-bold"
+                      style={{ color: item.color }}
+                      whileHover={{ scale: 1.1 }}
+                    >
                       {item.percentage}
-                    </span>
+                    </motion.span>
                   </div>
 
                   <motion.div className="h-2 bg-slate-200 rounded-full overflow-hidden">

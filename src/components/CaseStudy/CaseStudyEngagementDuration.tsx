@@ -23,7 +23,8 @@ export function CaseStudyEngagementDuration() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="rounded-2xl bg-white p-8 shadow-[0_20px_60px_rgba(0,0,0,0.12)]"
+            whileHover={{ y: -4, boxShadow: "0 25px 50px rgba(0,0,0,0.15)" }}
+            className="rounded-2xl bg-white p-8 shadow-[0_20px_60px_rgba(0,0,0,0.12)] transition-shadow"
           >
             <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-6">Viewer Engagement Timeline</p>
 
@@ -74,18 +75,24 @@ export function CaseStudyEngagementDuration() {
 
             {/* Metrics cards */}
             <div className="grid grid-cols-3 gap-4">
-              <div className="rounded-lg bg-slate-50 p-4 text-center">
-                <p className="text-xl font-extrabold" style={{ color: "rgba(79, 70, 229, 1)" }}>6s+</p>
-                <p className="mt-1 text-[10px] text-slate-600 font-medium">Time to first</p>
-              </div>
-              <div className="rounded-lg bg-slate-50 p-4 text-center">
-                <p className="text-xl font-extrabold" style={{ color: "rgba(79, 70, 229, 1)" }}>14s+</p>
-                <p className="mt-1 text-[10px] text-slate-600 font-medium">Avg engagement</p>
-              </div>
-              <div className="rounded-lg bg-slate-50 p-4 text-center">
-                <p className="text-xl font-extrabold text-orange-500">26.2%</p>
-                <p className="mt-1 text-[10px] text-slate-600 font-medium">Interacted</p>
-              </div>
+              {[
+                { value: "6s+", label: "Time to first", color: "rgba(79, 70, 229, 1)" },
+                { value: "14s+", label: "Avg engagement", color: "rgba(79, 70, 229, 1)" },
+                { value: "26.2%", label: "Interacted", color: "rgba(249, 115, 22, 1)" },
+              ].map((item, idx) => (
+                <motion.div
+                  key={item.label}
+                  className="rounded-lg bg-slate-50 p-4 text-center cursor-pointer"
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: 0.35 + idx * 0.05 }}
+                  whileHover={{ scale: 1.05, boxShadow: "0 8px 16px rgba(0,0,0,0.1)" }}
+                >
+                  <p className="text-xl font-extrabold" style={{ color: item.color }}>{item.value}</p>
+                  <p className="mt-1 text-[10px] text-slate-600 font-medium">{item.label}</p>
+                </motion.div>
+              ))}
             </div>
 
             {/* Chart bars */}

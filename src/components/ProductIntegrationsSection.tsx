@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 import tickIcon from "@/assets/Product/integrations/tick.svg";
 
@@ -99,27 +100,27 @@ function TagPill({ tag, accent }: { tag: IntegrationTag; accent: IntegrationCard
   const palette =
     accent === "orange"
       ? {
-          text: "text-[rgba(249,115,22,1)]",
-          bg: "bg-[rgba(249,115,22,0.06)]",
-          border: "border-[rgba(249,115,22,0.16)]",
-        }
+        text: "text-[rgba(249,115,22,1)]",
+        bg: "bg-[rgba(249,115,22,0.06)]",
+        border: "border-[rgba(249,115,22,0.16)]",
+      }
       : accent === "amber"
         ? {
-            text: "text-[rgba(234,179,8,1)]",
-            bg: "bg-[rgba(234,179,8,0.06)]",
-            border: "border-[rgba(234,179,8,0.16)]",
-          }
+          text: "text-[rgba(234,179,8,1)]",
+          bg: "bg-[rgba(234,179,8,0.06)]",
+          border: "border-[rgba(234,179,8,0.16)]",
+        }
         : accent === "violet"
           ? {
-              text: "text-[rgba(167,139,250,1)]",
-              bg: "bg-[rgba(167,139,250,0.07)]",
-              border: "border-[rgba(167,139,250,0.18)]",
-            }
+            text: "text-[rgba(167,139,250,1)]",
+            bg: "bg-[rgba(167,139,250,0.07)]",
+            border: "border-[rgba(167,139,250,0.18)]",
+          }
           : {
-              text: "text-[rgba(79,70,229,1)]",
-              bg: "bg-[rgba(79,70,229,0.06)]",
-              border: "border-[rgba(79,70,229,0.16)]",
-            };
+            text: "text-[rgba(79,70,229,1)]",
+            bg: "bg-[rgba(79,70,229,0.06)]",
+            border: "border-[rgba(79,70,229,0.16)]",
+          };
 
   return (
     <span
@@ -138,21 +139,21 @@ function TagPill({ tag, accent }: { tag: IntegrationTag; accent: IntegrationCard
 function ConcentricRings({ accent }: { accent: IntegrationCard["accent"] }) {
   const dottedStroke =
     accent === "orange"
-      ? "stroke-[rgba(249,115,22,0.35)]"
+      ? "stroke-[rgba(249,115,22,0.22)]"
       : accent === "amber"
-        ? "stroke-[rgba(234,179,8,0.35)]"
+        ? "stroke-[rgba(234,179,8,0.22)]"
         : accent === "violet"
-          ? "stroke-[rgba(167,139,250,0.38)]"
-          : "stroke-[rgba(79,70,229,0.34)]";
+          ? "stroke-[rgba(167,139,250,0.24)]"
+          : "stroke-[rgba(79,70,229,0.21)]";
 
   const solidStroke =
     accent === "orange"
-      ? "stroke-[rgba(249,115,22,0.26)]"
+      ? "stroke-[rgba(249,115,22,0.16)]"
       : accent === "amber"
-        ? "stroke-[rgba(234,179,8,0.26)]"
+        ? "stroke-[rgba(234,179,8,0.16)]"
         : accent === "violet"
-          ? "stroke-[rgba(167,139,250,0.28)]"
-          : "stroke-[rgba(79,70,229,0.26)]";
+          ? "stroke-[rgba(167,139,250,0.18)]"
+          : "stroke-[rgba(79,70,229,0.16)]";
 
   return (
     <>
@@ -187,7 +188,7 @@ function ConcentricRings({ accent }: { accent: IntegrationCard["accent"] }) {
   );
 }
 
-function IntegrationMiniCard({ card }: { card: IntegrationCard }) {
+function IntegrationMiniCard({ card, index }: { card: IntegrationCard; index: number }) {
   const bg =
     card.accent === "orange"
       ? "bg-[linear-gradient(135deg,rgba(249,115,22,0.08)_0%,rgba(255,255,255,0.92)_60%,rgba(255,255,255,1)_100%)]"
@@ -198,11 +199,25 @@ function IntegrationMiniCard({ card }: { card: IntegrationCard }) {
           : "bg-[linear-gradient(135deg,rgba(79,70,229,0.08)_0%,rgba(255,255,255,0.92)_60%,rgba(255,255,255,1)_100%)]";
 
   return (
-    <div
+    <motion.div
       className={[
-        "relative overflow-hidden rounded-[20px] border border-white/60 bg-white/80 p-4 shadow-[0_18px_55px_rgba(15,23,42,0.08)] ring-1 ring-slate-100/80",
+        "relative overflow-hidden rounded-[20px] border border-white/60 bg-white/80 p-4 shadow-[0_18px_55px_rgba(15,23,42,0.08)] ring-1 ring-slate-100/80 cursor-pointer transition-all duration-300",
         bg,
       ].join(" ")}
+      initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
+      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      transition={{
+        duration: 0.6,
+        delay: 0.05 + index * 0.08,
+        ease: [0.16, 1, 0.3, 1],
+      }}
+      viewport={{ once: true, amount: 0.3 }}
+      whileHover={{
+        y: -4,
+        scale: 1.01,
+        boxShadow: "0 24px 70px rgba(79,70,229,0.12)",
+      }}
+      whileTap={{ scale: 0.99 }}
     >
       <ConcentricRings accent={card.accent} />
       <div className="relative z-10 flex items-start justify-between">
@@ -216,7 +231,7 @@ function IntegrationMiniCard({ card }: { card: IntegrationCard }) {
         <p className="text-[13px] font-extrabold text-slate-900">{card.title}</p>
         <p className="mt-1 text-[11px] text-slate-500">{card.subtitle}</p>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -249,17 +264,27 @@ export function ProductIntegrationsSection() {
         </div>
 
         <div className="mt-10 grid grid-cols-1 gap-4 sm:mt-12 sm:grid-cols-2 lg:grid-cols-4">
-          {CARDS.map((card) => (
-            <IntegrationMiniCard key={card.id} card={card} />
+          {CARDS.map((card, index) => (
+            <IntegrationMiniCard key={card.id} card={card} index={index} />
           ))}
         </div>
 
-        <div className="mt-10 flex justify-center">
-          <div className="inline-flex items-center gap-3 rounded-full bg-white/80 px-5 py-2 text-[12px] font-semibold text-slate-600 shadow-[0_18px_55px_rgba(15,23,42,0.10)] ring-1 ring-slate-200/70">
+        <motion.div
+          className="mt-10 flex justify-center"
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          viewport={{ once: true, amount: 0.8 }}
+        >
+          <motion.div
+            className="inline-flex items-center gap-3 rounded-full bg-white/80 px-5 py-2 text-[12px] font-semibold text-slate-600 shadow-[0_18px_55px_rgba(15,23,42,0.10)] ring-1 ring-slate-200/70 cursor-pointer"
+            whileHover={{ scale: 1.02, boxShadow: "0 24px 70px rgba(79,70,229,0.12)" }}
+            whileTap={{ scale: 0.98 }}
+          >
             <Image src={tickIcon} alt="" className="h-4 w-4" />
             <span>One integration. Every major CTV environment. No disruption to existing ad delivery.</span>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );

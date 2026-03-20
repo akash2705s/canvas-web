@@ -24,43 +24,68 @@ export function IntentSignalDashboard() {
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
     >
       {/* Header */}
-      <div className="flex items-start justify-between gap-4">
-        <div className="space-y-1">
+      <motion.div className="flex items-start justify-between gap-4" whileHover={{ x: 2 }}>
+        <motion.div className="space-y-1" whileHover={{ x: 4 }}>
           <p className="text-[11px] font-semibold text-zinc-500">
             Intent Signal Dashboard
           </p>
           <p className="text-[11px] text-zinc-400">Campaign · Last 30 days</p>
-        </div>
-        <div className="flex items-center gap-1 text-[11px] text-emerald-500">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+        </motion.div>
+        <motion.div
+          className="flex items-center gap-1 text-[11px] text-emerald-500 cursor-pointer"
+          whileHover={{ scale: 1.1 }}
+        >
+          <motion.span
+            className="h-1.5 w-1.5 rounded-full bg-emerald-500"
+            animate={{ scale: [1, 1.3, 1] }}
+            transition={{ repeat: Infinity, duration: 2 }}
+          />
           Live
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       {/* Top stats */}
-      <div className="mt-4 grid grid-cols-3 gap-4 border-b border-zinc-200/70 pb-3 text-[11px]">
-        <div>
-          <p className="text-xl font-extrabold text-amber-500">26.2%</p>
-          <p className="mt-0.5 text-[11px] text-zinc-500">Interaction Rate</p>
-        </div>
-        <div>
-          <p className="text-xl font-extrabold text-sky-500">14s+</p>
-          <p className="mt-0.5 text-[11px] text-zinc-500">Avg Duration</p>
-        </div>
-        <div>
-          <p className="text-xl font-extrabold text-violet-500">3x</p>
-          <p className="mt-0.5 text-[11px] text-zinc-500">Intent Signals</p>
-        </div>
-      </div>
+      <motion.div
+        className="mt-4 grid grid-cols-3 gap-4 border-b border-zinc-200/70 pb-3 text-[11px]"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={{
+          hidden: { opacity: 0 },
+          visible: { opacity: 1, transition: { staggerChildren: 0.08 } },
+        }}
+      >
+        {[
+          { value: "26.2%", label: "Interaction Rate", color: "text-amber-500" },
+          { value: "14s+", label: "Avg Duration", color: "text-sky-500" },
+          { value: "3x", label: "Intent Signals", color: "text-violet-500" },
+        ].map((stat, idx) => (
+          <motion.div
+            key={stat.label}
+            variants={{
+              hidden: { opacity: 0, y: 10 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+            }}
+            whileHover={{ scale: 1.05, y: -2 }}
+            className="cursor-pointer"
+          >
+            <motion.p className={`text-xl font-extrabold ${stat.color}`} whileHover={{ scale: 1.1 }}>
+              {stat.value}
+            </motion.p>
+            <p className="mt-0.5 text-[11px] text-zinc-500">{stat.label}</p>
+          </motion.div>
+        ))}
+      </motion.div>
 
       {/* Chart */}
-      <div className="mt-4">
-        <p className="text-[10px] font-medium tracking-[0.14em] text-zinc-400">
+      <motion.div className="mt-4" whileHover={{ y: -2 }}>
+        <motion.p className="text-[10px] font-medium tracking-[0.14em] text-zinc-400" whileHover={{ letterSpacing: "0.2em" }}>
           INTERACTION EVENTS OVER TIME
-        </p>
-        <div
-          className="mt-3 rounded-[18px] bg-gradient-to-b from-orange-50/60 via-white to-indigo-50/70 px-3 py-2 ring-1 ring-zinc-200/70"
+        </motion.p>
+        <motion.div
+          className="mt-3 rounded-[18px] bg-gradient-to-b from-orange-50/60 via-white to-indigo-50/70 px-3 py-2 ring-1 ring-zinc-200/70 transition-all cursor-pointer"
           aria-hidden="true"
+          whileHover={{ boxShadow: "inset 0 0 20px rgba(249, 115, 22, 0.1)", scale: 1.01 }}
         >
           <AreaChart
             width={520}
@@ -111,24 +136,43 @@ export function IntentSignalDashboard() {
                 animationBegin={150}
               />
             </AreaChart>
-        </div>
+        </motion.div>
 
         {/* Legend */}
-        <div className="mt-3 flex flex-wrap items-center gap-4 text-[10px] text-zinc-500">
-          <div className="flex items-center gap-1.5">
-            <span className="h-2 w-2 rounded-full bg-[#F97316]" />
-            QR Scan
-          </div>
-          <div className="flex items-center gap-1.5">
-            <span className="h-2 w-2 rounded-full bg-[#0EA5E9]" />
-            CTA Click
-          </div>
-          <div className="flex items-center gap-1.5">
-            <span className="h-2 w-2 rounded-full bg-[#6366F1]" />
-            Explore
-          </div>
-        </div>
-      </div>
+        <motion.div
+          className="mt-3 flex flex-wrap items-center gap-4 text-[10px] text-zinc-500"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.3 } },
+          }}
+        >
+          {[
+            { color: "#F97316", label: "QR Scan" },
+            { color: "#0EA5E9", label: "CTA Click" },
+            { color: "#6366F1", label: "Explore" },
+          ].map((item) => (
+            <motion.div
+              key={item.label}
+              className="flex items-center gap-1.5 cursor-pointer transition-all group"
+              whileHover={{ x: 4 }}
+              variants={{
+                hidden: { opacity: 0, y: 8 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+              }}
+            >
+              <motion.span
+                className="h-2 w-2 rounded-full group-hover:scale-125 transition-transform"
+                style={{ backgroundColor: item.color }}
+                whileHover={{ scale: 1.3 }}
+              />
+              <span className="group-hover:text-zinc-700 transition-colors">{item.label}</span>
+            </motion.div>
+          ))}
+        </motion.div>
+      </motion.div>
     </motion.div>
   );
 }

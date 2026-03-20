@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 import tickIcon2 from "../assets/Product/runtime/tick2.png";
 
@@ -69,8 +70,20 @@ export function ProductEditorFeature() {
                 title: "No rebuild required",
                 body: "Convert your existing creatives without touching the video",
               },
-            ].map((item) => (
-              <li key={item.title} className="flex gap-3">
+            ].map((item, idx) => (
+              <motion.li
+                key={item.title}
+                className="flex gap-3"
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{
+                  duration: 0.5,
+                  delay: 0.2 + idx * 0.1,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+                viewport={{ once: true, amount: 0.8 }}
+                whileHover={{ x: 8 }}
+              >
                 <span className="mt-[4px]">
                   <Image src={tickIcon2} alt="" className="h-4 w-4" />
                 </span>
@@ -78,7 +91,7 @@ export function ProductEditorFeature() {
                   <span className="block text-sm font-semibold text-slate-900">{item.title}</span>
                   <span className="block text-[13px] text-[rgba(106,114,130,1)]">{item.body}</span>
                 </span>
-              </li>
+              </motion.li>
             ))}
           </ul>
 

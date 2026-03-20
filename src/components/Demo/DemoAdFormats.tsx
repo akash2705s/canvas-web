@@ -104,65 +104,115 @@ export function DemoAdFormats() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <div className="mb-4 inline-block">
-            <span className="inline-flex w-fit items-center gap-2 rounded-full bg-white px-4 py-1.5 text-sm font-semibold text-[#4F46E5] shadow-[0_10px_30px_-18px_rgba(0,0,0,0.35)] ring-1 ring-black/5">
+          <motion.div
+            className="mb-4 inline-block"
+            whileHover={{ scale: 1.05 }}
+          >
+            <span className="inline-flex w-fit items-center gap-2 rounded-full bg-white px-4 py-1.5 text-sm font-semibold text-[#4F46E5] shadow-[0_10px_30px_-18px_rgba(0,0,0,0.35)] ring-1 ring-black/5 cursor-pointer transition-all hover:shadow-[0_15px_40px_-12px_rgba(79,70,229,0.35)]">
               <span className="relative inline-flex h-2.5 w-2.5 shrink-0 items-center justify-center align-middle">
                 <span className="absolute left-1/2 top-1/2 inline-flex h-full w-full -translate-x-1/2 -translate-y-1/2 animate-ping rounded-full bg-[#4F46E5]/70"></span>
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-[#4F46E5]"></span>
               </span>
               Ad Formats
             </span>
-          </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-zinc-900 mb-4">
+          </motion.div>
+          <motion.h2
+            className="text-3xl md:text-4xl font-bold text-zinc-900 mb-4"
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+          >
             Interactive CTV formats brands can deploy
-          </h2>
-          <p className="text-lg text-zinc-600 max-w-3xl mx-auto">
+          </motion.h2>
+          <motion.p
+            className="text-lg text-zinc-600 max-w-3xl mx-auto"
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+          >
             Every format runs inside the viewer's existing streaming experience — no separate app, no creative rebuild required.
-          </p>
+          </motion.p>
         </motion.div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: { opacity: 1, transition: { staggerChildren: 0.08, delayChildren: 0.1 } },
+          }}
+        >
           {AD_FORMATS.map((format, idx) => (
             <motion.div
               key={format.id}
-              className="rounded-2xl bg-white p-6 shadow-[0_20px_60px_rgba(0,0,0,0.12)] overflow-hidden hover:shadow-[0_20px_80px_rgba(0,0,0,0.16)] transition-shadow duration-300"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: idx * 0.1 }}
+              className="group rounded-2xl bg-white p-6 shadow-[0_20px_60px_rgba(0,0,0,0.12)] overflow-hidden transition-shadow duration-300 cursor-pointer"
+              whileHover={{ y: -4, boxShadow: "0 25px 80px rgba(0,0,0,0.16)" }}
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+              }}
             >
               {/* Badge and Title */}
-              <div className="mb-2">
+              <motion.div
+                className="mb-2"
+                whileHover={{ x: 2 }}
+              >
                 <div className="inline-flex items-center gap-2">
-                  <span 
-                    className="px-3 py-1 text-xs font-semibold rounded-full"
+                  <motion.span
+                    className="px-3 py-1 text-xs font-semibold rounded-full transition-all"
                     style={{ color: format.textColor, backgroundColor: format.bgColor }}
+                    whileHover={{ scale: 1.08 }}
                   >
                     {format.label}
-                  </span>
-                  <span className="px-3 py-1 text-xs font-semibold text-zinc-500 bg-zinc-100 rounded-full">
+                  </motion.span>
+                  <motion.span
+                    className="px-3 py-1 text-xs font-semibold text-zinc-500 bg-zinc-100 rounded-full transition-all"
+                    whileHover={{ scale: 1.05, backgroundColor: "rgba(0,0,0,0.05)" }}
+                  >
                     {format.sublabel}
-                  </span>
+                  </motion.span>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Image Container */}
-              <div className="relative w-full mb-4 rounded-lg overflow-hidden">
-                <Image
-                  src={format.image}
-                  alt={format.title}
-                  className="w-full h-auto"
-                />
-              </div>
+              <motion.div
+                className="relative w-full mb-4 rounded-lg overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200"
+                whileHover={{ scale: 1.02 }}
+              >
+                <motion.div
+                  className="relative w-full h-auto overflow-hidden"
+                  whileHover={{ filter: "brightness(1.1)" }}
+                >
+                  <Image
+                    src={format.image}
+                    alt={format.title}
+                    className="w-full h-auto transition-transform duration-300"
+                  />
+                </motion.div>
+              </motion.div>
 
               {/* Description */}
-              <p className="text-sm text-zinc-700 leading-relaxed">
+              <motion.p
+                className="text-sm text-zinc-700 leading-relaxed group-hover:text-zinc-900 transition-colors"
+                whileHover={{ x: 2 }}
+              >
                 {format.description}
-              </p>
+              </motion.p>
+
+              {/* Accent line on hover */}
+              <motion.div
+                className="mt-4 h-0.5 w-0 rounded-full transition-all duration-300"
+                style={{ backgroundColor: format.textColor }}
+                whileHover={{ width: "100%" }}
+              />
             </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* Footer Text */}
         <motion.p
