@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 import canvasRuntimeIcon from "../assets/Product/runtime/canvas_runtime.svg";
 import interactOverlayIcon from "../assets/Product/runtime/interact_overlay.png";
@@ -11,6 +12,38 @@ import streamIcon from "../assets/Product/runtime/stream.png";
 import tickIcon from "../assets/Product/runtime/tick.svg";
 
 export function ProductRuntimeFeature() {
+  const architectureItems = [
+    {
+      id: "streaming-app",
+      icon: streamIcon,
+      title: "Streaming App",
+      subtitle: "iOS / Android / Fire TV / Roku",
+    },
+    {
+      id: "ssai-layer",
+      icon: ssaiIcon,
+      title: "SSAI Layer",
+      subtitle: "Google DAI · AWS MediaTailor",
+    },
+    {
+      id: "canvas-runtime",
+      icon: canvasRuntimeIcon,
+      title: "Canvas Runtime",
+      subtitle: "<50KB · Zero-config injection",
+    },
+    {
+      id: "interact-overlay",
+      icon: interactOverlayIcon,
+      title: "Interactive Overlay",
+      subtitle: "Viewer-facing surface · No UX break",
+    },
+    {
+      id: "intent-signals",
+      icon: intentSignalIcon,
+      title: "Intent Signals",
+      subtitle: "Real-time data out · Dashboard + webhook",
+    },
+  ];
   return (
     <section id="runtime" className="relative overflow-hidden bg-white scroll-mt-24">
       <div className="mx-auto flex max-w-6xl flex-col gap-10 px-6 py-16 sm:px-8 lg:flex-row lg:items-start lg:gap-14 lg:py-20">
@@ -83,7 +116,7 @@ export function ProductRuntimeFeature() {
 
           {/* Code card */}
           <div className="mt-8 flex w-full flex-col gap-4">
-            <div className="w-full overflow-hidden rounded-[18px] bg-[#050816] shadow-[0_26px_80px_rgba(15,23,42,0.7)] ring-1 ring-slate-900/60">
+            <div className="w-full max-w-sm overflow-hidden rounded-[18px] bg-[#050816] shadow-[0_26px_80px_rgba(15,23,42,0.7)] ring-1 ring-slate-900/60">
               <div className="flex items-center justify-between border-b border-white/5 bg-black/40 px-4 py-2.5">
                 <div className="flex items-center gap-1.5">
                   <span className="h-2.5 w-2.5 rounded-full bg-red-400" />
@@ -168,8 +201,14 @@ export function ProductRuntimeFeature() {
         </div>
 
         {/* Right visual: runtime architecture card */}
-        <div className="relative w-full max-w-xl">
-          <div className="relative mt-8 overflow-hidden rounded-[32px] bg-white shadow-[0_26px_80px_rgba(15,23,42,0.22)] ring-1 ring-slate-100 px-6 py-5">
+        <div className="relative w-full max-w-md">
+          <motion.div
+            className="relative mt-8 overflow-hidden rounded-[32px] bg-white shadow-[0_26px_80px_rgba(15,23,42,0.22)] ring-1 ring-slate-100 px-6 py-5"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            viewport={{ once: true, amount: 0.5 }}
+          >
             <div className="mb-4 flex items-center justify-between text-[11px] font-medium tracking-[0.18em] text-slate-400">
               <span>CANVAS RUNTIME ARCHITECTURE</span>
               <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-[10px] font-semibold text-emerald-600">
@@ -179,63 +218,42 @@ export function ProductRuntimeFeature() {
             </div>
 
             <div className="space-y-2.5 text-[13px]">
-              {/* Streaming App */}
-              <div className="flex items-center rounded-2xl border border-slate-100 bg-slate-50 px-4 py-3">
-                <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-100">
-                  <Image src={streamIcon} alt="" className="h-8 w-6" />
-                </span>
-                <div className="ml-3 flex flex-col">
-                  <p className="text-sm font-semibold text-slate-900">Streaming App</p>
-                  <p className="text-[11px] text-slate-500">iOS / Android / Fire TV / Roku</p>
-                </div>
-              </div>
-
-              {/* SSAI Layer */}
-              <div className="flex items-center rounded-2xl border border-slate-100 bg-slate-50 px-4 py-3">
-                <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-100">
-                  <Image src={ssaiIcon} alt="" className="h-6 w-6" />
-                </span>
-                <div className="ml-3 flex flex-col">
-                  <p className="text-sm font-semibold text-slate-900">SSAI Layer</p>
-                  <p className="text-[11px] text-slate-500">Google DAI · AWS MediaTailor</p>
-                </div>
-              </div>
-
-              {/* Canvas Runtime */}
-              <div className="flex items-center rounded-2xl border border-slate-100 bg-slate-50 px-4 py-3">
-                <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-100">
-                  <Image src={canvasRuntimeIcon} alt="" className="h-4 w-4" />
-                </span>
-                <div className="ml-3 flex flex-col">
-                  <p className="text-sm font-semibold text-slate-900">Canvas Runtime</p>
-                  <p className="text-[11px] text-slate-500">&lt;50KB · Zero-config injection</p>
-                </div>
-              </div>
-
-              {/* Interactive Overlay */}
-              <div className="flex items-center rounded-2xl border border-slate-100 bg-slate-50 px-4 py-3">
-                <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-100">
-                  <Image src={interactOverlayIcon} alt="" className="h-8 w-4" />
-                </span>
-                <div className="ml-3 flex flex-col">
-                  <p className="text-sm font-semibold text-slate-900">Interactive Overlay</p>
-                  <p className="text-[11px] text-slate-500">Viewer-facing surface · No UX break</p>
-                </div>
-              </div>
-
-              {/* Intent Signals */}
-              <div className="flex items-center rounded-2xl border border-slate-100 bg-slate-50 px-4 py-3">
-                <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-100">
-                  <Image src={intentSignalIcon} alt="" className="h-5 w-5" />
-                </span>
-                <div className="ml-3 flex flex-col">
-                  <p className="text-sm font-semibold text-slate-900">Intent Signals </p>
-                  <p className="text-[11px] text-slate-500">Real-time data out · Dashboard + webhook</p>
-                </div>
-              </div>
+              {architectureItems.map((item, idx) => (
+                <motion.div
+                  key={item.id}
+                  className="flex items-center rounded-2xl border border-slate-100 bg-slate-50 px-4 py-3 cursor-pointer transition-all duration-200 hover:border-slate-200 hover:shadow-md hover:bg-slate-100"
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{
+                    duration: 0.5,
+                    delay: 0.2 + idx * 0.08,
+                    ease: [0.16, 1, 0.3, 1],
+                  }}
+                  viewport={{ once: true, amount: 0.8 }}
+                  whileHover={{ scale: 1.02 }}
+                >
+                  <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-100">
+                    <Image src={item.icon} alt="" className="h-4 w-4" />
+                  </span>
+                  <div className="ml-3 flex flex-col">
+                    <p className="text-sm font-semibold text-slate-900">{item.title}</p>
+                    <p className="text-[11px] text-slate-500">{item.subtitle}</p>
+                  </div>
+                </motion.div>
+              ))}
             </div>
 
-            <div className="mt-4 flex flex-wrap gap-2 text-[10px] font-semibold">
+            <motion.div
+              className="mt-4 flex flex-wrap gap-2 text-[10px] font-semibold"
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.6,
+                delay: 0.65,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+              viewport={{ once: true, amount: 0.8 }}
+            >
               {["VAST / VMAP", "OpenRTB", "SSAI Passthrough", "Playback-safe"].map((chip) => (
                 <span
                   key={chip}
@@ -244,8 +262,8 @@ export function ProductRuntimeFeature() {
                   {chip}
                 </span>
               ))}
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
     </section>

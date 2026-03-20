@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import Image from "next/image";
 import ctvLogo from "@/assets/Blog/Content/ctv.svg";
 import aicLogo from "@/assets/Blog/Content/aic.svg";
@@ -187,7 +188,7 @@ export function CanvasBlogContent() {
                   "What's Next",
                 ].map((item, idx) => (
                   <li key={item}>
-                    <a
+                    <Link
                       href="#"
                       className={`text-sm transition flex items-center gap-2 ${idx === 0
                         ? "text-indigo-600 font-semibold"
@@ -197,7 +198,7 @@ export function CanvasBlogContent() {
                       <span className={`h-2 w-2 rounded-full flex-shrink-0 ${idx === 0 ? "bg-indigo-600" : "bg-slate-300"
                         }`} />
                       {item}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -225,7 +226,7 @@ export function CanvasBlogContent() {
             <div className="rounded-3xl bg-slate-900 p-8 text-white">
               <p className="text-xs uppercase tracking-widest text-slate-500">Try Canvas</p>
               <h3 className="mt-4 text-xl font-bold">See your ad come to life in under 10 seconds</h3>
-              <button className="mt-6 w-full rounded-full bg-indigo-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700">
+              <button type="button" className="mt-6 w-full rounded-full bg-indigo-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700">
                 Request Demo →
               </button>
             </div>

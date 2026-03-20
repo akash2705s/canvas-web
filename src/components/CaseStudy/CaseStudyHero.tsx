@@ -40,26 +40,75 @@ export function CaseStudyHero() {
       <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-6 pt-16 pb-10 sm:px-10 sm:pt-20 sm:pb-12 lg:flex-row lg:items-center lg:justify-between lg:gap-12">
         {/* Left copy */}
         <div className="max-w-xl">
-          <div className="inline-flex items-center gap-2 rounded-full bg-white/80 px-4 py-1.5 text-xs font-semibold text-[rgba(79,70,229,1)] shadow-sm ring-1 ring-black/5 backdrop-blur">
+          <motion.div
+            className="inline-flex items-center gap-2 rounded-full bg-white/80 px-4 py-1.5 text-xs font-semibold text-[rgba(79,70,229,1)] shadow-sm ring-1 ring-black/5 backdrop-blur"
+            initial={{ opacity: 0, y: 10, filter: "blur(12px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            viewport={{ once: true, amount: 0.8 }}
+          >
             <span className="relative inline-flex h-2.5 w-2.5 shrink-0 items-center justify-center align-middle">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[rgba(79,70,229,0.7)]" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-[rgba(79,70,229,1)]" />
             </span>
             <span>Live Case Study</span>
-          </div>
+          </motion.div>
 
-          <h1 className="mt-5 text-[32px] font-extrabold leading-[1.12] tracking-[-0.04em] text-slate-900 sm:text-[40px] lg:text-[46px] [font-family:var(--font-display)]">
-            <span className="block">
-              How Canvas drove a <span className="text-[rgba(249,115,22,1)]">26.2%</span> interaction
-            </span>
-            <span className="block">rate on CTV</span>
-          </h1>
+          <motion.h1
+            className="mt-5 text-[32px] font-extrabold leading-[1.12] tracking-[-0.04em] text-slate-900 sm:text-[40px] lg:text-[46px] [font-family:var(--font-display)]"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.7 }}
+          >
+            {[
+              { key: "line-1", content: "How Canvas drove a" },
+              {
+                key: "line-2",
+                content: (
+                  <>
+                    <span className="text-[rgba(249,115,22,1)]">26.2%</span> interaction
+                  </>
+                ),
+              },
+              { key: "line-3", content: "rate on CTV" },
+            ].map((line, index) => (
+              <motion.span
+                key={line.key}
+                variants={{
+                  hidden: { opacity: 0, y: 20, filter: "blur(16px)" },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    filter: "blur(0px)",
+                    transition: {
+                      duration: 0.9,
+                      delay: 0.1 + index * 0.12,
+                      ease: [0.16, 1, 0.3, 1],
+                    },
+                  },
+                }}
+                className="block will-change-transform"
+              >
+                {line.content}
+              </motion.span>
+            ))}
+          </motion.h1>
 
-          <p className="mt-4 max-w-lg text-sm text-slate-600 sm:text-[15px]">
+          <motion.p
+            className="mt-4 max-w-lg text-sm text-slate-600 sm:text-[15px]"
+            initial={{ opacity: 0, y: 14, filter: "blur(12px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            transition={{
+              duration: 0.75,
+              delay: 0.5,
+              ease: [0.16, 1, 0.3, 1],
+            }}
+            viewport={{ once: true, amount: 0.8 }}
+          >
             A live campaign showing how interactive ads capture real
             <br />
             viewer intent signals.
-          </p>
+          </motion.p>
 
           <div className="mt-5 flex flex-wrap gap-2 text-[12px] leading-4">
             <span className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-1 text-slate-600 shadow-sm ring-1 ring-slate-200/70">
@@ -80,9 +129,13 @@ export function CaseStudyHero() {
           </div>
 
           <div className="mt-8 flex flex-wrap items-center gap-3">
-            <button
+            <motion.button
               type="button"
               className="group inline-flex items-center gap-2 rounded-full bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] p-[3px] text-sm font-semibold shadow-sm transition hover:shadow-md"
+              initial={{ opacity: 0, y: 18, filter: "blur(12px)" }}
+              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ duration: 0.8, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              viewport={{ once: true, amount: 0.7 }}
             >
               <span className="relative flex items-center gap-2 overflow-hidden rounded-full bg-white px-6 py-2.5 text-slate-900">
                 <span className="pointer-events-none absolute inset-0 origin-right scale-x-0 bg-slate-900 transition-transform duration-300 ease-out group-hover:scale-x-100" />
@@ -107,12 +160,19 @@ export function CaseStudyHero() {
                   </svg>
                 </span>
               </span>
-            </button>
+            </motion.button>
 
-            <RequestDemoTrigger className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-6 py-2.5 text-sm font-semibold text-slate-800 shadow-sm transition hover:bg-slate-50">
-              Request Demo
-              <span className="text-slate-400">→</span>
-            </RequestDemoTrigger>
+            <motion.div
+              initial={{ opacity: 0, y: 18, filter: "blur(12px)" }}
+              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ duration: 0.8, delay: 0.84, ease: [0.16, 1, 0.3, 1] }}
+              viewport={{ once: true, amount: 0.7 }}
+            >
+              <RequestDemoTrigger className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-6 py-2.5 text-sm font-semibold text-slate-800 shadow-sm transition hover:bg-slate-50">
+                Request Demo
+                <span className="text-slate-400">→</span>
+              </RequestDemoTrigger>
+            </motion.div>
           </div>
         </div>
 

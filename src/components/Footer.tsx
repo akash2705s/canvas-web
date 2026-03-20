@@ -119,9 +119,8 @@ export function Footer() {
       <div className="mx-auto flex max-w-6xl flex-col gap-10 px-4 pt-10 pb-8 sm:px-6 lg:px-8 lg:flex-row lg:items-start lg:justify-between">
         {/* Left: logo + copy */}
         <div className="max-w-sm space-y-4">
-          <div className="flex items-center gap-2">
-            <Image src="/CanvasLogo.svg" alt="Canvas logo" width={28} height={28} />
-            <span className="text-sm font-semibold text-zinc-900">Canvas</span>
+          <div className="flex items-center">
+            <Image src="/logo.svg" alt="Canvas logo" width={48} height={48} />
           </div>
           <p className="text-sm leading-6 text-zinc-600">
             Infrastructure to turn video into interactive experiences and real-time intent data across streaming, web and mobile.

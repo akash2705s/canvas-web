@@ -86,75 +86,120 @@ export function ProductHero() {
             </motion.h1>
           )}
 
-          <p className="max-w-xl text-sm text-slate-600 sm:text-base">
-            Install one lightweight script and convert any CTV ad into an interactive experience — capturing real
-            viewer intent signals at scale.
-          </p>
+          {reduceMotion ? (
+            <p className="max-w-xl text-sm text-slate-600 sm:text-base">
+              Install one lightweight script and convert any CTV ad into an interactive experience — capturing real
+              viewer intent signals at scale.
+            </p>
+          ) : (
+            <motion.p className="max-w-xl text-sm text-slate-600 sm:text-base">
+              {(() => {
+                const text = "Install one lightweight script and convert any CTV ad into an interactive experience — capturing real viewer intent signals at scale.";
+                const words = text.split(" ");
+                return words.map((word, idx) => (
+                  <motion.span
+                    key={`${word}-${idx}-${words.length}`}
+                    initial={{ opacity: 0, y: 14, filter: "blur(12px)" }}
+                    whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                    transition={{
+                      duration: 0.75,
+                      delay: 0.32 + idx * 0.035,
+                      ease: [0.16, 1, 0.3, 1],
+                    }}
+                    viewport={{ once: true, amount: 0.8 }}
+                    className="inline-block align-baseline will-change-transform"
+                  >
+                    {word}&nbsp;
+                  </motion.span>
+                ));
+              })()}
+            </motion.p>
+          )}
 
           <div className="mt-4 flex flex-wrap items-center gap-3">
-            <RequestDemoTrigger
-              className="group inline-flex items-center gap-2 rounded-full bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] p-[3px] text-sm font-semibold shadow-sm transition hover:shadow-md"
+            <motion.div
+              initial={{ opacity: 0, y: 18, filter: "blur(12px)" }}
+              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              viewport={{ once: true, amount: 0.7 }}
             >
-              <span className="relative flex items-center gap-2 overflow-hidden rounded-full bg-white px-6 py-2.5 text-slate-900">
-                <span className="pointer-events-none absolute inset-0 origin-right scale-x-0 bg-slate-900 transition-transform duration-300 ease-out group-hover:scale-x-100" />
-                <span className="relative z-10 transition-colors duration-200 group-hover:text-white">
-                  Request Demo
+              <RequestDemoTrigger
+                className="group inline-flex items-center gap-2 rounded-full bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] p-[3px] text-sm font-semibold shadow-sm transition hover:shadow-md"
+              >
+                <span className="relative flex items-center gap-2 overflow-hidden rounded-full bg-white px-6 py-2.5 text-slate-900">
+                  <span className="pointer-events-none absolute inset-0 origin-right scale-x-0 bg-slate-900 transition-transform duration-300 ease-out group-hover:scale-x-100" />
+                  <span className="relative z-10 transition-colors duration-200 group-hover:text-white">
+                    Request Demo
+                  </span>
+                  <span className="relative z-10 flex h-[28px] w-[28px] items-center justify-center rounded-[9px] bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] text-white">
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                      role="presentation"
+                      focusable="false"
+                    >
+                      <path d="M5 12h14" />
+                      <path d="M12 5l7 7-7 7" />
+                    </svg>
+                  </span>
                 </span>
-                <span className="relative z-10 flex h-[28px] w-[28px] items-center justify-center rounded-[9px] bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] text-white">
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden="true"
-                    role="presentation"
-                    focusable="false"
-                  >
-                    <path d="M5 12h14" />
-                    <path d="M12 5l7 7-7 7" />
-                  </svg>
-                </span>
-              </span>
-            </RequestDemoTrigger>
+              </RequestDemoTrigger>
+            </motion.div>
 
-            <Link
-              href="/case-studies"
-              className="group inline-flex items-center gap-2 rounded-full bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] p-[3px] text-sm font-semibold shadow-sm transition hover:shadow-md"
+            <motion.div
+              initial={{ opacity: 0, y: 18, filter: "blur(12px)" }}
+              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ duration: 0.8, delay: 0.62, ease: [0.16, 1, 0.3, 1] }}
+              viewport={{ once: true, amount: 0.7 }}
             >
-              <span className="relative flex items-center gap-2 overflow-hidden rounded-full bg-white px-6 py-2.5 text-slate-900">
-                <span className="pointer-events-none absolute inset-0 origin-right scale-x-0 bg-slate-900 transition-transform duration-300 ease-out group-hover:scale-x-100" />
-                <span className="relative z-10 transition-colors duration-200 group-hover:text-white">
-                  View Case Study
+              <Link
+                href="/case-studies"
+                className="group inline-flex items-center gap-2 rounded-full bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] p-[3px] text-sm font-semibold shadow-sm transition hover:shadow-md"
+              >
+                <span className="relative flex items-center gap-2 overflow-hidden rounded-full bg-white px-6 py-2.5 text-slate-900">
+                  <span className="pointer-events-none absolute inset-0 origin-right scale-x-0 bg-slate-900 transition-transform duration-300 ease-out group-hover:scale-x-100" />
+                  <span className="relative z-10 transition-colors duration-200 group-hover:text-white">
+                    View Case Study
+                  </span>
+                  <span className="relative z-10 flex h-[28px] w-[28px] items-center justify-center rounded-[9px] bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] text-white">
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                      role="presentation"
+                      focusable="false"
+                    >
+                      <path d="M5 12h14" />
+                      <path d="M12 5l7 7-7 7" />
+                    </svg>
+                  </span>
                 </span>
-                <span className="relative z-10 flex h-[28px] w-[28px] items-center justify-center rounded-[9px] bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] text-white">
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden="true"
-                    role="presentation"
-                    focusable="false"
-                  >
-                    <path d="M5 12h14" />
-                    <path d="M12 5l7 7-7 7" />
-                  </svg>
-                </span>
-              </span>
-            </Link>
+              </Link>
+            </motion.div>
           </div>
 
           <div className="mt-8 flex w-full max-w-xl items-start justify-start gap-6 sm:gap-7">
             {/* 1 script */}
-            <div className="flex flex-col gap-1">
+            <motion.div
+              className="flex flex-col gap-1"
+              initial={{ opacity: 0, y: 18, filter: "blur(12px)" }}
+              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ duration: 0.8, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              viewport={{ once: true, amount: 0.7 }}
+            >
               <div className="flex items-center gap-3">
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[rgba(79,70,229,0.08)]">
                   <Image src={scriptIcon} alt="" className="h-4 w-4" />
@@ -166,10 +211,16 @@ export function ProductHero() {
                 </span>
               </div>
               <div className="text-[13px] font-medium text-[#9CA3AF]">Integration</div>
-            </div>
+            </motion.div>
 
             {/* 26.2% */}
-            <div className="flex flex-col gap-1">
+            <motion.div
+              className="flex flex-col gap-1"
+              initial={{ opacity: 0, y: 18, filter: "blur(12px)" }}
+              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ duration: 0.8, delay: 0.84, ease: [0.16, 1, 0.3, 1] }}
+              viewport={{ once: true, amount: 0.7 }}
+            >
               <div className="flex items-center gap-3">
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#FED7AA]/80">
                   <Image src={interactRateIcon} alt="" className="h-4 w-4" />
@@ -179,10 +230,16 @@ export function ProductHero() {
                 <span className="whitespace-nowrap">26.2%</span>
               </div>
               <div className="text-[13px] font-medium text-[#9CA3AF]">Interaction rate</div>
-            </div>
+            </motion.div>
 
             {/* 14s+ */}
-            <div className="flex flex-col gap-1">
+            <motion.div
+              className="flex flex-col gap-1"
+              initial={{ opacity: 0, y: 18, filter: "blur(12px)" }}
+              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ duration: 0.8, delay: 0.98, ease: [0.16, 1, 0.3, 1] }}
+              viewport={{ once: true, amount: 0.7 }}
+            >
               <div className="flex items-center gap-3">
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#DDD6FE]/80">
                   <Image src={avgEngageIcon} alt="" className="h-4 w-4" />
@@ -194,7 +251,7 @@ export function ProductHero() {
                 </span>
               </div>
               <div className="text-[13px] font-medium text-[#9CA3AF]">Avg engagement</div>
-            </div>
+            </motion.div>
           </div>
         </div>
 

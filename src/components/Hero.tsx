@@ -3,9 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
-import { animate, motion, useReducedMotion } from "framer-motion";
+import { animate, motion, useReducedMotion, useInView } from "framer-motion";
 import gsap from "gsap";
 import { RequestDemoTrigger } from "@/components/RequestDemoTrigger";
+import { CardContainer, CardBody, CardItem } from "@/components/ui/3d-card";
 
 import svta from "@/assets/proof/ecosystems/svta.svg";
 import ottStudio from "@/assets/proof/ecosystems/ott_studio.svg";
@@ -90,7 +91,9 @@ type AnimatedNumberProps = {
 };
 
 function AnimatedNumber({ value, decimals = 0, suffix = "", className, delay = 0, reducedMotion }: AnimatedNumberProps) {
-  const [display, setDisplay] = useState<number>(reducedMotion ? value : 0);
+  const [display, setDisplay] = useState<number>(0);
+  const ref = useRef<HTMLSpanElement>(null);
+  const isInView = useInView(ref, { once: true, amount: 0.5 });
 
   useEffect(() => {
     if (reducedMotion === true) {
@@ -98,22 +101,26 @@ function AnimatedNumber({ value, decimals = 0, suffix = "", className, delay = 0
       return;
     }
 
+    if (!isInView) {
+      return;
+    }
+
     const controls = animate(0, value, {
       delay,
-      duration: 1.2,
+      duration: 1.8,
       ease: [0.16, 1, 0.3, 1],
       onUpdate: (v) => setDisplay(v),
     });
 
     return () => controls.stop();
-  }, [value, delay, reducedMotion]);
+  }, [value, delay, reducedMotion, isInView]);
 
   const formatted =
     decimals > 0 ? display.toLocaleString(undefined, { minimumFractionDigits: decimals, maximumFractionDigits: decimals }) :
       Math.round(display).toLocaleString();
 
   return (
-    <span className={className}>
+    <span ref={ref} className={className}>
       {formatted}
       {suffix}
     </span>
@@ -384,11 +391,20 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
                 </RequestDemoTrigger>
                 <Link
                   href="/case-studies"
-                  className="inline-flex items-center gap-2 rounded-full border-2 border-zinc-300 bg-transparent px-5 py-3 text-sm font-semibold text-zinc-800 transition hover:border-zinc-400 hover:bg-zinc-50"
+                  className="group inline-flex items-center gap-2 rounded-full bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] p-[2px] shadow-sm transition hover:shadow-md"
                 >
-                  View Case Study
-                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-zinc-200">
-                    <ArrowIcon className="h-3.5 w-3.5 text-zinc-700" />
+                  <span className="relative flex items-center gap-2 overflow-hidden rounded-full bg-white px-6 py-3 text-sm font-semibold text-zinc-900">
+                    <span className="pointer-events-none absolute inset-0 origin-right scale-x-0 bg-black transition-transform duration-300 ease-out group-hover:scale-x-100" />
+                    <span className="relative z-10 transition-colors duration-200 group-hover:text-white">
+                      View Case Study
+                    </span>
+                    <span className="relative z-10 flex h-[30px] w-[30px] items-center justify-center rounded-[8px] bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] text-white transition group-hover:opacity-90">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                        <title>Arrow right</title>
+                        <path d="M5 12h14" />
+                        <path d="M12 5l7 7-7 7" />
+                      </svg>
+                    </span>
                   </span>
                 </Link>
               </div>
@@ -426,11 +442,20 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
                 >
                   <Link
                     href="/case-studies"
-                    className="inline-flex items-center gap-2 rounded-full border-2 border-zinc-300 bg-transparent px-5 py-3 text-sm font-semibold text-zinc-800 transition hover:border-zinc-400 hover:bg-zinc-50"
+                    className="group inline-flex items-center gap-2 rounded-full bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] p-[2px] shadow-sm transition hover:shadow-md"
                   >
-                    View Case Study
-                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-zinc-200">
-                      <ArrowIcon className="h-3.5 w-3.5 text-zinc-700" />
+                    <span className="relative flex items-center gap-2 overflow-hidden rounded-full bg-white px-6 py-3 text-sm font-semibold text-zinc-900">
+                      <span className="pointer-events-none absolute inset-0 origin-right scale-x-0 bg-black transition-transform duration-300 ease-out group-hover:scale-x-100" />
+                      <span className="relative z-10 transition-colors duration-200 group-hover:text-white">
+                        View Case Study
+                      </span>
+                      <span className="relative z-10 flex h-[30px] w-[30px] items-center justify-center rounded-[8px] bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] text-white transition group-hover:opacity-90">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                          <title>Arrow right</title>
+                          <path d="M5 12h14" />
+                          <path d="M12 5l7 7-7 7" />
+                        </svg>
+                      </span>
                     </span>
                   </Link>
                 </motion.div>
@@ -487,18 +512,9 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
               </div>
 
               {/* Central hero visual: autoplaying video instead of static image */}
-              <motion.div
-                className="relative flex h-[360px] w-[390px] max-w-full flex-col overflow-hidden rounded-[26px] bg-[#050816]/95 shadow-2xl ring-1 ring-black/40 sm:w-[460px]"
-                whileHover={{
-                  y: -10,
-                  scale: 1.02,
-                  boxShadow: "0 32px 80px rgba(15,23,42,0.38)",
-                }}
-                whileTap={{ scale: 0.99, y: -4 }}
-                transition={{ type: "spring", stiffness: 260, damping: 24 }}
-              >
-                <div className="relative w-full flex-[1.25] overflow-hidden rounded-t-[24px]">
-                  <div className="absolute inset-0">
+              <CardContainer containerClassName="h-auto w-full flex justify-center">
+                <CardBody className="relative h-[360px] w-[390px] max-w-full sm:w-[460px] p-0 flex flex-col overflow-hidden rounded-[26px] bg-[#050816]/95 shadow-2xl ring-1 ring-black/40">
+                  <CardItem translateZ={50} className="relative w-full flex-[1.25] overflow-hidden rounded-t-[24px] h-full">
                     <video
                       src="/videos/hero_section.mov"
                       autoPlay
@@ -509,44 +525,41 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
                       onEnded={(e) => e.currentTarget.play()}
                       className="h-full w-full object-cover"
                     />
-                  </div>
-                </div>
+                  </CardItem>
 
-                {/* Metrics bar inside the card (bottom), centered text */}
-                <div className="grid h-[82px] w-full grid-cols-3 gap-0 border-t border-zinc-200/70 bg-white/98 px-5 py-3 text-[13px] text-zinc-900">
-                  <div className="flex flex-col items-center justify-center px-2">
-                    <AnimatedNumber
-                      value={26.2}
-                      decimals={1}
-                      suffix="%"
-                      className="text-base font-bold text-amber-500"
-                      delay={0.1}
-                      reducedMotion={!!reduceMotion}
-                    />
-                    <p className="mt-0.5 text-[12px] font-medium text-zinc-700 text-center">Interaction Rate</p>
-                  </div>
-                  <div className="flex flex-col items-center justify-center border-x border-zinc-200/70 px-2">
-                    <AnimatedNumber
-                      value={14}
-                      suffix="s+"
-                      className="text-base font-bold text-violet-500"
-                      delay={0.16}
-                      reducedMotion={!!reduceMotion}
-                    />
-                    <p className="mt-0.5 text-[12px] font-medium text-zinc-700 text-center">Avg Duration</p>
-                  </div>
-                  <div className="flex flex-col items-center justify-center px-2">
-                    <AnimatedNumber
-                      value={3}
-                      suffix="x"
-                      className="text-base font-bold text-emerald-500"
-                      delay={0.22}
-                      reducedMotion={!!reduceMotion}
-                    />
-                    <p className="mt-0.5 text-[12px] font-medium text-zinc-700 text-center">QR Scans</p>
-                  </div>
-                </div>
-              </motion.div>
+                  {/* Metrics bar inside the card (bottom), centered text */}
+                  <CardItem translateZ={40} className="grid h-[82px] w-full grid-cols-3 gap-0 border-t border-zinc-200/70 bg-white/98 px-5 py-3 text-[13px] text-zinc-900">
+                    <div className="flex flex-col items-center justify-center px-2">
+                      <AnimatedNumber
+                        value={26.2}
+                        decimals={1}
+                        suffix="%"
+                        className="text-base font-bold text-amber-500"
+                        reducedMotion={!!reduceMotion}
+                      />
+                      <p className="mt-0.5 text-[12px] font-medium text-zinc-700 text-center">Interaction Rate</p>
+                    </div>
+                    <div className="flex flex-col items-center justify-center border-x border-zinc-200/70 px-2">
+                      <AnimatedNumber
+                        value={14}
+                        suffix="s+"
+                        className="text-base font-bold text-violet-500"
+                        reducedMotion={!!reduceMotion}
+                      />
+                      <p className="mt-0.5 text-[12px] font-medium text-zinc-700 text-center">Avg Duration</p>
+                    </div>
+                    <div className="flex flex-col items-center justify-center px-2">
+                      <AnimatedNumber
+                        value={3}
+                        suffix="x"
+                        className="text-base font-bold text-emerald-500"
+                        reducedMotion={!!reduceMotion}
+                      />
+                      <p className="mt-0.5 text-[12px] font-medium text-zinc-700 text-center">QR Scans</p>
+                    </div>
+                  </CardItem>
+                </CardBody>
+              </CardContainer>
 
             </div>
           </div>
@@ -580,7 +593,6 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
                       decimals={card.decimals}
                       suffix={card.suffix}
                       className={`text-2xl font-bold sm:text-3xl ${card.color}`}
-                      delay={0.12}
                     />
                     <p className="mt-1 text-sm font-medium text-zinc-800">{card.label}</p>
                     <p className="mt-1 text-xs font-medium text-emerald-600">{card.sub}</p>

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import "./PlatformCapabilitiesSection.css";
 
 import capAi from "@/assets/platform/ai.svg";
 import capSignals from "@/assets/platform/vis.svg";
@@ -62,7 +63,7 @@ function CardVisual({ id }: { id: CardId }) {
                       className="absolute inset-x-0 bottom-0 rounded-full bg-[linear-gradient(180deg,rgba(249,115,22,1)_0%,rgba(234,179,8,1)_100%)] shadow-[0_10px_22px_rgba(249,115,22,0.22)] transition-transform duration-500 ease-out [transform-origin:bottom] hover:scale-y-110"
                       style={{
                         height: `${v}%`,
-                        animation: `bar-rise-anim 600ms ${150 + index * 60}ms cubic-bezier(0.16,1,0.3,1) both`,
+                        animation: `bar-rise-anim 600ms ${150 + index * 60}ms cubic-bezier(0.16,1,0.3,1) both, bar-pulse 3s ${index * 150}ms ease-in-out infinite`,
                       }}
                     />
                   </div>

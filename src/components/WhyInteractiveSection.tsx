@@ -126,15 +126,36 @@ export function WhyInteractiveSection() {
           </h2>
         </div>
 
-        <div className="mt-10 grid gap-4 sm:mt-12 sm:grid-cols-3 sm:gap-5">
+        <motion.div
+          className="mt-10 grid gap-4 sm:mt-12 sm:grid-cols-3 sm:gap-5"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: {
+                staggerChildren: 0.2,
+              },
+            },
+          }}
+        >
           {CARDS.map((card, idx) => (
             <motion.div
               key={card.id}
               className="relative flex h-full flex-col overflow-hidden rounded-[24px] bg-white/95 px-5 pb-5 pt-6 shadow-[0_26px_80px_rgba(15,23,42,0.13)] ring-1 ring-zinc-100/90"
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.4 }}
-              transition={{ duration: 0.7, delay: 0.1 + idx * 0.08, ease: [0.16, 1, 0.3, 1] }}
+              variants={{
+                hidden: { opacity: 0, y: -60 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: {
+                    duration: 0.75,
+                    ease: [0.22, 1, 0.36, 1],
+                  },
+                },
+              }}
             >
               <div className={`pointer-events-none absolute inset-0 ${card.highlight}`} />
 
@@ -173,7 +194,7 @@ export function WhyInteractiveSection() {
               />
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -16,6 +17,7 @@ const PRELOADER_STORAGE_KEY = "canvas_preloader_shown_v1";
 export function AppShell({ children }: AppShellProps) {
   const [showPreloader, setShowPreloader] = useState(false);
   const [hydrated, setHydrated] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -28,6 +30,12 @@ export function AppShell({ children }: AppShellProps) {
       setHydrated(true);
     }
   }, []);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    // Reset animations by triggering a layout shift
+    document.documentElement.style.scrollBehavior = "auto";
+  }, [pathname]);
 
   const handlePreloaderDone = () => {
     setShowPreloader(false);
@@ -44,7 +52,7 @@ export function AppShell({ children }: AppShellProps) {
         <Preloader onDone={handlePreloaderDone} />
       ) : (
         <RequestDemoProvider>
-          <div className="animate-fade-in">
+          <div key={pathname} className="animate-fade-in">
             {/* Full-bleed header (outside the framed layout) */}
             <Navbar />
 

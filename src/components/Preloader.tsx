@@ -99,7 +99,7 @@ export function Preloader({ onDone }: PreloaderProps) {
       <div className="relative flex flex-col items-center gap-8">
         <div className="pointer-events-none absolute -inset-28 -z-10 bg-[radial-gradient(circle_at_10%_0%,rgba(56,189,248,0.32),transparent_55%),radial-gradient(circle_at_90%_10%,rgba(244,114,182,0.36),transparent_60%),radial-gradient(circle_at_50%_110%,rgba(249,115,22,0.34),transparent_70%)] blur-[72px]" />
 
-        <div className="pre-tv relative w-[92vw] max-w-[620px] rounded-[34px] border border-slate-700/70 bg-[radial-gradient(circle_at_10%_-10%,#020617,#020617_55%)] p-5 shadow-[0_40px_160px_rgba(15,23,42,0.95)] ring-1 ring-slate-900/60">
+        <div className="pre-tv relative w-[92vw] max-w-[520px] rounded-[34px] border border-slate-700/70 bg-[radial-gradient(circle_at_10%_-10%,#020617,#020617_55%)] p-4 shadow-[0_40px_160px_rgba(15,23,42,0.95)] ring-1 ring-slate-900/60">
           <div className="flex items-center justify-between gap-3 rounded-2xl bg-slate-950/90 px-4 py-2.5">
             <div className="flex items-center gap-1.5">
               <span className="h-2 w-2 rounded-full bg-rose-500/80" />
@@ -121,7 +121,7 @@ export function Preloader({ onDone }: PreloaderProps) {
               }}
             />
 
-            <div className="relative h-[260px] w-full md:h-[300px]">
+            <div className="relative h-[220px] w-full md:h-[260px]">
               <div className="pre-video absolute inset-0 overflow-hidden rounded-[22px] bg-black">
                 {showVideo ? (
                   <video

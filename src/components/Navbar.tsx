@@ -178,9 +178,8 @@ export function Navbar() {
       <div className="relative border-b border-zinc-200/70">
         <div className="flex h-16 w-full items-center justify-between px-4 sm:px-6">
           {/* Left: brand */}
-          <Link href="/" className="flex flex-col items-center gap-1">
-            <Image src="/CanvasLogo.svg" alt="Canvas" width={40} height={40} priority />
-            <span className="text-[12px] font-semibold leading-none text-zinc-900">Canvas</span>
+          <Link href="/" className="flex items-center">
+            <Image src="/logo.svg" alt="Canvas" width={48} height={48} priority />
           </Link>
 
           {/* Center: desktop nav */}

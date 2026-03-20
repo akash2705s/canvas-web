@@ -390,19 +390,46 @@ export function CampaignResultsSection() {
                   initial={{ opacity: 0, y: 18 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.35 }}
-                  transition={{ duration: 0.55, delay: 0.05 + idx * 0.06, ease: [0.16, 1, 0.3, 1] }}
                   whileHover={{ y: -6, scale: 1.02 }}
                   whileTap={{ scale: 0.99, y: -2 }}
+                  animate={{ y: [0, -8, 0] }}
                   onMouseEnter={() => setHoveredMetricId(m.id)}
                   onMouseLeave={() => setHoveredMetricId(null)}
+                  transition={{
+                    opacity: { duration: 0.55, delay: 0.05 + idx * 0.06, ease: [0.16, 1, 0.3, 1] },
+                    y: {
+                      repeat: Infinity,
+                      duration: 4,
+                      ease: "easeInOut",
+                      delay: idx * 0.2,
+                    },
+                  }}
                 >
-                  <div
-                    className="relative flex h-full flex-col overflow-hidden rounded-[24px] border border-zinc-100/90 bg-white/90 shadow-[0_20px_54px_rgba(15,23,42,0.14)] transition-[filter,opacity] duration-200 ease-out"
+                  <motion.div
+                    className="relative flex h-full flex-col overflow-hidden rounded-[24px] border bg-white/90 shadow-[0_20px_54px_rgba(15,23,42,0.14)] transition-[filter,opacity] duration-200 ease-out"
                     style={
                       hoveredMetricId && hoveredMetricId !== m.id
                         ? { opacity: 0.6, filter: "blur(2px)" }
                         : undefined
                     }
+                    animate={{
+                      borderColor: [
+                        "rgba(209,213,219,0.9)",
+                        "rgba(209,213,219,1)",
+                        "rgba(209,213,219,0.9)",
+                      ],
+                      boxShadow: [
+                        "0 20px 54px rgba(15,23,42,0.14), 0 0 0 0px rgba(99,102,241,0)",
+                        "0 20px 54px rgba(15,23,42,0.14), 0 0 20px 0px rgba(99,102,241,0.2)",
+                        "0 20px 54px rgba(15,23,42,0.14), 0 0 0 0px rgba(99,102,241,0)",
+                      ],
+                    }}
+                    transition={{
+                      repeat: Infinity,
+                      duration: 3,
+                      ease: "easeInOut",
+                      delay: idx * 0.25,
+                    }}
                   >
                     <div
                       className="pointer-events-none absolute inset-0"
@@ -454,7 +481,7 @@ export function CampaignResultsSection() {
                     >
                       <Image alt="" src={m.icon} className="h-14 w-14" />
                     </motion.div>
-                  </div>
+                  </motion.div>
                 </motion.div>
               );
             })()
