@@ -56,7 +56,7 @@ export function AboutCtaSection() {
           viewport={{ once: true, amount: 0.6 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         >
-          Ready to make your CTV ads interactive?
+          Ready to make video interactive?
         </motion.h2>
 
         <motion.p
@@ -66,7 +66,7 @@ export function AboutCtaSection() {
           viewport={{ once: true, amount: 0.6 }}
           transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
         >
-          Join streaming platforms and agencies already running interactive campaigns with Canvas.
+          Run your first interactive campaign with Canvas.
         </motion.p>
 
         <motion.div
@@ -79,27 +79,31 @@ export function AboutCtaSection() {
           <GradientButton label="Request Demo" />
 
           <Link
-            href="/blog/turning-passive-ctv-ads-into-active-experiences"
-            className="inline-flex items-center gap-2 rounded-full border border-white/18 bg-white/5 px-5 py-2.5 text-sm font-semibold text-slate-100 transition hover:border-white/40 hover:bg-white/10"
+            href="/demo"
+            className="group inline-flex items-center gap-2 rounded-full bg-[rgb(192,192,192)] p-[3px] shadow-sm transition hover:shadow-md"
           >
-            View partners
-            <span className="flex h-3.5 w-3.5 items-center justify-center">
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.1"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-                role="presentation"
-                focusable="false"
-              >
-                <path d="M5 12h14" />
-                <path d="M12 5l7 7-7 7" />
-              </svg>
+            <span className="relative flex items-center gap-2 overflow-hidden rounded-full bg-white px-6 py-3 text-sm font-semibold text-black">
+              <span className="pointer-events-none absolute inset-0 origin-right scale-x-0 bg-black transition-transform duration-300 ease-out group-hover:scale-x-100" />
+              <span className="relative z-10 transition-colors duration-200 group-hover:text-white">View Demo</span>
+              <span className="relative z-10 flex h-[30px] w-[30px] items-center justify-center rounded-[8px] bg-[rgb(192,192,192)] text-black transition group-hover:text-white">
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                  role="presentation"
+                  focusable="false"
+                >
+                  <title>Arrow right</title>
+                  <path d="M5 12h14" />
+                  <path d="M12 5l7 7-7 7" />
+                </svg>
+              </span>
             </span>
           </Link>
         </motion.div>

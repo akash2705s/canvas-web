@@ -196,10 +196,11 @@ export function Navbar() {
                       className="relative text-zinc-900"
                       onMouseEnter={() => setOpenMenu(null)}
                     >
-                      <span className="inline-flex items-center rounded-full bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] p-[2px]">
-                        <span className="rounded-full bg-white px-4 py-1 text-sm font-semibold text-zinc-900">
+                      <span className="relative inline-flex items-center pb-1">
+                        <span className="text-sm font-semibold text-zinc-900">
                           {item.label}
                         </span>
+                        <span className="absolute bottom-0 left-0 h-[3px] bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)]" style={{ width: '100%' }} />
                       </span>
                     </Link>
                   );
@@ -224,6 +225,10 @@ export function Navbar() {
                       (item.label === "Product" && pathname.startsWith("/product")) ||
                       (item.label === "Case Study" && pathname.startsWith("/case-studies"));
 
+                    const labelWrapClass = isMenuActive
+                      ? "relative inline-flex items-center pb-1"
+                      : "inline-flex items-center";
+
                     const buttonEl = (
                       <button
                         type="button"
@@ -233,7 +238,15 @@ export function Navbar() {
                         onClick={() => setOpenMenu((v) => (v === item.label ? null : item.label))}
                         onMouseEnter={() => setOpenMenu(item.label)}
                       >
-                        {item.label}
+                        <span className={labelWrapClass}>
+                          <span className={isMenuActive ? "font-semibold text-zinc-900" : undefined}>{item.label}</span>
+                          {isMenuActive ? (
+                            <span
+                              className="absolute bottom-0 left-0 h-[3px] bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)]"
+                              style={{ width: "100%" }}
+                            />
+                          ) : null}
+                        </span>
                         <ChevronDown
                           className={[
                             "mt-[1px] opacity-70 transition-transform duration-200",
@@ -244,14 +257,7 @@ export function Navbar() {
                     );
 
                     if (!isMenuActive) return buttonEl;
-
-                    return (
-                      <span className="inline-flex items-center rounded-full bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] p-[2px]">
-                        <span className="rounded-full bg-white px-4 py-1 text-sm font-semibold text-zinc-900">
-                          {buttonEl}
-                        </span>
-                      </span>
-                    );
+                    return buttonEl;
                   })()}
 
                   {/* Small dropdown list removed; mega panels are rendered below header */}

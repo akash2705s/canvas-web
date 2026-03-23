@@ -1,4 +1,5 @@
 import { AboutHero } from "@/components/About/AboutHero";
+import { AboutInsideCanvasSection } from "@/components/About/AboutInsideCanvasSection";
 import { AboutMissionSection } from "@/components/About/AboutMissionSection";
 import { AboutPartnersSection } from "@/components/About/AboutPartnersSection";
 import { AboutOurStorySection } from "@/components/About/AboutOurStorySection";
@@ -12,6 +13,9 @@ export default function AboutPage() {
     <>
       <Reveal>
         <AboutHero />
+      </Reveal>
+      <Reveal delay={0.04}>
+        <AboutInsideCanvasSection />
       </Reveal>
       <div className="-mt-8">
         <Reveal delay={0.08}>

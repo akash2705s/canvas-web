@@ -18,7 +18,13 @@ function useCountUp(target: number, inView: boolean, durationMs = 1200) {
   const hasAnimatedRef = useRef(false);
 
   useEffect(() => {
-    if (!inView || hasAnimatedRef.current) return;
+    if (!inView) {
+      hasAnimatedRef.current = false; // Reset when not in view
+      setValue(0); // Reset value to 0
+      return;
+    }
+
+    if (hasAnimatedRef.current) return;
     hasAnimatedRef.current = true;
 
     const start = performance.now();
@@ -155,7 +161,9 @@ export function ProductIntentFeature() {
 
         {/* Right: dashboard replica */}
         <div className="relative w-full max-w-[640px] lg:flex-[1.1]">
-          <div className="relative overflow-hidden rounded-[30px] bg-white shadow-[0_30px_90px_rgba(15,23,42,0.4)] ring-1 ring-slate-200/70 px-6 py-5">
+          <motion.div
+            className="relative overflow-hidden rounded-[30px] bg-white shadow-[0_30px_90px_rgba(15,23,42,0.4)] ring-1 ring-slate-200/70 px-6 py-5 group"
+          >
             {/* Header */}
             <div className="flex items-start justify-between">
               <div>
@@ -394,7 +402,7 @@ export function ProductIntentFeature() {
                 </span>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

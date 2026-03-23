@@ -86,6 +86,9 @@ export type TypewriterCodeWindowProps = {
   startDelayMs?: number;
   startOnVisible?: boolean;
   className?: string;
+  showTooltip?: boolean;
+  tooltipText?: string;
+  codeFontSize?: number;
 };
 
 export function TypewriterCodeWindow({
@@ -100,23 +103,31 @@ export function TypewriterCodeWindow({
   startDelayMs = 250,
   startOnVisible = true,
   className,
+  showTooltip = false,
+  tooltipText = "Click to view code",
+  codeFontSize = 12,
 }: TypewriterCodeWindowProps) {
   const full = useMemo(() => code.replace(/\r\n/g, "\n"), [code]);
   const totalLines = useMemo(() => Math.max(1, full.split("\n").length), [full]);
   const [idx, setIdx] = useState(0);
-  const [started, setStarted] = useState(!startOnVisible);
+  const [started, setStarted] = useState(!startOnVisible && !showTooltip);
+  const [showingTooltip, setShowingTooltip] = useState(showTooltip);
+  const [codeComplete, setCodeComplete] = useState(false);
   const rootRef = useRef<HTMLDivElement | null>(null);
+  const timeoutRef = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
-    if (!startOnVisible) return;
-    if (started) return;
+    if (!startOnVisible && !showTooltip) return;
+    if (started && !showTooltip) return;
     const el = rootRef.current;
     if (!el) return;
 
     const obs = new IntersectionObserver(
       (entries) => {
         if (entries.some((e) => e.isIntersecting)) {
-          setStarted(true);
+          if (!showTooltip) {
+            setStarted(true);
+          }
           obs.disconnect();
         }
       },
@@ -125,56 +136,98 @@ export function TypewriterCodeWindow({
 
     obs.observe(el);
     return () => obs.disconnect();
-  }, [startOnVisible, started]);
+  }, [startOnVisible, started, showTooltip]);
 
   useEffect(() => {
     if (!started) return;
     const t0 = window.setTimeout(() => {
       const t = window.setInterval(() => {
-        setIdx((i) => (i >= full.length ? i : i + 1));
+        setIdx((i) => {
+          if (i >= full.length) {
+            clearInterval(t);
+            setCodeComplete(true);
+            // Show code for 6 seconds then return to tooltip
+            if (showTooltip) {
+              timeoutRef.current = setTimeout(() => {
+                setShowingTooltip(true);
+                setIdx(0);
+                setCodeComplete(false);
+                setStarted(false);
+              }, 6000);
+            }
+            return i;
+          }
+          return i + 1;
+        });
       }, typingMsPerChar);
       return () => window.clearInterval(t);
     }, startDelayMs);
-    return () => window.clearTimeout(t0);
-  }, [full.length, started, startDelayMs, typingMsPerChar]);
+    return () => {
+      window.clearTimeout(t0);
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, [full.length, started, startDelayMs, typingMsPerChar, showTooltip]);
 
   const visible = full.slice(0, idx);
   const highlighted = useMemo(() => highlightTs(visible), [visible]);
 
+  const handleClick = () => {
+    if (showingTooltip) {
+      setShowingTooltip(false);
+      setStarted(true);
+    }
+  };
+
   return (
     <div
       ref={rootRef}
+      onClick={handleClick}
       className={[
-        "relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-b from-slate-950/95 to-slate-900/95 shadow-[0_30px_90px_-35px_rgba(0,0,0,0.85)]",
+        "relative overflow-hidden rounded-2xl border border-white/8 bg-slate-950 shadow-lg",
+        showTooltip ? "cursor-pointer" : "",
         className,
       ]
         .filter(Boolean)
         .join(" ")}
     >
-      {/* Title bar */}
-      <div className="flex items-center justify-between gap-3 border-b border-white/10 bg-slate-950/60 px-4 py-2.5">
-        <div className="flex items-center gap-2">
-          <span className="h-2.5 w-2.5 rounded-full bg-rose-500/80" />
-          <span className="h-2.5 w-2.5 rounded-full bg-amber-400/80" />
-          <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/80" />
+      {/* Tooltip Overlay */}
+      {showingTooltip && (
+        <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/40 rounded-2xl">
+          <div className="flex flex-col items-center gap-3">
+            <div className="flex items-center justify-center w-14 h-14 rounded-full bg-white/20 backdrop-blur-md border border-white/30 hover:bg-white/30 transition-all group">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="white" className="ml-0.5 group-hover:scale-110 transition-transform">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </div>
+            <p className="text-sm font-semibold text-white/90">{tooltipText}</p>
+          </div>
         </div>
-        <div className="min-w-0 text-xs font-semibold text-white/80">{title}</div>
-        <div className="flex items-center gap-1.5 text-[10px] font-semibold text-emerald-400/90">
-          <span className="inline-block h-[6px] w-[6px] rounded-full bg-emerald-400/90" />
+      )}
+
+      {/* Title bar */}
+      <div className="flex items-center justify-between gap-3 border-b border-white/8 bg-slate-950/40 px-4 py-2">
+        <div className="flex items-center gap-2">
+          <span className="h-2 w-2 rounded-full bg-rose-500/70" />
+          <span className="h-2 w-2 rounded-full bg-amber-400/70" />
+          <span className="h-2 w-2 rounded-full bg-emerald-400/70" />
+        </div>
+        <div className="text-xs font-semibold text-white/60">{title}</div>
+        <div className="flex items-center gap-1.5 text-[9px] font-semibold text-emerald-400/80">
+          <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400/80" />
           READY
         </div>
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-2 border-b border-white/10 bg-slate-950/40 px-3 py-2">
+      <div className="flex items-center gap-2 border-b border-white/8 bg-slate-950/20 px-3 py-1.5">
         {tabs.map((t) => {
           const active = t === title;
           return (
             <div
               key={t}
               className={[
-                "rounded-lg px-2 py-1 text-[11px] font-medium",
-                active ? "bg-white/10 text-white/90" : "text-white/50",
+                "rounded-md px-2 py-1 text-[10px] font-medium transition-colors",
+                active ? "bg-white/8 text-white/80" : "text-white/40",
               ].join(" ")}
             >
               {t}
@@ -185,34 +238,36 @@ export function TypewriterCodeWindow({
 
       {/* Code */}
       <section
-        className="overflow-hidden"
+        className="overflow-hidden bg-slate-950/50"
         style={{ height: codeViewportHeightPx }}
         aria-label="Code viewport"
       >
-        <div className="grid grid-cols-[36px_1fr]">
-          <div className="select-none border-r border-white/10 bg-slate-950/35 px-2 py-3 text-right text-[11px] leading-5 text-white/30">
+        <div className="flex h-full">
+          <div className="select-none border-r border-white/5 bg-slate-950/70 px-3 text-right text-[9px] font-mono leading-[1.6] text-white/25" style={{ paddingTop: '12px', paddingBottom: '12px', minWidth: '40px' }}>
             {Array.from({ length: totalLines }, (_, i) => (
-              <div key={`ln-${i + 1}`}>{i + 1}</div>
+              <div key={`ln-${i + 1}`} style={{ height: `${codeFontSize * 1.6}px` }}>{i + 1}</div>
             ))}
           </div>
-          <pre className="relative px-4 py-3 text-[12px] leading-5">
-            <code>
+          <pre className="flex-1 m-0 px-4 font-mono" style={{ fontSize: `${codeFontSize}px`, lineHeight: 1.6, paddingTop: '12px', paddingBottom: '12px', backgroundColor: 'transparent' }}>
+            <code className="text-white/80">
               {highlighted.map((t, i) => (
                 <span key={`${i}-${t.text}`} className={t.className}>
                   {t.text}
                 </span>
               ))}
-              <span className="inline-block h-4 w-[8px] translate-y-[2px] animate-[caret_1s_steps(1)_infinite] bg-amber-300/90 align-baseline" />
+              {!codeComplete && (
+                <span className="inline-block w-[7px] animate-[caret_1s_steps(1)_infinite] bg-amber-300/90" style={{ height: `${codeFontSize}px` }} />
+              )}
             </code>
           </pre>
         </div>
       </section>
 
       {/* Footer */}
-      <div className="flex items-center justify-between gap-3 border-t border-white/10 bg-[#F97316] px-4 py-2">
-        <div className="text-[11px] font-semibold text-white/95">{footerLeft}</div>
-        <div className="text-[11px] font-semibold text-white/95">{languageLabel}</div>
-        <div className="text-[11px] font-semibold text-white/95">{footerRight}</div>
+      <div className="flex items-center justify-between gap-3 border-t border-white/8 bg-[#F97316] px-4 py-2 text-[10px] font-semibold text-white/90">
+        <div>{footerLeft}</div>
+        <div>{languageLabel}</div>
+        <div>{footerRight}</div>
       </div>
     </div>
   );

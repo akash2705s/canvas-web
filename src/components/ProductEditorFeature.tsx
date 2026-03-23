@@ -23,16 +23,15 @@ export function ProductEditorFeature() {
         <div className="relative w-full lg:flex-[1.15] lg:-ml-2">
           <div className="relative overflow-hidden rounded-[30px] bg-white shadow-[0_30px_90px_rgba(15,23,42,0.45)] ring-1 ring-slate-200/70">
             {/* Body video */}
-            <div className="relative w-full overflow-hidden">
+              <div className="relative w-full overflow-hidden group">
               <video
                 className="block h-auto w-full object-contain"
                 src="/videos/convert_ads_product.mov"
-                autoPlay
                 muted
-                loop
                 playsInline
                 preload="auto"
-                onEnded={(e) => e.currentTarget.play()}
+                  autoPlay
+                  loop
               />
             </div>
           </div>

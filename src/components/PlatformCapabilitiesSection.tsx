@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import "./PlatformCapabilitiesSection.css";
@@ -11,20 +12,61 @@ import capRuntime from "@/assets/platform/zdr.svg";
 
 type CardId = "ai-conversion" | "intent-signals" | "analytics" | "runtime";
 
+function TypewriterText({ text, delay }: { text: string; delay: number }) {
+  return (
+    <motion.span
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true, amount: 0.5 }}
+      transition={{ duration: 0.5, delay }}
+    >
+      {text}
+    </motion.span>
+  );
+}
+
+function Counter({ value, delay }: { value: number; delay: number }) {
+  const [displayValue, setDisplayValue] = React.useState(0);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      const interval = setInterval(() => {
+        setDisplayValue((prev) => {
+          if (prev < value) {
+            return Math.min(prev + 2, value);
+          }
+          clearInterval(interval);
+          return value;
+        });
+      }, 20);
+
+      return () => clearInterval(interval);
+    }, delay * 1000);
+
+    return () => clearTimeout(timer);
+  }, [value, delay]);
+
+  return <span>{displayValue}%</span>;
+}
+
 function CardVisual({ id }: { id: CardId }) {
   if (id === "ai-conversion") {
     const rows = [
-      { label: "QR Code CTA", value: "98%", color: "bg-orange-400" },
-      { label: "Learn More Btn", value: "94%", color: "bg-[#6366F1]" },
-      { label: "Product Overlay", value: "87%", color: "bg-[#8B5CF6]" },
+      { label: "QR Code CTA", value: 98, color: "bg-orange-400" },
+      { label: "Learn More Btn", value: 94, color: "bg-[#6366F1]" },
+      { label: "Product Overlay", value: 87, color: "bg-[#8B5CF6]" },
     ];
 
     return (
       <div className="mt-4 space-y-1.5 rounded-2xl bg-[#020420] px-2.5 py-2.5 text-[10px] text-slate-100 shadow-[0_14px_40px_rgba(59,130,246,0.5)] ring-1 ring-indigo-500/40">
-        {rows.map((row) => (
-          <div
+        {rows.map((row, idx) => (
+          <motion.div
             key={row.label}
             className="flex items-center justify-between rounded-full bg-white/5 px-2 py-1"
+            initial={{ opacity: 0, x: -10 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 0.5, delay: idx * 0.1 }}
           >
             <div className="flex items-center gap-1.5">
               <span
@@ -32,10 +74,16 @@ function CardVisual({ id }: { id: CardId }) {
               />
               <span className="text-[9px] text-slate-200">{row.label}</span>
             </div>
-            <span className="text-[9px] font-semibold text-slate-100">
-              {row.value}
-            </span>
-          </div>
+            <motion.span 
+              className="text-[9px] font-semibold text-slate-100"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.6, delay: 0.2 + idx * 0.1 }}
+            >
+              <Counter value={row.value} delay={0.3 + idx * 0.15} />
+            </motion.span>
+          </motion.div>
         ))}
       </div>
     );
@@ -50,27 +98,37 @@ function CardVisual({ id }: { id: CardId }) {
             <div className="absolute inset-0 opacity-60 [background-image:linear-gradient(to_right,rgba(24,24,27,0.05)_1px,transparent_1px),linear-gradient(to_top,rgba(24,24,27,0.05)_1px,transparent_1px)] [background-size:18px_18px]" />
           </div>
 
-          <div className="relative flex items-end justify-between gap-2">
+          <motion.div 
+            className="relative flex items-end justify-between gap-2"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 0.4 }}
+          >
             {[32, 44, 38, 56, 48, 66, 74].map((v, index) => {
               const key = `bar-${index}-${v}`;
               return (
-                <div
+                <motion.div
                   key={key}
                   className="flex w-full items-end justify-center"
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.5 }}
+                  transition={{ duration: 0.4, delay: index * 0.08 }}
                 >
                   <div className="relative h-14 w-2 rounded-full bg-zinc-200/40">
-                    <div
+                    <motion.div
                       className="absolute inset-x-0 bottom-0 rounded-full bg-[linear-gradient(180deg,rgba(249,115,22,1)_0%,rgba(234,179,8,1)_100%)] shadow-[0_10px_22px_rgba(249,115,22,0.22)] transition-transform duration-500 ease-out [transform-origin:bottom] hover:scale-y-110"
-                      style={{
-                        height: `${v}%`,
-                        animation: `bar-rise-anim 600ms ${150 + index * 60}ms cubic-bezier(0.16,1,0.3,1) both, bar-pulse 3s ${index * 150}ms ease-in-out infinite`,
-                      }}
+                      initial={{ height: 0 }}
+                      whileInView={{ height: `${v}%` }}
+                      viewport={{ once: true, amount: 0.5 }}
+                      transition={{ duration: 0.8, delay: 0.1 + index * 0.1, ease: "easeOut" }}
                     />
                   </div>
-                </div>
+                </motion.div>
               );
             })}
-          </div>
+          </motion.div>
         </div>
       </div>
     );
@@ -89,12 +147,16 @@ function CardVisual({ id }: { id: CardId }) {
           <div className="pointer-events-none absolute inset-0 opacity-70 [background-image:linear-gradient(to_right,rgba(148,163,184,0.16)_1px,transparent_1px),linear-gradient(to_top,rgba(148,163,184,0.16)_1px,transparent_1px)] [background-size:22px_18px]" />
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(99,102,241,0.25),transparent_55%),radial-gradient(circle_at_85%_35%,rgba(168,85,247,0.22),transparent_55%),radial-gradient(circle_at_40%_110%,rgba(249,115,22,0.18),transparent_60%)]" />
 
-          <svg
+          <motion.svg
             className="relative h-14 w-full"
             viewBox="0 0 240 56"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             aria-hidden
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 0.8 }}
           >
             <title>Signal chart</title>
             <defs>
@@ -109,15 +171,23 @@ function CardVisual({ id }: { id: CardId }) {
               </linearGradient>
             </defs>
 
-            <path
+            <motion.path
               d="M0 44 C 18 40, 28 18, 46 22 C 64 26, 74 38, 92 30 C 110 22, 118 12, 138 18 C 158 24, 166 42, 186 34 C 206 26, 216 14, 240 18"
               stroke="url(#lineGradient)"
               strokeWidth="2.5"
               strokeLinecap="round"
+              initial={{ pathLength: 0, opacity: 0 }}
+              whileInView={{ pathLength: 1, opacity: 1 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 1.2, ease: "easeInOut" }}
             />
-            <path
+            <motion.path
               d="M0 44 C 18 40, 28 18, 46 22 C 64 26, 74 38, 92 30 C 110 22, 118 12, 138 18 C 158 24, 166 42, 186 34 C 206 26, 216 14, 240 18 L240 56 L0 56 Z"
               fill="url(#fillGradient)"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
             />
 
             {[
@@ -125,22 +195,34 @@ function CardVisual({ id }: { id: CardId }) {
               { x: 92, y: 30, c: "#60A5FA" },
               { x: 138, y: 18, c: "#6366F1" },
               { x: 186, y: 34, c: "#A855F7" },
-            ].map((p) => (
-              <g key={`${p.x}-${p.y}`}>
+            ].map((p, idx) => (
+              <motion.g 
+                key={`${p.x}-${p.y}`}
+                initial={{ scale: 0 }}
+                whileInView={{ scale: 1 }}
+                viewport={{ once: true, amount: 0.5 }}
+                transition={{ duration: 0.4, delay: 0.6 + idx * 0.1 }}
+              >
                 <circle cx={p.x} cy={p.y} r="4.5" fill="rgba(255,255,255,0.10)" />
                 <circle cx={p.x} cy={p.y} r="2.5" fill={p.c} />
-              </g>
+              </motion.g>
             ))}
-          </svg>
+          </motion.svg>
 
-          <div className="relative mt-2 flex items-center justify-between">
+          <motion.div 
+            className="relative mt-2 flex items-center justify-between"
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
             {legend.map((item) => (
               <div key={item.label} className="flex items-center gap-1.5 text-[9px] text-violet-100/85">
                 <span className={`h-1.5 w-1.5 rounded-full ${item.color}`} />
                 <span>{item.label}</span>
               </div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </div>
     );
@@ -148,25 +230,68 @@ function CardVisual({ id }: { id: CardId }) {
 
   if (id === "runtime") {
     return (
-      <div className="mt-4 rounded-2xl bg-[#020617] px-3 py-3 text-[10px] leading-4 text-slate-100 shadow-[0_10px_30px_rgba(15,23,42,0.6)] ring-1 ring-slate-800/80">
-        <div className="mb-2 flex items-center justify-between text-[9px] text-slate-400">
+      <motion.div 
+        className="mt-4 rounded-2xl bg-[#020617] px-3 py-3 text-[10px] leading-4 text-slate-100 shadow-[0_10px_30px_rgba(15,23,42,0.6)] ring-1 ring-slate-800/80"
+        initial={{ opacity: 0, scale: 0.95 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true, amount: 0.5 }}
+        transition={{ duration: 0.6 }}
+      >
+        <motion.div 
+          className="mb-2 flex items-center justify-between text-[9px] text-slate-400"
+          initial={{ opacity: 0, x: -10 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+        >
           <span className="inline-flex items-center gap-1">
-            <span className="inline-flex h-2 w-2 items-center justify-center rounded-full bg-emerald-500/90" />
-            canvas-runtime.ts
+            <motion.span 
+              className="inline-flex h-2 w-2 items-center justify-center rounded-full bg-emerald-500/90"
+              animate={{ opacity: [0.5, 1, 0.5] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            />
+            <motion.span
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+            >
+              canvas-runtime.ts
+            </motion.span>
           </span>
-          <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 text-[8px] font-medium text-emerald-300">
+          <motion.span 
+            className="rounded-full bg-emerald-500/10 px-2 py-0.5 text-[8px] font-medium text-emerald-300"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 0.4, delay: 0.2 }}
+          >
             Live
+          </motion.span>
+        </motion.div>
+        <motion.code 
+          className="block rounded-xl bg-slate-900/70 px-3 py-2 font-mono text-[9px] leading-relaxed text-slate-100"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+        >
+          <TypewriterText text="import {" delay={0.4} />
+          <span className="text-amber-300">
+            <TypewriterText text=" CanvasRuntime " delay={0.5} />
           </span>
-        </div>
-        <code className="block rounded-xl bg-slate-900/70 px-3 py-2 font-mono text-[9px] leading-relaxed text-slate-100">
-          import {"{"} <span className="text-amber-300">CanvasRuntime</span> {"}"}{" "}
-          from{" "}
-          <span className="text-emerald-300">"@canvas/ctv-sdk"</span>
+          <TypewriterText text="} from" delay={0.65} />
+          <br />
+          <span className="text-emerald-300">
+            <TypewriterText text='  "@canvas/ctv-sdk"' delay={0.8} />
+          </span>
           <br />
           <br />
-          <span className="text-[#22C55E]">{`// ✓ Ready — Canvas is live`}</span>
-        </code>
-      </div>
+          <span className="text-[#22C55E]">
+            <TypewriterText text={`// ✓ Ready — Canvas is live`} delay={1} />
+          </span>
+        </motion.code>
+      </motion.div>
     );
   }
 

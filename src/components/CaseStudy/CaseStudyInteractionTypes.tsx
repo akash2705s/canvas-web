@@ -66,14 +66,15 @@ export function CaseStudyInteractionTypes() {
           </motion.div>
 
           {/* Right: Interaction Breakdown */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            whileHover={{ y: -4, boxShadow: "0 25px 50px rgba(0,0,0,0.1)" }}
-            className="rounded-2xl bg-slate-50 p-8 transition-shadow"
-          >
+          <div className="relative">
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              whileHover={{ y: -4, boxShadow: "0 25px 50px rgba(0,0,0,0.1)" }}
+              className="rounded-2xl bg-slate-50 p-8 transition-shadow"
+            >
             <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-8">Interaction Breakdown</p>
 
             <div className="space-y-6">
@@ -85,7 +86,7 @@ export function CaseStudyInteractionTypes() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: 0.2 + idx * 0.08 }}
                   whileHover={{ x: 4 }}
-                  className="group cursor-pointer"
+                  className="group"
                 >
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-3">
@@ -127,6 +128,7 @@ export function CaseStudyInteractionTypes() {
               </p>
             </div>
           </motion.div>
+          </div>
         </div>
       </div>
     </section>

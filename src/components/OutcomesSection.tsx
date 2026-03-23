@@ -67,7 +67,13 @@ export function OutcomesSection() {
       </div>
 
       <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-center">
+        <motion.div
+          className="flex justify-center"
+          initial={{ opacity: 0, y: -10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 0.6 }}
+        >
           <span className="inline-flex items-center gap-2 rounded-full bg-white/80 px-4 py-1.5 text-sm font-semibold text-[#4F46E5] shadow-sm ring-1 ring-indigo-100">
             <span className="relative inline-flex h-2.5 w-2.5 shrink-0 items-center justify-center">
               <span className="absolute left-1/2 top-1/2 inline-flex h-full w-full -translate-x-1/2 -translate-y-1/2 animate-ping rounded-full bg-[#4F46E5]/70" />
@@ -75,9 +81,15 @@ export function OutcomesSection() {
             </span>
             Who Canvas Is For
           </span>
-        </div>
+        </motion.div>
 
-        <div className="mt-6 text-center">
+        <motion.div
+          className="mt-6 text-center"
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+        >
           <h2 className="text-[30px] font-extrabold tracking-tight text-zinc-900 sm:text-[34px]">
             Outcomes speak louder than words
           </h2>
@@ -85,15 +97,15 @@ export function OutcomesSection() {
             Canvas works for every stakeholder in the CTV ecosystem — with clear,
             <br className="hidden sm:inline" /> measurable results for each.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="mt-10 grid gap-6 sm:mt-12 sm:grid-cols-3">
+        <div className="mt-10 grid gap-6 sm:mt-12 sm:grid-cols-3 lg:gap-8">
           {cards.map((card, idx) => (
             <motion.button
               key={card.id}
               type="button"
               className={[
-                "relative flex h-full cursor-pointer flex-col rounded-[24px] bg-white/90 px-5 pb-5 pt-6 shadow-[0_28px_80px_rgba(15,23,42,0.18)] ring-1 transition",
+                "relative flex h-full cursor-pointer flex-col rounded-[24px] bg-white/90 px-6 pb-6 pt-6 shadow-[0_28px_80px_rgba(15,23,42,0.18)] ring-1 transition duration-200 group overflow-hidden",
                 activeId === card.id ? "ring-zinc-200/90" : "ring-zinc-100/90 hover:ring-zinc-200/80",
               ].join(" ")}
               aria-pressed={activeId === card.id}
@@ -102,39 +114,72 @@ export function OutcomesSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.4 }}
               transition={{ duration: 0.6, delay: 0.05 + idx * 0.08, ease: [0.16, 1, 0.3, 1] }}
-              whileHover={{ y: -4 }}
+              whileHover={{ y: -4, boxShadow: "0 40px 100px rgba(15,23,42,0.25)" }}
               animate={activeId === card.id ? { y: -6, scale: 1.01 } : { y: 0, scale: 1 }}
             >
+              {/* Accent line on hover */}
+              <motion.div
+                className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r"
+                style={{
+                  backgroundImage: card.id === "agencies"
+                    ? "linear-gradient(90deg, rgba(249,115,22,0.8), transparent)"
+                    : card.id === "publishers"
+                      ? "linear-gradient(90deg, rgba(79,70,229,0.8), transparent)"
+                      : "linear-gradient(90deg, rgba(139,92,246,0.8), transparent)",
+                  originX: 0,
+                }}
+                initial={{ scaleX: 0 }}
+                whileHover={{ scaleX: 1 }}
+                transition={{ duration: 0.4 }}
+              />
+
               <div>
-                <div className="flex items-center gap-2">
-                  <span className="inline-flex h-[47.995px] w-[47.995px] items-center justify-center rounded-[16px] bg-zinc-50 pr-[0.01px] ring-1 ring-zinc-100">
+                <motion.div
+                  className="flex items-center gap-3"
+                  whileHover={{ x: 2 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <motion.span
+                    className="inline-flex h-[48px] w-[48px] items-center justify-center rounded-[16px] bg-zinc-50 ring-1 ring-zinc-100 shrink-0"
+                    whileHover={{ scale: 1.08, backgroundColor: "rgba(249,249,250,1)" }}
+                    transition={{ duration: 0.2 }}
+                  >
                     <Image src={card.icon} alt="" className="h-10 w-10" />
-                  </span>
-                  <div>
-                    <p className="text-[13px] font-semibold text-zinc-800">{card.eyebrow}</p>
+                  </motion.span>
+                  <div className="text-left">
+                    <motion.p
+                      className="text-[13px] font-semibold text-zinc-800"
+                      whileHover={{ color: activeId === card.id ? "#1f2937" : "#111827" }}
+                    >
+                      {card.eyebrow}
+                    </motion.p>
                     <p className="mt-0.5 text-[11px] text-zinc-400">{card.subtitle}</p>
                   </div>
-                </div>
+                </motion.div>
               </div>
 
-              <div
+              <motion.div
                 className={[
-                  "mt-4 inline-flex items-baseline rounded-[18px] px-4 py-2.5",
+                  "mt-5 inline-flex items-baseline rounded-[18px] px-4 py-2.5",
                   card.id === "agencies"
                     ? "bg-[rgba(249,115,22,0.1)]"
                     : card.id === "publishers"
                       ? "bg-[rgba(79,70,229,0.1)]"
                       : "bg-[rgba(139,92,246,0.1)]",
                 ].join(" ")}
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.2 }}
               >
-                <span
+                <motion.span
                   className={[
                     "text-2xl font-extrabold",
                     card.id === "agencies" ? "text-[rgba(249,115,22,1)]" : card.bulletColor,
                   ].join(" ")}
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 0.2 }}
                 >
                   {card.stat}
-                </span>
+                </motion.span>
                 <span
                   className={[
                     "ml-2 text-[11px] font-medium",
@@ -147,28 +192,43 @@ export function OutcomesSection() {
                 >
                   {card.statLabel}
                 </span>
-              </div>
+              </motion.div>
 
-              <p className="mt-4 whitespace-pre-line text-[13px] leading-6 text-zinc-600">{card.body}</p>
+              <p className="mt-5 flex-1 whitespace-pre-line text-[13px] leading-6 text-zinc-600 group-hover:text-zinc-700 transition-colors">{card.body}</p>
 
-              <ul className="mt-4 space-y-1.5 text-[12px] leading-5 text-zinc-600">
-                {card.bullets.map((b) => (
-                  <li key={b} className="flex items-center gap-2">
-                    <Image src={card.tick} alt="" className="h-4 w-4" />
+              <ul className="mt-5 space-y-2 text-[12px] leading-5 text-zinc-600">
+                {card.bullets.map((b, bidx) => (
+                  <motion.li
+                    key={b}
+                    className="flex items-start gap-2.5 group/item"
+                    initial={{ opacity: 0, x: -10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, amount: 0.5 }}
+                    transition={{ duration: 0.4, delay: 0.15 + bidx * 0.08 }}
+                    whileHover={{ x: 4, color: "#1f2937" }}
+                  >
+                    <motion.div
+                      whileHover={{ scale: 1.15 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <Image src={card.tick} alt="" className="h-4 w-4 mt-0.5 shrink-0" />
+                    </motion.div>
                     <span>{b}</span>
-                  </li>
+                  </motion.li>
                 ))}
               </ul>
 
-              <div
+              <motion.div
                 className={[
-                  "mt-5 rounded-[14px] px-3 py-2 text-[11px] leading-5 text-zinc-600 border-l-2",
+                  "mt-5 rounded-[14px] px-3 py-2.5 text-[11px] leading-5 text-zinc-600 border-l-2",
                   card.id === "agencies"
                     ? "border-l-[rgba(249,115,22,0.9)] bg-[rgba(249,115,22,0.06)]"
                     : card.id === "publishers"
                       ? "border-l-[rgba(79,70,229,0.9)] bg-[rgba(79,70,229,0.06)]"
                       : "border-l-[rgba(139,92,246,0.9)] bg-[rgba(139,92,246,0.06)]",
                 ].join(" ")}
+                whileHover={{ scale: 1.02, y: -2 }}
+                transition={{ duration: 0.2 }}
               >
                 <motion.span
                   initial={false}
@@ -177,14 +237,20 @@ export function OutcomesSection() {
                 >
                   {card.quote}
                 </motion.span>
-              </div>
+              </motion.div>
             </motion.button>
           ))}
         </div>
 
-        <div className="mt-10 flex justify-center">
+        <motion.div
+          className="mt-12 flex justify-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+        >
           <RequestDemoTrigger
-            className="group inline-flex cursor-pointer items-center gap-2 rounded-full bg-gradient-to-r from-[#F97316] via-[#22C55E] to-[#6366F1] p-[2px] shadow-sm"
+            className="group inline-flex cursor-pointer items-center gap-2 rounded-full bg-gradient-to-r from-[#F97316] via-[#22C55E] to-[#6366F1] p-[2px] shadow-sm hover:shadow-lg transition-shadow"
           >
             <span className="relative flex items-center gap-3 overflow-hidden rounded-full bg-white px-5 py-2 text-[13px] font-semibold text-zinc-900">
               <span className="pointer-events-none absolute inset-[-1px] origin-right scale-x-0 bg-black transition-transform duration-300 ease-out will-change-transform group-hover:scale-x-[1.02]" />
@@ -212,7 +278,7 @@ export function OutcomesSection() {
               </span>
             </span>
           </RequestDemoTrigger>
-        </div>
+        </motion.div>
 
         {/* Micro-feedback for selection (screen readers + subtle UX) */}
         <p className="sr-only" aria-live="polite">

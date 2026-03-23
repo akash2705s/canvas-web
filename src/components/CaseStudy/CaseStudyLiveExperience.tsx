@@ -1,13 +1,20 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
 export function CaseStudyLiveExperience() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const videoInView = useInView(containerRef, { amount: 0.5, once: true });
+
+  const shouldBlur = !videoInView;
 
   return (
-    <section className="relative overflow-hidden py-8 sm:py-12 lg:py-16" style={{ backgroundColor: "rgba(238, 240, 251, 1)" }}>
+    <section
+      className="relative overflow-hidden py-8 sm:py-12 lg:py-16"
+      style={{ backgroundColor: "rgba(238, 240, 251, 1)" }}
+      data-interaction-zone="case-study"
+    >
       {/* Gradient overlays */}
       <div className="pointer-events-none absolute inset-0">
         {/* Pink glow top right */}
@@ -66,20 +73,25 @@ export function CaseStudyLiveExperience() {
         transition={{ duration: 0.6, delay: 0.2 }}
         ref={containerRef}
       >
-            <video
-              src="/videos/case_study_livead.mov"
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="auto"
-              onEnded={(e) => e.currentTarget.play()}
-              className="h-full w-full object-contain"
-            />
-      
+        <video
+          src="/videos/case_study_livead.mov"
+          muted
+          playsInline
+          autoPlay
+          loop
+          preload="auto"
+          className="h-full w-full object-contain"
+          data-cursor="play"
+          data-cursor-label="Play"
+          style={{ filter: shouldBlur ? "blur(6px)" : "blur(0px)", transition: "filter 280ms ease" }}
+        >
+          <track kind="captions" srcLang="en" label="English" />
+        </video>
+
 
           {/* Glow effect */}
-          <div className="absolute -inset-6 rounded-3xl bg-gradient-to-r from-violet-500/20 to-blue-500/20 blur-2xl -z-10" />
+          <div className="absolute -inset-6 rounded-3xl blur-2xl -z-10" />
+
       </motion.div>
     </section>
   );

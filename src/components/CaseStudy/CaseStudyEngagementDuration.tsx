@@ -18,15 +18,16 @@ export function CaseStudyEngagementDuration() {
         {/* Content Grid */}
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16 lg:items-center">
           {/* Left: Timeline Chart Card */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            whileHover={{ y: -4, boxShadow: "0 25px 50px rgba(0,0,0,0.15)" }}
-            className="rounded-2xl bg-white p-8 shadow-[0_20px_60px_rgba(0,0,0,0.12)] transition-shadow"
-          >
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-6">Viewer Engagement Timeline</p>
+          <div className="relative">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              whileHover={{ y: -4, boxShadow: "0 25px 50px rgba(0,0,0,0.15)" }}
+              className="relative rounded-2xl bg-white p-8 shadow-[0_20px_60px_rgba(0,0,0,0.12)] transition-shadow"
+            >
+              <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-6">Viewer Engagement Timeline</p>
 
             {/* Timeline */}
             <div className="mb-8">
@@ -41,14 +42,14 @@ export function CaseStudyEngagementDuration() {
               <div className="relative">
                 <div className="h-6 bg-slate-200 rounded-full overflow-hidden flex items-center relative">
                   <div className="absolute left-0 h-full w-1/5 bg-slate-200" />
-                  
+
                   {/* 6s marker line */}
-                  <div 
+                  <div
                     className="absolute h-full w-1.5 top-0"
                     style={{ left: "calc(20% + 16px)", backgroundColor: "rgb(79, 70, 229)" }}
                   />
-                  
-                  <motion.div 
+
+                  <motion.div
                     className="h-full rounded-full flex items-center justify-center"
                     style={{ background: "linear-gradient(90deg, #A78BFA 0%, #C4B5FD 100%)", marginLeft: "calc(20% + 18px)" }}
                     initial={{ width: 0 }}
@@ -63,7 +64,7 @@ export function CaseStudyEngagementDuration() {
                 </div>
 
                 {/* First interaction pointer */}
-                <div 
+                <div
                   className="absolute mt-1 flex flex-col items-center"
                   style={{ left: "calc(20% + 16px)", transform: "translateX(-50%)" }}
                 >
@@ -126,6 +127,7 @@ export function CaseStudyEngagementDuration() {
               ))}
             </div>
           </motion.div>
+          </div>
 
           {/* Right: Text Content */}
           <motion.div

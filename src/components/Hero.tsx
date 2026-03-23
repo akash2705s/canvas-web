@@ -127,16 +127,6 @@ function AnimatedNumber({ value, decimals = 0, suffix = "", className, delay = 0
   );
 }
 
-function ArrowIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <title>Arrow</title>
-      <path d="M5 12h14" />
-      <path d="M12 5l7 7-7 7" />
-    </svg>
-  );
-}
-
 function StatSparkline({
   color,
   reduceMotion,
@@ -391,14 +381,14 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
                 </RequestDemoTrigger>
                 <Link
                   href="/case-studies"
-                  className="group inline-flex items-center gap-2 rounded-full bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] p-[2px] shadow-sm transition hover:shadow-md"
+                  className="group inline-flex items-center gap-2 rounded-full bg-[rgb(192,192,192)] p-[3px] shadow-sm transition hover:shadow-md"
                 >
-                  <span className="relative flex items-center gap-2 overflow-hidden rounded-full bg-white px-6 py-3 text-sm font-semibold text-zinc-900">
+                  <span className="relative flex items-center gap-2 overflow-hidden rounded-full bg-white px-6 py-3 text-sm font-semibold text-black">
                     <span className="pointer-events-none absolute inset-0 origin-right scale-x-0 bg-black transition-transform duration-300 ease-out group-hover:scale-x-100" />
                     <span className="relative z-10 transition-colors duration-200 group-hover:text-white">
                       View Case Study
                     </span>
-                    <span className="relative z-10 flex h-[30px] w-[30px] items-center justify-center rounded-[8px] bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] text-white transition group-hover:opacity-90">
+                    <span className="relative z-10 flex h-[30px] w-[30px] items-center justify-center rounded-[8px] bg-[rgb(192,192,192)] text-black transition group-hover:text-white">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                         <title>Arrow right</title>
                         <path d="M5 12h14" />
@@ -442,14 +432,14 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
                 >
                   <Link
                     href="/case-studies"
-                    className="group inline-flex items-center gap-2 rounded-full bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] p-[2px] shadow-sm transition hover:shadow-md"
+                    className="group inline-flex items-center gap-2 rounded-full bg-[rgb(192,192,192)] p-[3px] shadow-sm transition hover:shadow-md"
                   >
-                    <span className="relative flex items-center gap-2 overflow-hidden rounded-full bg-white px-6 py-3 text-sm font-semibold text-zinc-900">
+                    <span className="relative flex items-center gap-2 overflow-hidden rounded-full bg-white px-6 py-3 text-sm font-semibold text-black">
                       <span className="pointer-events-none absolute inset-0 origin-right scale-x-0 bg-black transition-transform duration-300 ease-out group-hover:scale-x-100" />
                       <span className="relative z-10 transition-colors duration-200 group-hover:text-white">
                         View Case Study
                       </span>
-                      <span className="relative z-10 flex h-[30px] w-[30px] items-center justify-center rounded-[8px] bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] text-white transition group-hover:opacity-90">
+                      <span className="relative z-10 flex h-[30px] w-[30px] items-center justify-center rounded-[8px] bg-[rgb(192,192,192)] text-black transition group-hover:text-white">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                           <title>Arrow right</title>
                           <path d="M5 12h14" />
@@ -514,7 +504,11 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
               {/* Central hero visual: autoplaying video instead of static image */}
               <CardContainer containerClassName="h-auto w-full flex justify-center">
                 <CardBody className="relative h-[360px] w-[390px] max-w-full sm:w-[460px] p-0 flex flex-col overflow-hidden rounded-[26px] bg-[#050816]/95 shadow-2xl ring-1 ring-black/40">
-                  <CardItem translateZ={50} className="relative w-full flex-[1.25] overflow-hidden rounded-t-[24px] h-full">
+                  <CardItem
+                    translateZ={50}
+                    className="relative w-full flex-[1.25] overflow-hidden rounded-t-[24px] h-full group"
+                    data-interaction-zone="hero"
+                  >
                     <video
                       src="/videos/hero_section.mov"
                       autoPlay
@@ -522,9 +516,10 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
                       loop
                       playsInline
                       preload="auto"
-                      onEnded={(e) => e.currentTarget.play()}
                       className="h-full w-full object-cover"
-                    />
+                    >
+                      <track kind="captions" srcLang="en" label="English" />
+                    </video>
                   </CardItem>
 
                   {/* Metrics bar inside the card (bottom), centered text */}

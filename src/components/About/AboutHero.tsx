@@ -25,11 +25,11 @@ export function AboutHero() {
 
           {reduceMotion ? (
             <h1 className="mt-5 text-balance text-4xl font-semibold leading-tight tracking-tight sm:text-5xl sm:leading-[1.1]">
-              Built to make
+              Canvas is building
               <br />
-              CTV ads
+              the <span className="font-extrabold text-[#818CF8]">interaction layer</span>
               <br />
-              <span className="font-extrabold text-[#818CF8]">actually interactive</span>
+              for video
             </h1>
           ) : (
             <motion.h1
@@ -39,11 +39,18 @@ export function AboutHero() {
               viewport={{ once: true, amount: 0.7 }}
             >
               {[
-                { id: "about-hero-line-1", content: "Built to make" },
-                { id: "about-hero-line-2", content: "CTV ads" },
+                { id: "about-hero-line-1", content: "Canvas is building" },
+                {
+                  id: "about-hero-line-2",
+                  content: (
+                    <>
+                      the <span className="font-extrabold text-[#818CF8]">interaction layer</span>
+                    </>
+                  ),
+                },
                 {
                   id: "about-hero-line-3",
-                  content: <span className="font-extrabold text-[#818CF8]">actually interactive</span>,
+                  content: "for video",
                 },
               ].map((line, idx) => (
                 <motion.span
@@ -71,18 +78,18 @@ export function AboutHero() {
 
           {reduceMotion ? (
             <p className="mt-5 max-w-xl text-sm leading-relaxed text-slate-300 sm:text-base">
-              Canvas is the interactive CTV infrastructure layer — a lightweight runtime and visual editor
-              that transforms passive video ads into measurable, engaging experiences across every
-              streaming platform.
+              We turn video across CTV, web and mobile into measurable, interactive experiences by capturing
+              real viewer intent in real time. What started as a simple idea "what if viewers could respond inside the video?"
+              is now powering live campaigns across streaming platforms.
             </p>
           ) : (
             <motion.p
               className="mt-5 max-w-xl text-sm leading-relaxed text-slate-300 sm:text-base"
-              aria-label="Canvas is the interactive CTV infrastructure layer — a lightweight runtime and visual editor that transforms passive video ads into measurable, engaging experiences across every streaming platform."
+              aria-label="We turn video across CTV, web and mobile into measurable, interactive experiences by capturing real viewer intent in real time. What started as a simple idea what if viewers could respond inside the video? is now powering live campaigns across streaming platforms."
             >
               {(() => {
                 const text =
-                  "Canvas is the interactive CTV infrastructure layer — a lightweight runtime and visual editor that transforms passive video ads into measurable, engaging experiences across every streaming platform.";
+                  "We turn video across CTV, web and mobile into measurable, interactive experiences by capturing real viewer intent in real time. What started as a simple idea \"what if viewers could respond inside the video?\" is now powering live campaigns across streaming platforms.";
                 const words = text.split(" ");
                 return words.map((word, idx) => (
                   <motion.span

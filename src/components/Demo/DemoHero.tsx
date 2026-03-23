@@ -91,18 +91,28 @@ export function DemoHero() {
         {/* Video Container */}
         <motion.div
           className="relative rounded-2xl overflow-hidden border-4 border-blue-200 shadow-2xl bg-black"
+          data-interaction-zone="demo"
           initial={{ opacity: 0, y: 18, filter: "blur(12px)" }}
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           transition={{ duration: 0.8, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
           viewport={{ once: true, amount: 0.5 }}
         >
-          <video
-            src="/videos/hero_demo.mov"
-            autoPlay
-            loop
-            muted
-            className="w-full h-auto"
-          />
+          <div className="relative">
+            <video
+              src="/videos/hero_demo.mov"
+              muted
+              playsInline
+              autoPlay
+              loop
+              preload="auto"
+              className="w-full h-auto"
+              data-cursor="play"
+              data-cursor-label="Play"
+            >
+              <track kind="captions" srcLang="en" label="English" />
+            </video>
+
+          </div>
         </motion.div>
 
         {/* Info Section Below */}

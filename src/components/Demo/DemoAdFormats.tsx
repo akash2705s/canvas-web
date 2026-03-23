@@ -86,7 +86,11 @@ const AD_FORMATS: AdFormat[] = [
 
 export function DemoAdFormats() {
   return (
-    <section className="relative overflow-hidden py-16 sm:py-20 lg:py-24" style={{ backgroundColor: "rgba(238, 240, 251, 1)" }}>
+    <section
+      className="relative overflow-hidden py-16 sm:py-20 lg:py-24"
+      data-interaction-zone="formats"
+      style={{ backgroundColor: "rgba(238, 240, 251, 1)" }}
+    >
       {/* Gradient overlays */}
       <div className="pointer-events-none absolute inset-0">
         {/* Pink glow top right */}
@@ -147,11 +151,15 @@ export function DemoAdFormats() {
             visible: { opacity: 1, transition: { staggerChildren: 0.08, delayChildren: 0.1 } },
           }}
         >
-          {AD_FORMATS.map((format, idx) => (
+          {AD_FORMATS.map((format) => (
             <motion.div
               key={format.id}
               className="group rounded-2xl bg-white p-6 shadow-[0_20px_60px_rgba(0,0,0,0.12)] overflow-hidden transition-shadow duration-300 cursor-pointer"
               whileHover={{ y: -4, boxShadow: "0 25px 80px rgba(0,0,0,0.16)" }}
+              data-cursor="media"
+              data-format-id={format.id}
+              data-format-title={format.title}
+              data-format-label={format.label}
               variants={{
                 hidden: { opacity: 0, y: 20 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },

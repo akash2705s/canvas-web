@@ -227,8 +227,6 @@ export function CampaignResultsSection() {
   const [showSvtaConfetti, setShowSvtaConfetti] = useState(false);
   const svtaBadgeRef = useRef<HTMLDivElement | null>(null);
   const svtaConfettiCanvasRef = useRef<HTMLCanvasElement | null>(null);
-  const svtaInView = useInView(svtaBadgeRef, { amount: 0.5, once: true });
-
   useEffect(() => {
     ecoControls.start({
       x: ["0%", "-50%"],
@@ -241,104 +239,119 @@ export function CampaignResultsSection() {
   }, [ecoControls, ctvControls]);
 
   useEffect(() => {
-    if (!svtaInView) return;
-    const badge = svtaBadgeRef.current;
-    if (!badge) return;
-    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
-
     let stopped = false;
     let active = false;
+    let hasTriggered = false;
+
+    const badge = svtaBadgeRef.current;
+    const canvas = svtaConfettiCanvasRef.current;
+    if (!badge || !canvas) return;
 
     const stopLoop = () => {
       active = false;
       setShowSvtaConfetti(false);
     };
 
-    const startLoop = () => {
-      if (active) return;
-      active = true;
-      setShowSvtaConfetti(true);
+    const checkAndTrigger = () => {
+      if (stopped || active || hasTriggered) return;
+      if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
 
-      void import("canvas-confetti").then(({ default: confetti }) => {
-        if (stopped || !active) return;
-        const canvas = svtaConfettiCanvasRef.current;
-        if (!canvas) return;
+      const badgeRect = badge.getBoundingClientRect();
+      const isInView = badgeRect.top < window.innerHeight && badgeRect.bottom > 0;
 
-        const fire = confetti.create(canvas, { resize: true, useWorker: false });
-        const colors = ["#F59E0B", "#A78BFA", "#34D399", "#FB7185", "#38BDF8"];
+      if (isInView) {
+        hasTriggered = true;
+        active = true;
+        setShowSvtaConfetti(true);
 
-        const pass = () => {
-          const badgeRect = badge.getBoundingClientRect();
-          const canvasRect = canvas.getBoundingClientRect();
-
-          const y = Math.min(
-            0.9,
-            Math.max(0.05, (badgeRect.top - canvasRect.top + badgeRect.height * 0.1) / canvasRect.height),
-          );
-
-          fire({
-            particleCount: 18,
-            angle: 40,
-            spread: 18,
-            startVelocity: 14,
-            ticks: 120,
-            decay: 0.94,
-            gravity: 1.0,
-            scalar: 0.7,
-            origin: { x: 0, y },
-            colors,
-          });
-          fire({
-            particleCount: 18,
-            angle: 140,
-            spread: 18,
-            startVelocity: 14,
-            ticks: 120,
-            decay: 0.94,
-            gravity: 1.0,
-            scalar: 0.7,
-            origin: { x: 1, y },
-            colors,
-          });
-        };
-
-        let cyclesRun = 0;
-
-        const cycle = () => {
+        void import("canvas-confetti").then(({ default: confetti }) => {
           if (stopped || !active) return;
-          pass();
-          window.setTimeout(() => {
-            if (stopped || !active) return;
-            pass();
-          }, 333);
-          window.setTimeout(() => {
-            if (stopped || !active) return;
-            pass();
-          }, 666);
 
-          cyclesRun += 1;
-          if (cyclesRun >= 3) {
+          const fire = confetti.create(canvas, { resize: true, useWorker: false });
+          const colors = ["#F59E0B", "#A78BFA", "#34D399", "#FB7185", "#38BDF8"];
+
+          const pass = () => {
+            const badgeRect = badge.getBoundingClientRect();
+            const canvasRect = canvas.getBoundingClientRect();
+
+            const y = Math.min(
+              0.9,
+              Math.max(0.05, (badgeRect.top - canvasRect.top + badgeRect.height * 0.1) / canvasRect.height),
+            );
+
+            fire({
+              particleCount: 18,
+              angle: 40,
+              spread: 18,
+              startVelocity: 14,
+              ticks: 120,
+              decay: 0.94,
+              gravity: 1.0,
+              scalar: 0.7,
+              origin: { x: 0, y },
+              colors,
+            });
+            fire({
+              particleCount: 18,
+              angle: 140,
+              spread: 18,
+              startVelocity: 14,
+              ticks: 120,
+              decay: 0.94,
+              gravity: 1.0,
+              scalar: 0.7,
+              origin: { x: 1, y },
+              colors,
+            });
+          };
+
+          let cyclesRun = 0;
+
+          const cycle = () => {
+            if (stopped || !active) return;
+            pass();
             window.setTimeout(() => {
-              if (!stopped && active) {
-                stopLoop();
-              }
-            }, 1000);
-          } else {
-            window.setTimeout(cycle, 1000);
-          }
-        };
+              if (stopped || !active) return;
+              pass();
+            }, 333);
+            window.setTimeout(() => {
+              if (stopped || !active) return;
+              pass();
+            }, 666);
 
-        cycle();
-      });
+            cyclesRun += 1;
+            if (cyclesRun >= 3) {
+              window.setTimeout(() => {
+                if (!stopped && active) {
+                  stopLoop();
+                }
+              }, 1000);
+            } else {
+              window.setTimeout(cycle, 1000);
+            }
+          };
+
+          cycle();
+        });
+      }
     };
 
-    startLoop();
+    const handleScroll = () => {
+      checkAndTrigger();
+    };
+
+    // Check on mount
+    checkAndTrigger();
+
+    // Add scroll listener
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
       stopped = true;
       stopLoop();
+      window.removeEventListener("scroll", handleScroll);
     };
-  }, [svtaInView]);
+  }, []);
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-[#f7f6ff] via-[#f6f4ff] to-[#f5f3ff] py-14 sm:py-18">
@@ -638,37 +651,23 @@ export function CampaignResultsSection() {
                 />
               ) : null}
 
-              <div
-                ref={svtaBadgeRef}
-                className="relative inline-flex items-center gap-3 overflow-hidden rounded-[20px] bg-[linear-gradient(135deg,#EAB308_0%,#FDA21E_50%,#FDB111_100%)] px-7 py-3 text-white shadow-[0_4px_24px_rgba(202,138,4,0.5)] ring-1 ring-[rgba(253,224,71,0.45)] brightness-110"
-              >
-                {/* Outer glow */}
-                <div className="pointer-events-none absolute -inset-10 -z-10 bg-[radial-gradient(circle,rgba(234,179,8,0.4),transparent_60%)] blur-2xl" />
-                {/* Border-top (0.56px) */}
-                <div className="pointer-events-none absolute inset-x-0 top-0 h-[0.56px] bg-[rgba(253,224,71,0.45)]" />
-                {/* Inset highlight */}
-                <div className="pointer-events-none absolute inset-0 shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]" />
-                {/* Specular highlights */}
-                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_22%_28%,rgba(255,255,255,0.32),transparent_55%),radial-gradient(circle_at_78%_64%,rgba(255,255,255,0.18),transparent_58%)] opacity-60" />
-                {/* Center sweep */}
-                <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(105deg,rgba(0,0,0,0)_37.32%,rgba(253,224,71,0.22)_50%,rgba(0,0,0,0)_62.68%)] opacity-55" />
-
-                {/* Right-side highlight dot */}
-                <span className="pointer-events-none absolute right-3 h-3.5 w-3.5">
+              <div ref={svtaBadgeRef} className="relative inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-yellow-400 to-amber-400 px-5 py-3 shadow-lg">
+                {/* Confetti dot inside pill */}
+                <span className="pointer-events-none absolute right-5 top-5 h-3.5 w-3.5">
                   <span className="absolute inset-0 rounded-full bg-[#FDE047] opacity-70 animate-ping" />
                   <span className="absolute inset-[3px] rounded-full bg-[#FDE047]" />
                 </span>
 
-                <span className="relative -ml-2.5 inline-flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-white shadow-sm ring-1 ring-white/80">
-                  <Image src={svta} alt="SVTA" className="h-7 w-7" />
+                <span className="relative inline-flex h-11 w-11 items-center justify-center overflow-hidden rounded-full bg-white">
+                  <Image src={svta} alt="SVTA" className="h-9 w-9" />
                 </span>
 
                 <div className="relative flex flex-col leading-tight">
-                  <span className="text-[13px] font-extrabold leading-[16.25px] tracking-[0.39px] text-white">
+                  <span className="text-[14px] font-extrabold leading-[17px] tracking-[0.42px] text-yellow-50">
                     SVTA Grant Recipient
                   </span>
-                  <span className="text-[9px] font-semibold leading-[11.25px] tracking-[0.72px] text-black/80">
-                    STREAMING VIDEO TECHNOLOGY ALLIANCE
+                  <span className="text-[10px] font-bold leading-[12px] tracking-[0.8px] text-amber-100 uppercase">
+                    Streaming Video Technology Alliance
                   </span>
                 </div>
               </div>

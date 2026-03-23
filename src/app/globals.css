@@ -290,3 +290,206 @@
     @apply font-mono;
   }
 }
+
+/* Canvas cursor system (desktop-only via data attribute gating) */
+html[data-canvas-cursor-enabled="true"] * {
+  cursor: none;
+}
+
+.canvas-cursor {
+  --x: 0;
+  --y: 0;
+  --accent: rgba(79, 70, 229, 0.95);
+  --ring: rgba(79, 70, 229, 0.55);
+
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 56px;
+  height: 56px;
+  z-index: 99999;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate3d(calc(var(--x) * 1px), calc(var(--y) * 1px), 0) translate(-50%, -50%);
+  transition: opacity 120ms ease;
+  will-change: transform;
+}
+
+.canvas-cursor[data-visible="true"] {
+  opacity: 1;
+}
+
+.canvas-cursor__dot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--dotSize, 8px);
+  height: var(--dotSize, 8px);
+  border-radius: 9999px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.95), var(--accent) 55%, rgba(0, 0, 0, 0.06) 100%);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.08),
+    0 14px 34px rgba(0, 0, 0, 0.22),
+    0 0 26px color-mix(in srgb, var(--accent) 60%, transparent);
+  transition:
+    width 180ms cubic-bezier(0.2, 0.9, 0.2, 1),
+    height 180ms cubic-bezier(0.2, 0.9, 0.2, 1),
+    background 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.canvas-cursor__ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--ringSize, 16px);
+  height: var(--ringSize, 16px);
+  border-radius: 9999px;
+  border: 1.25px solid var(--ring);
+  transform: translate(-50%, -50%) scale(var(--ringScale, 1));
+  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02) 45%, rgba(255, 255, 255, 0.0) 72%);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.03),
+    0 18px 44px rgba(0, 0, 0, 0.22),
+    0 0 40px color-mix(in srgb, var(--ring) 70%, transparent);
+  transition: transform 200ms cubic-bezier(0.2, 0.9, 0.2, 1), border-color 200ms ease, width 200ms cubic-bezier(0.2, 0.9, 0.2, 1),
+    height 200ms cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+
+.canvas-cursor[data-mode="default"] {
+  --accent: rgba(79, 70, 229, 0.95);
+  --ring: rgba(79, 70, 229, 0.55);
+  --dotSize: 8px;
+  --ringSize: 28px;
+  --ringScale: 1;
+}
+
+.canvas-cursor[data-mode="hover"] {
+  --accent: rgba(79, 70, 229, 0.98);
+  --ring: rgba(79, 70, 229, 0.75);
+  --dotSize: 8.5px;
+  --ringSize: 32px;
+  --ringScale: 1.12;
+}
+
+.canvas-cursor[data-mode="media"] {
+  --accent: rgba(16, 185, 129, 0.95);
+  --ring: rgba(16, 185, 129, 0.55);
+  --dotSize: 9px;
+  --ringSize: 38px;
+  --ringScale: 1.18;
+}
+
+.canvas-cursor[data-mode="explore"] {
+  --accent: rgba(167, 139, 250, 0.95);
+  --ring: rgba(167, 139, 250, 0.6);
+  --dotSize: 9px;
+  --ringSize: 38px;
+  --ringScale: 1.22;
+}
+
+.canvas-cursor[data-mode="play"] {
+  --accent: rgba(249, 115, 22, 0.95);
+  --ring: rgba(249, 115, 22, 0.6);
+  --dotSize: 9px;
+  --ringSize: 36px;
+  --ringScale: 1.2;
+}
+
+.canvas-cursor__label {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) translate(18px, -28px);
+  padding: 7px 10px;
+  border-radius: 9999px;
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+  color: rgba(15, 23, 42, 0.9);
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  box-shadow: 0 16px 42px rgba(0, 0, 0, 0.18);
+  pointer-events: none;
+  white-space: nowrap;
+  backdrop-filter: blur(10px);
+}
+
+.canvas-cursor__prompt {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) translate(16px, -52px);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.canvas-cursor__prompt[data-visible="true"] {
+  pointer-events: auto;
+  opacity: 1;
+}
+
+.canvas-cursor__promptInner {
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 16px;
+  background: rgba(2, 6, 23, 0.74);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(14px);
+}
+
+.canvas-cursor__promptBtn {
+  pointer-events: auto;
+  padding: 8px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 650;
+  color: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  transition: transform 120ms ease, background 150ms ease, border-color 150ms ease;
+  white-space: nowrap;
+}
+
+.canvas-cursor__promptBtn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.22);
+  transform: translateY(-1px);
+}
+
+.canvas-cursor__promptBtn:active {
+  transform: translateY(0px) scale(0.98);
+}
+
+/* Place prompt a bit differently for each rich zone */
+.canvas-cursor__prompt--hero {
+  transform: translate(-50%, -50%) translate(12px, -56px);
+}
+
+.canvas-cursor__prompt--demo {
+  transform: translate(-50%, -50%) translate(14px, -54px);
+}
+
+.canvas-cursor__prompt--case-study {
+  transform: translate(-50%, -50%) translate(12px, -56px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .canvas-cursor {
+    transition: none;
+  }
+
+  .canvas-cursor__ring,
+  .canvas-cursor__dot {
+    transition: none;
+  }
+
+  .canvas-cursor__prompt {
+    transition: none;
+  }
+}

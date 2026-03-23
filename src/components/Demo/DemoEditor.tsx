@@ -136,14 +136,27 @@ export function DemoEditor() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
+            className="relative"
           >
-            <video
-              src="/videos/create_seconds_demo.mov"
-              autoPlay
-              loop
-              muted
-              className="w-full h-auto rounded-2xl"
-            />
+            <div
+              className="relative overflow-hidden rounded-2xl border border-slate-200/80 bg-black shadow-xl"
+              data-interaction-zone="demo"
+            >
+              <video
+                src="/videos/create_seconds_demo.mov"
+                muted
+                playsInline
+                autoPlay
+                loop
+                preload="auto"
+                className="w-full h-auto"
+                data-cursor="play"
+                data-cursor-label="Play"
+              >
+                <track kind="captions" srcLang="en" label="English" />
+              </video>
+
+            </div>
           </motion.div>
         </div>
       </div>

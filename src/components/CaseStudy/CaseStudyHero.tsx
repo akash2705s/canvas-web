@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion, useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import interactRateIcon from "@/assets/case_Studies/Hero/interact_rate.svg";
 import avgEngageIcon from "@/assets/case_Studies/Hero/avg_engae.svg";
@@ -10,8 +10,47 @@ import tfiIcon from "@/assets/case_Studies/Hero/tfi.svg";
 import intentLiftIcon from "@/assets/case_Studies/Hero/intent_lift.svg";
 import { RequestDemoTrigger } from "@/components/RequestDemoTrigger";
 
+function useCountUp(target: number, inView: boolean, durationMs = 1200) {
+  const [value, setValue] = useState(0);
+  const hasAnimatedRef = useRef(false);
+
+  useEffect(() => {
+    if (!inView) {
+      hasAnimatedRef.current = false;
+      setValue(0);
+      return;
+    }
+
+    if (hasAnimatedRef.current) return;
+    hasAnimatedRef.current = true;
+
+    const start = performance.now();
+
+    const tick = (now: number) => {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / durationMs, 1);
+      setValue(target * progress);
+      if (progress < 1) {
+        requestAnimationFrame(tick);
+      } else {
+        setValue(target);
+      }
+    };
+
+    requestAnimationFrame(tick);
+  }, [inView, target, durationMs]);
+
+  return inView ? value : 0;
+}
+
 export function CaseStudyHero() {
   const [hoveredMetricId, setHoveredMetricId] = useState<string | null>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const cardInView = useInView(cardRef, { amount: 0.5, once: true });
+
+  const interactionRate = useCountUp(26.2, cardInView);
+  const engagementTime = useCountUp(14, cardInView, 1000);
+  const timeToFirst = useCountUp(6, cardInView, 800);
 
   return (
     <section className="relative overflow-hidden" style={{ backgroundColor: "rgba(238, 240, 251, 1)" }}>
@@ -129,39 +168,6 @@ export function CaseStudyHero() {
           </div>
 
           <div className="mt-8 flex flex-wrap items-center gap-3">
-            <motion.button
-              type="button"
-              className="group inline-flex cursor-pointer items-center gap-2 rounded-full bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] p-[3px] text-sm font-semibold shadow-sm transition hover:shadow-md"
-              initial={{ opacity: 0, y: 18, filter: "blur(12px)" }}
-              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ duration: 0.8, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              viewport={{ once: true, amount: 0.7 }}
-            >
-              <span className="relative flex items-center gap-2 overflow-hidden rounded-full bg-white px-6 py-2.5 text-slate-900">
-                <span className="pointer-events-none absolute inset-0 origin-right scale-x-0 bg-slate-900 transition-transform duration-300 ease-out group-hover:scale-x-100" />
-                <span className="relative z-10 transition-colors duration-200 group-hover:text-white">
-                  View Live Demo
-                </span>
-                <span className="relative z-10 flex h-[28px] w-[28px] items-center justify-center rounded-[9px] bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] text-white">
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden
-                  >
-                    <title>View live demo</title>
-                    <path d="M5 12h14" />
-                    <path d="M12 5l7 7-7 7" />
-                  </svg>
-                </span>
-              </span>
-            </motion.button>
-
             <motion.div
               initial={{ opacity: 0, y: 18, filter: "blur(12px)" }}
               whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
@@ -194,12 +200,47 @@ export function CaseStudyHero() {
                 </span>
               </RequestDemoTrigger>
             </motion.div>
+
+            <motion.button
+              type="button"
+              className="group inline-flex cursor-pointer items-center gap-2 rounded-full bg-[rgb(192,192,192)] p-[3px] text-sm font-semibold shadow-sm transition hover:shadow-md"
+              initial={{ opacity: 0, y: 18, filter: "blur(12px)" }}
+              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ duration: 0.8, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              viewport={{ once: true, amount: 0.7 }}
+            >
+              <span className="relative flex items-center gap-2 overflow-hidden rounded-full bg-white px-6 py-2.5 text-black">
+                <span className="pointer-events-none absolute inset-0 origin-right scale-x-0 bg-black transition-transform duration-300 ease-out group-hover:scale-x-100" />
+                <span className="relative z-10 transition-colors duration-200 group-hover:text-white">
+                  View Live Demo
+                </span>
+                <span className="relative z-10 flex h-[30px] w-[30px] items-center justify-center rounded-[8px] bg-[rgb(192,192,192)] text-black transition group-hover:text-white">
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden
+                  >
+                    <title>View live demo</title>
+                    <path d="M5 12h14" />
+                    <path d="M12 5l7 7-7 7" />
+                  </svg>
+                </span>
+              </span>
+            </motion.button>
           </div>
         </div>
 
         {/* Right: campaign card */}
-        <div className="relative w-full max-w-[580px] lg:-mt-4">
-          <div className="relative overflow-hidden rounded-[24px] bg-white shadow-[0_24px_72px_rgba(15,23,42,0.32)] ring-1 ring-slate-900/5">
+        <div className="relative w-full max-w-[580px] lg:-mt-4" ref={cardRef}>
+          <motion.div
+            className="relative overflow-hidden rounded-[24px] bg-white shadow-[0_24px_72px_rgba(15,23,42,0.32)] ring-1 ring-slate-900/5"
+          >
             {/* Header */}
             <div className="flex items-start justify-between border-b border-slate-100 px-6 py-4">
               <div>
@@ -215,37 +256,67 @@ export function CaseStudyHero() {
             {/* Top metrics */}
             <div className="grid grid-cols-3 gap-4 border-b border-slate-100 px-6 py-4 text-[11px]">
               <div className="text-center">
-                <p
+                <motion.p
                   className="font-extrabold"
                   style={{ fontSize: 24, lineHeight: "24px", color: "rgba(249,115,22,1)" }}
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={cardInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.5 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
                 >
-                  26.2%
-                </p>
-                <p className="mt-1 font-medium text-slate-600">Interaction Rate</p>
+                  {interactionRate.toFixed(1)}%
+                </motion.p>
+                <motion.p
+                  className="mt-1 font-medium text-slate-600"
+                  initial={{ opacity: 0 }}
+                  animate={cardInView ? { opacity: 1 } : { opacity: 0 }}
+                  transition={{ duration: 0.4, delay: 0.4 }}
+                >
+                  Interaction Rate
+                </motion.p>
               </div>
               <div className="text-center">
-                <p
+                <motion.p
                   className="font-extrabold"
                   style={{ fontSize: 24, lineHeight: "24px", color: "rgba(129,140,248,1)" }}
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={cardInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.5 }}
+                  transition={{ duration: 0.5, delay: 0.35 }}
                 >
-                  14s+
-                </p>
-                <p className="mt-1 font-medium text-slate-600">Engagement</p>
+                  {engagementTime.toFixed(0)}s+
+                </motion.p>
+                <motion.p
+                  className="mt-1 font-medium text-slate-600"
+                  initial={{ opacity: 0 }}
+                  animate={cardInView ? { opacity: 1 } : { opacity: 0 }}
+                  transition={{ duration: 0.4, delay: 0.45 }}
+                >
+                  Engagement
+                </motion.p>
               </div>
               <div className="text-center">
-                <p
+                <motion.p
                   className="font-extrabold"
                   style={{ fontSize: 24, lineHeight: "24px", color: "rgba(79, 70, 229, 1)" }}
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={cardInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.5 }}
+                  transition={{ duration: 0.5, delay: 0.4 }}
                 >
-                  6s+
-                </p>
-                <p className="mt-1 font-medium text-slate-600">Time to First Interaction</p>
+                  {timeToFirst.toFixed(0)}s+
+                </motion.p>
+                <motion.p
+                  className="mt-1 font-medium text-slate-600"
+                  initial={{ opacity: 0 }}
+                  animate={cardInView ? { opacity: 1 } : { opacity: 0 }}
+                  transition={{ duration: 0.4, delay: 0.5 }}
+                >
+                  Time to First Interaction
+                </motion.p>
               </div>
             </div>
 
             {/* Interaction breakdown */}
-            <InteractionBreakdown />
-          </div>
+            <InteractionBreakdown isRevealed={cardInView} />
+          </motion.div>
         </div>
       </div>
 
@@ -423,7 +494,7 @@ export function CaseStudyHero() {
   );
 }
 
-function InteractionBreakdown() {
+function InteractionBreakdown({ isRevealed }: { isRevealed: boolean }) {
   const ref = useRef<HTMLDivElement | null>(null);
   const inView = useInView(ref, { amount: 0.4, once: true });
 
@@ -474,7 +545,7 @@ function InteractionBreakdown() {
               <motion.div
                 className={`h-full rounded-full ${row.color}`}
                 initial={{ width: 0 }}
-                animate={{ width: inView ? `${row.widthPercent}%` : 0 }}
+                animate={{ width: isRevealed && inView ? `${row.widthPercent}%` : 0 }}
                 transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
               />
             </div>

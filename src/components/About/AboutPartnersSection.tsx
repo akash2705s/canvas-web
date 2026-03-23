@@ -44,7 +44,7 @@ export function AboutPartnersSection() {
       <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-4 sm:px-6">
         {/* header */}
         <motion.div
-          className="text-center"
+          className="relative mx-auto w-full max-w-3xl rounded-3xl border border-[#4F46E5]/10 bg-white/65 px-5 py-8 text-center shadow-[0_24px_60px_rgba(15,23,42,0.07)] backdrop-blur-sm sm:px-8"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -53,8 +53,9 @@ export function AboutPartnersSection() {
             visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
           }}
         >
+          <div className="pointer-events-none absolute inset-0 rounded-3xl bg-[radial-gradient(circle_at_top,rgba(79,70,229,0.12)_0%,transparent_60%)]" />
           <motion.div
-            className="inline-flex items-center gap-2 rounded-full bg-[#4F46E50F] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-[#4F46E5] cursor-pointer transition-all"
+            className="relative inline-flex items-center gap-2 rounded-full border border-[#4F46E5]/15 bg-[#4F46E50F] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-[#4F46E5] transition-all"
             variants={{
               hidden: { opacity: 0, y: 10 },
               visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
@@ -69,22 +70,57 @@ export function AboutPartnersSection() {
           </motion.div>
 
           <motion.h2
-            className="mt-5 text-balance text-3xl font-extrabold leading-[1.1] tracking-tight text-slate-900 sm:text-[32px]"
+            className="relative mt-4 text-balance text-3xl font-extrabold leading-[1.1] tracking-tight text-slate-900 sm:text-[34px]"
             variants={{
               hidden: { opacity: 0, y: 15 },
               visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
             }}
           >
-            Built to work across the CTV advertising stack
+            Works across the{" "}
+            <span className="bg-[linear-gradient(90deg,#4F46E5_0%,#7C3AED_55%,#A855F7_100%)] bg-clip-text text-transparent">
+              video ecosystem
+            </span>
           </motion.h2>
           <motion.p
-            className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-slate-600 sm:text-[15px] cursor-pointer"
+            className="relative mx-auto mt-3 max-w-xl text-sm leading-relaxed text-slate-600 sm:text-[15px]"
             variants={{
               hidden: { opacity: 0, y: 10 },
               visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
             }}
           >
-            Canvas integrates with the platforms, DSPs, measurement partners, and ad infrastructure you already run.
+            Canvas integrates with:
+          </motion.p>
+          <motion.ul
+            className="relative mx-auto mt-3 w-fit space-y-1.5 text-left text-sm leading-relaxed text-slate-700 sm:text-[15px]"
+            variants={{
+              hidden: { opacity: 0, y: 10 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: 0.05 } },
+            }}
+          >
+            {[
+              "Ad infrastructure (SSAI, VAST)",
+              "Streaming platforms (CTV apps, OTT)",
+              "Demand platforms (DSPs, agencies)",
+            ].map((item) => (
+              <motion.li
+                key={item}
+                className="group flex items-center gap-2.5"
+                whileHover={{ x: 2 }}
+                transition={{ duration: 0.2 }}
+              >
+                <span className="inline-flex h-1.5 w-1.5 rounded-full bg-[#4F46E5]/70 transition group-hover:bg-[#4F46E5]" />
+                <span>{item}</span>
+              </motion.li>
+            ))}
+          </motion.ul>
+          <motion.p
+            className="relative mx-auto mt-4 inline-flex max-w-xl items-center rounded-full border border-[#4F46E5]/15 bg-[#4F46E5]/6 px-4 py-2 text-center text-sm font-semibold leading-relaxed text-slate-800 sm:text-[15px]"
+            variants={{
+              hidden: { opacity: 0, y: 10 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: 0.1 } },
+            }}
+          >
+            One lightweight layer. No disruption to your existing stack.
           </motion.p>
         </motion.div>
 
@@ -100,7 +136,7 @@ export function AboutPartnersSection() {
               visible: { opacity: 1, transition: { staggerChildren: 0.08, delayChildren: 0.1 } },
             }}
           >
-            {PARTNER_GROUPS.map((group, index) => (
+            {PARTNER_GROUPS.map((group) => (
               <motion.section
                 key={group.title}
                 variants={{
@@ -177,32 +213,6 @@ export function AboutPartnersSection() {
           </div>
         </div>
 
-        {/* footer pill */}
-        <motion.div
-          className="flex justify-center"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-        >
-          <motion.div
-            className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-[12px] font-medium shadow-[0_14px_30px_rgba(15,23,42,0.06)] ring-1 ring-[#4F46E50D] cursor-pointer transition-all"
-            style={{ backgroundColor: "rgba(79,70,229,0.05)", color: "#364153" }}
-            whileHover={{
-              backgroundColor: "rgba(79,70,229,0.12)",
-              boxShadow: "0 18px 40px rgba(79,70,229,0.15)",
-              scale: 1.03,
-            }}
-          >
-            <motion.span
-              className="flex h-6 w-6 items-center justify-center rounded-full bg-[#EEF2FF] text-[14px] transition-all"
-              whileHover={{ scale: 1.2, rotate: 180 }}
-            >
-              ⌘
-            </motion.span>
-            <span>One integration. Compatible with your existing ad delivery stack. No disruption.</span>
-          </motion.div>
-        </motion.div>
       </div>
     </section>
   );

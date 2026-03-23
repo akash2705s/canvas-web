@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
+import { CanvasCursor } from "@/components/CanvasCursor";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Preloader } from "@/components/Preloader";
@@ -32,6 +33,7 @@ export function AppShell({ children }: AppShellProps) {
   }, []);
 
   useEffect(() => {
+    void pathname;
     window.scrollTo(0, 0);
     // Reset animations by triggering a layout shift
     document.documentElement.style.scrollBehavior = "auto";
@@ -49,9 +51,13 @@ export function AppShell({ children }: AppShellProps) {
   return (
     <>
       {!hydrated ? null : showPreloader ? (
-        <Preloader onDone={handlePreloaderDone} />
+        <>
+          <CanvasCursor />
+          <Preloader onDone={handlePreloaderDone} />
+        </>
       ) : (
         <RequestDemoProvider>
+          <CanvasCursor />
           <div key={pathname} className="animate-fade-in">
             {/* Full-bleed header (outside the framed layout) */}
             <Navbar />

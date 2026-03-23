@@ -4,33 +4,23 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 
 import apcIcon from "@/assets/About/our_mission/apc.svg";
-import tickIcon from "@/assets/About/our_mission/tick.svg";
 import vaeIcon from "@/assets/About/our_mission/vae.svg";
 import zdrIcon from "@/assets/About/our_mission/zdr.svg";
 
-type Checkpoint = { text: string; noWrapFrom?: "sm" };
-
-const CHECKPOINTS: Checkpoint[] = [
-  { text: "CTV deserves the same interaction depth as digital" },
-  { text: "Intent data should come from viewers, not inferred from proxies" },
-  { text: "Publishers shouldn't need to rebuild their stacks to unlock interactivity", noWrapFrom: "sm" },
-  { text: "Every ad impression is an opportunity for a real conversation" },
-];
-
 const FEATURE_CARDS = [
   {
-    title: "Zero-Disruption Runtime",
-    body: "A lightweight (<50KB) script publishers drop into their streaming app. No rebuilds. No new ad stacks. Interactive-ready in hours.",
+    title: "Lightweight Runtime",
+    body: "Works across CTV, web, and mobile without changing your stack.",
     icon: zdrIcon,
   },
   {
-    title: "Visual Ad Editor",
-    body: "Agencies drag, drop, and deploy interactive overlays — QR codes, CTAs, product carousels — without engineering resources.",
+    title: "Visual Editor",
+    body: "Create interactive layers on top of video in minutes.",
     icon: vaeIcon,
   },
   {
-    title: "AI-Powered Conversion",
-    body: "Upload any video creative. Canvas AI suggests interaction points and converts it to a live interactive unit in seconds.",
+    title: "Intent Signals",
+    body: "Capture real user actions, not inferred metrics.",
     icon: apcIcon,
   },
 ] as const;
@@ -65,71 +55,56 @@ export function AboutMissionSection() {
               visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
             }}
           >
-            <motion.span className="block" whileHover={{ x: 4 }}>CTV is the biggest screen.</motion.span>
-            <motion.span className="block text-[#4F46E5]" whileHover={{ x: 4 }}>It deserves real interaction.</motion.span>
+            <motion.span className="block" whileHover={{ x: 4 }}>
+              Video is the most powerful surface.
+            </motion.span>
+            <motion.span className="block text-[#4F46E5]" whileHover={{ x: 4 }}>
+              It's just been passive.
+            </motion.span>
           </motion.h2>
 
-          <motion.p
-            className="mt-5 text-sm leading-relaxed text-slate-600 sm:text-[15px] cursor-pointer"
+          <motion.div
+            className="mt-5 rounded-2xl border border-slate-200 bg-white/70 p-4 shadow-[0_14px_30px_rgba(15,23,42,0.06)] backdrop-blur-sm sm:p-5"
             variants={{
               hidden: { opacity: 0, y: 10 },
               visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
             }}
-            whileHover={{ color: "#000" }}
           >
-            We started Canvas because we saw a massive gap: CTV had become the dominant video channel, but its ads
-            were stuck in the passive, impression-only model of broadcast TV. Viewers were skipping. Brands were
-            guessing. Publishers were under-monetizing.
-          </motion.p>
+            <div className="relative space-y-3 pl-6">
+              <span className="pointer-events-none absolute left-[7px] top-1 h-[calc(100%-6px)] w-px bg-gradient-to-b from-[#4F46E5]/35 via-[#4F46E5]/25 to-transparent" />
 
-          <motion.p
-            className="mt-4 text-sm leading-relaxed text-slate-600 sm:text-[15px] cursor-pointer"
-            variants={{
-              hidden: { opacity: 0, y: 10 },
-              visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-            }}
-            whileHover={{ color: "#000" }}
-          >
-            Canvas gives every stakeholder something they actually need — publishers a new premium ad surface, agencies
-            a measurable engagement layer, and viewers an experience worth their attention.
-          </motion.p>
-
-          <motion.ul
-            className="mt-6 space-y-3 text-sm text-slate-700"
-            variants={{
-              hidden: { opacity: 0 },
-              visible: { opacity: 1, transition: { staggerChildren: 0.08, delayChildren: 0.2 } },
-            }}
-          >
-            {CHECKPOINTS.map((item) => (
-              <motion.li
-                key={item.text}
-                className="flex items-start gap-2.5 group cursor-pointer"
-                variants={{
-                  hidden: { opacity: 0, x: -10 },
-                  visible: { opacity: 1, x: 0, transition: { duration: 0.4 } },
-                }}
-                whileHover={{ x: 4, color: "#000" }}
-              >
-                <motion.span className="mt-[3px] inline-flex h-5 w-5 items-center justify-center shrink-0" whileHover={{ scale: 1.2 }}>
-                  <Image src={tickIcon} alt="" className="h-4 w-4" aria-hidden />
-                </motion.span>
-                <span
-                  className={[
-                    "leading-relaxed transition-colors duration-200",
-                    item.noWrapFrom === "sm" ? "sm:whitespace-nowrap" : "",
-                  ].join(" ")}
+              {[
+                "Streaming scaled distribution.",
+                "But interaction and real feedback never caught up.",
+                "Canvas changes that.",
+              ].map((line) => (
+                <motion.div
+                  key={line}
+                  className="group relative"
+                  whileHover={{ x: 2 }}
                 >
-                  {item.text}
-                </span>
-              </motion.li>
-            ))}
-          </motion.ul>
+                  <span className="absolute -left-6 top-[7px] inline-flex h-3.5 w-3.5 items-center justify-center rounded-full border border-[#4F46E5]/30 bg-white">
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#4F46E5]/70 transition group-hover:bg-[#4F46E5]" />
+                  </span>
+                  <p className="text-sm leading-relaxed text-slate-600 transition-colors group-hover:text-slate-900 sm:text-[15px]">
+                    {line}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+
+            <motion.p
+              className="mt-4 rounded-xl border border-[#4F46E5]/20 bg-[#4F46E5]/6 px-4 py-2.5 text-sm leading-relaxed text-slate-700 sm:text-[15px]"
+              whileHover={{ y: -1, boxShadow: "0 12px 26px rgba(79,70,229,0.12)" }}
+            >
+              We enable viewers to respond inside video, turning every impression into a measurable signal.
+            </motion.p>
+          </motion.div>
         </motion.div>
 
         {/* Right: feature cards */}
         <motion.div
-          className="space-y-3 mt-16 lg:mt-18 lg:flex-[1.1]"
+          className="space-y-3 mt-12 lg:mt-14 lg:flex-[1.1]"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -138,7 +113,7 @@ export function AboutMissionSection() {
             visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.1 } },
           }}
         >
-          {FEATURE_CARDS.map((card, index) => (
+          {FEATURE_CARDS.map((card) => (
             <motion.article
               key={card.title}
               variants={{

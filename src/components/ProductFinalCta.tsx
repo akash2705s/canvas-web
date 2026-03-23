@@ -96,14 +96,14 @@ export function ProductFinalCta() {
 
           <Link
             href="/case-studies"
-            className="group inline-flex items-center gap-2 rounded-full bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] p-[3px] text-sm font-semibold shadow-sm transition hover:shadow-md"
+            className="group inline-flex items-center gap-2 rounded-full bg-[rgb(192,192,192)] p-[3px] text-sm font-semibold shadow-sm transition hover:shadow-md"
           >
-            <span className="relative flex items-center gap-2 overflow-hidden rounded-full bg-white px-6 py-2.5 text-slate-900">
-              <span className="pointer-events-none absolute inset-0 origin-right scale-x-0 bg-slate-900 transition-transform duration-300 ease-out group-hover:scale-x-100" />
+            <span className="relative flex items-center gap-2 overflow-hidden rounded-full bg-white px-6 py-2.5 text-black">
+              <span className="pointer-events-none absolute inset-0 origin-right scale-x-0 bg-black transition-transform duration-300 ease-out group-hover:scale-x-100" />
               <span className="relative z-10 transition-colors duration-200 group-hover:text-white">
                 View Case Study
               </span>
-              <span className="relative z-10 flex h-[28px] w-[28px] items-center justify-center rounded-[9px] bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] text-white">
+              <span className="relative z-10 flex h-[28px] w-[28px] items-center justify-center rounded-[9px] bg-[rgb(192,192,192)] text-black transition group-hover:text-white">
                 <svg
                   width="14"
                   height="14"
