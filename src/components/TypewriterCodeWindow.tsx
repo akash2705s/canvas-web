@@ -113,8 +113,8 @@ export function TypewriterCodeWindow({
   const [started, setStarted] = useState(!startOnVisible && !showTooltip);
   const [showingTooltip, setShowingTooltip] = useState(showTooltip);
   const [codeComplete, setCodeComplete] = useState(false);
-  const rootRef = useRef<HTMLDivElement | null>(null);
-  const timeoutRef = useRef<NodeJS.Timeout>();
+  const rootRef = useRef<HTMLButtonElement | null>(null);
+  const timeoutRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (!startOnVisible && !showTooltip) return;
@@ -148,7 +148,7 @@ export function TypewriterCodeWindow({
             setCodeComplete(true);
             // Show code for 6 seconds then return to tooltip
             if (showTooltip) {
-              timeoutRef.current = setTimeout(() => {
+                timeoutRef.current = window.setTimeout(() => {
                 setShowingTooltip(true);
                 setIdx(0);
                 setCodeComplete(false);
@@ -164,7 +164,7 @@ export function TypewriterCodeWindow({
     }, startDelayMs);
     return () => {
       window.clearTimeout(t0);
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
     };
   }, [full.length, started, startDelayMs, typingMsPerChar, showTooltip]);
 
@@ -179,7 +179,8 @@ export function TypewriterCodeWindow({
   };
 
   return (
-    <div
+    <button
+      type="button"
       ref={rootRef}
       onClick={handleClick}
       className={[
@@ -196,6 +197,7 @@ export function TypewriterCodeWindow({
           <div className="flex flex-col items-center gap-3">
             <div className="flex items-center justify-center w-14 h-14 rounded-full bg-white/20 backdrop-blur-md border border-white/30 hover:bg-white/30 transition-all group">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="white" className="ml-0.5 group-hover:scale-110 transition-transform">
+                <title>Code view</title>
                 <path d="M8 5v14l11-7z" />
               </svg>
             </div>
@@ -269,7 +271,7 @@ export function TypewriterCodeWindow({
         <div>{languageLabel}</div>
         <div>{footerRight}</div>
       </div>
-    </div>
+    </button>
   );
 }
 

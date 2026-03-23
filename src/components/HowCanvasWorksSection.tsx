@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { useRef, useState } from "react";
 
 interface Step {
@@ -29,6 +29,7 @@ const steps: Step[] = [
     codeSnippet: "canvas-runtime.ts",
     icon: (
       <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <title>Install Runtime Script</title>
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
       </svg>
     ),
@@ -47,6 +48,7 @@ const steps: Step[] = [
     codeSnippet: "editor.config.ts",
     icon: (
       <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <title>Convert Ads</title>
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
     ),
@@ -65,6 +67,7 @@ const steps: Step[] = [
     codeSnippet: "signals.analytics.ts",
     icon: (
       <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <title>Capture Signals</title>
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
       </svg>
     ),
@@ -74,13 +77,7 @@ const steps: Step[] = [
 export function HowCanvasWorksSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeStep, setActiveStep] = useState(0);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"],
-  });
-
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.8, 1, 1, 0.8]);
+  // (scroll-based transforms removed to keep build/lint clean)
 
   return (
     <section ref={containerRef} className="relative overflow-hidden bg-zinc-950 py-32">
@@ -112,7 +109,7 @@ export function HowCanvasWorksSection() {
         >
           <motion.span
             className="inline-block mb-6 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm font-medium text-white/60 backdrop-blur-sm"
-            whileHover={{ bg: "rgba(255,255,255,0.1)", borderColor: "rgba(255,255,255,0.2)" }}
+            whileHover={{ backgroundColor: "rgba(255,255,255,0.1)", borderColor: "rgba(255,255,255,0.2)" }}
           >
             ✨ Our Process
           </motion.span>
@@ -187,7 +184,7 @@ export function HowCanvasWorksSection() {
                   <ul className="space-y-4 mb-10">
                     {step.details.map((detail, didx) => (
                       <motion.li
-                        key={didx}
+                        key={detail}
                         className="flex items-start gap-4 group"
                         initial={{ opacity: 0, x: -20 }}
                         whileInView={{ opacity: 1, x: 0 }}
@@ -225,6 +222,7 @@ export function HowCanvasWorksSection() {
                         animate={{ x: [0, 4, 0] }}
                         transition={{ duration: 2, repeat: Infinity }}
                       >
+                        <title>Arrow right</title>
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                       </motion.svg>
                     </span>
@@ -285,6 +283,7 @@ export function HowCanvasWorksSection() {
                           animate={{ scale: [1, 1.05, 1] }}
                           transition={{ duration: 2, repeat: Infinity }}
                         >
+                          <title>Play</title>
                           <path d="M8 5v14l11-7z" />
                         </motion.svg>
                       </motion.button>
@@ -341,6 +340,7 @@ export function HowCanvasWorksSection() {
                 animate={{ x: [0, 6, 0] }}
                 transition={{ duration: 2, repeat: Infinity }}
               >
+                <title>Arrow right</title>
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
               </motion.svg>
             </span>
