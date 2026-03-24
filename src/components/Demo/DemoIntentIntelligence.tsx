@@ -257,7 +257,7 @@ export function DemoIntentIntelligence() {
 
           {/* Heading */}
           <motion.h2
-            className="text-4xl md:text-5xl font-bold mb-4 text-zinc-900 leading-tight"
+            className="mb-4 text-3xl font-semibold tracking-tight text-zinc-900 sm:text-4xl"
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}

@@ -20,41 +20,28 @@ import builtIcon from "@/assets/About/our_story/built.svg";
 import zeroIcon from "@/assets/About/our_story/zero.svg";
 
 const STORY_PILLS: StoryPill[] = [
-  { label: "Team of streaming & ad-tech veterans", icon: teamIcon },
-  { label: "Built for the open streaming ecosystem", icon: builtIcon },
-  { label: "Zero-disruption, publisher-first design", icon: zeroIcon },
+  { label: "Clear gap, rapid execution", icon: teamIcon },
+  { label: "Built with platform partners", icon: builtIcon },
 ];
 
 const TIMELINE_ITEMS: TimelineItem[] = [
   {
-    year: "2022",
-    title: "Founded",
-    body: "Incorporated with a clear goal: make CTV ads genuinely interactive.",
+    year: "2023",
+    title: "First campaign \u2192 26.2% interaction rate",
+    body: "Our debut live campaign delivered a 26.2% interaction rate \u2014 26\u00d7 above the CTV industry benchmark.",
     accentColor: "#F97316",
   },
   {
-    year: "2023",
-    title: "SVTA Grant",
-    body: "Awarded an SVTA innovation grant and joined as a Principal Member.",
-    accentColor: "#EAB308",
-  },
-  {
-    year: "2023",
-    title: "First Campaign",
-    body: "Launched our first live interactive CTV campaign with an OTT partner.",
+    year: "2024",
+    title: "Deployed across OTT apps",
+    body: "Powering live campaigns through OTT Studio via Cineverse and expanding across streaming platforms.",
     accentColor: "#38BDF8",
   },
   {
-    year: "2024",
-    title: "26.2%",
-    body: "Holiday campaign hit a 26.2% interaction rate — 26× the CTV benchmark.",
-    accentColor: "#6366F1",
-  },
-  {
     year: "2025",
-    title: "Platform Launch",
-    body: "Released the full Canvas platform for publishers and agencies.",
-    accentColor: "#8B5CF6",
+    title: "Now expanding across streaming, web, and mobile",
+    body: "We are building this in real time alongside platforms, publishers, and demand partners.",
+    accentColor: "#6366F1",
   },
 ];
 
@@ -69,7 +56,7 @@ const timelineLineVariants = {
 } as const;
 
 export function AboutOurStorySection() {
-  const ENABLE_ABOUT_OUR_STORY_SECTION = false;
+  const ENABLE_ABOUT_OUR_STORY_SECTION = true;
   if (!ENABLE_ABOUT_OUR_STORY_SECTION) return null;
 
   return (
@@ -89,21 +76,17 @@ export function AboutOurStorySection() {
             Our story
           </div>
 
-          <h2 className="mt-5 text-balance text-3xl font-extrabold leading-[1.1] tracking-tight text-slate-900 sm:text-[32px]">
-            <span className="block">From a live campaign</span>
-            <span className="block text-[#F97316]">to a platform for the industry.</span>
+          <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
+            <span className="block">Built fast.</span>
+            <span className="block text-[#F97316]">Proven faster.</span>
           </h2>
 
           <p className="mt-5 text-sm leading-relaxed text-slate-600 sm:text-[15px]">
-            Canvas started with a simple hypothesis: if you could give viewers something to do during an ad — scan a QR
-            code, explore a product, save for later — they would. The data proved it. A 26.2% interaction rate on a live
-            holiday campaign changed everything.
+            Canvas didn&apos;t come from years of iteration. It came from a clear gap and rapid execution.
           </p>
 
           <p className="mt-4 text-sm leading-relaxed text-slate-600 sm:text-[15px]">
-            That first campaign wasn&apos;t a proof of concept. It was proof that interactive CTV at scale was already
-            possible — with existing video creatives, existing ad infrastructure, and a single lightweight script. Now
-            we&apos;re building the platform that makes it repeatable for every publisher and agency in the ecosystem.
+            We are building this in real time alongside platforms, publishers and demand partners.
           </p>
 
           <div className="mt-7 flex flex-wrap gap-3">
@@ -185,12 +168,6 @@ export function AboutOurStorySection() {
 
                   <div className="flex-1">
                     <div className="flex items-center gap-3">
-                      <div
-                        className="inline-flex items-center rounded-full px-3 py-1 text-[12px] font-bold leading-4 tracking-[0px]"
-                        style={{ backgroundColor: yearBg, color: yearText }}
-                      >
-                        {item.year}
-                      </div>
                       <h3 className="text-[15px] font-semibold leading-[1.3] text-slate-900 sm:text-sm">
                         {item.title}
                       </h3>

@@ -13,33 +13,30 @@ import signalsIcon from "../assets/Product/runtime/signals.svg";
 import solIcon from "../assets/Product/runtime/sol.svg";
 import tickIcon2 from "../assets/Product/runtime/tick2.png";
 
-function useCountUp(target: number, inView: boolean, durationMs = 1200) {
+function useCountUp(target: number, inView: boolean, resetKey: number, durationMs = 1200) {
   const [value, setValue] = useState(0);
-  const hasAnimatedRef = useRef(false);
 
   useEffect(() => {
-    if (!inView) {
-      hasAnimatedRef.current = false; // Reset when not in view
-      setValue(0); // Reset value to 0
-      return;
-    }
+    if (!inView) return;
 
-    if (hasAnimatedRef.current) return;
-    hasAnimatedRef.current = true;
+    setValue(0);
 
     const start = performance.now();
+    let rafId = 0;
 
     const tick = (now: number) => {
       const elapsed = now - start;
       const progress = Math.min(elapsed / durationMs, 1);
       setValue(target * progress);
       if (progress < 1) {
-        requestAnimationFrame(tick);
+        rafId = requestAnimationFrame(tick);
       }
     };
 
-    requestAnimationFrame(tick);
-  }, [inView, target, durationMs]);
+    rafId = requestAnimationFrame(tick);
+
+    return () => cancelAnimationFrame(rafId);
+  }, [inView, target, resetKey, durationMs]);
 
   return value;
 }
@@ -50,16 +47,19 @@ export function ProductIntentFeature() {
   const metricsInView = useInView(metricsRef, { amount: 0.4, once: true });
   const chartInView = useInView(chartRef, { amount: 0.5, once: true });
   const chartControls = useAnimation();
+  const [animationResetKey, setAnimationResetKey] = useState(0);
 
-  const rateValue = useCountUp(26.2, metricsInView);
-  const impressionsValue = useCountUp(2.5, metricsInView);
-  const liftValue = useCountUp(3, metricsInView);
+  const rateValue = useCountUp(26.2, metricsInView, animationResetKey);
+  const impressionsValue = useCountUp(2.5, metricsInView, animationResetKey);
+  const liftValue = useCountUp(3, metricsInView, animationResetKey);
+  const breakdownProgress = useCountUp(1, metricsInView, animationResetKey, 1000);
 
   useEffect(() => {
     if (chartInView) {
+      chartControls.set({ pathLength: 0 });
       chartControls.start({ pathLength: 1, transition: { duration: 1.4, ease: [0.22, 1, 0.36, 1] } });
     }
-  }, [chartInView, chartControls]);
+  }, [chartInView, chartControls, animationResetKey]);
 
   return (
     <section className="relative overflow-hidden">
@@ -70,7 +70,7 @@ export function ProductIntentFeature() {
             style={{ backgroundColor: "rgba(167, 139, 250, 0.06)", color: "rgba(167, 139, 250, 1)" }}>
             03 · Intent Signals
           </p>
-          <h2 className="text-[30px] font-extrabold leading-[1.15] tracking-[-0.04em] text-slate-900 sm:text-[36px] lg:text-[40px] [font-family:var(--font-display)]">
+          <h2 className="text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
             <span className="block">
               Capture <span className="text-[rgba(167,139,250,1)]">declared</span>
             </span>
@@ -161,6 +161,15 @@ export function ProductIntentFeature() {
         <div className="relative w-full max-w-[640px] lg:flex-[1.1]">
           <motion.div
             className="relative overflow-hidden rounded-[30px] bg-white shadow-[0_30px_90px_rgba(15,23,42,0.4)] ring-1 ring-slate-200/70 px-6 py-5 group"
+            onClick={() => setAnimationResetKey((k) => k + 1)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                setAnimationResetKey((k) => k + 1);
+              }
+            }}
           >
             {/* Header */}
             <div className="flex items-start justify-between">
@@ -214,7 +223,8 @@ export function ProductIntentFeature() {
                     deltaColor: "rgba(249,115,22,1)",
                     deltaBg: "rgba(249,115,22,0.06)",
                     widthPercent: 92,
-                    value: "4,821",
+                    valueNumber: 4821,
+                    valueType: "int",
                     delta: "+34%",
                     icon: qrIcon,
                   },
@@ -226,7 +236,8 @@ export function ProductIntentFeature() {
                     deltaColor: "rgba(129,140,248,1)",
                     deltaBg: "rgba(129,140,248,0.08)",
                     widthPercent: 78,
-                    value: "2,340",
+                    valueNumber: 2340,
+                    valueType: "int",
                     delta: "+21%",
                     icon: ctaIcon,
                   },
@@ -238,7 +249,8 @@ export function ProductIntentFeature() {
                     deltaColor: "rgba(167,139,250,1)",
                     deltaBg: "rgba(167,139,250,0.08)",
                     widthPercent: 64,
-                    value: "1,876",
+                    valueNumber: 1876,
+                    valueType: "int",
                     delta: "+18%",
                     icon: productIcon,
                   },
@@ -250,7 +262,8 @@ export function ProductIntentFeature() {
                     deltaColor: "rgba(245,158,11,1)",
                     deltaBg: "rgba(251,191,36,0.18)",
                     widthPercent: 52,
-                    value: "942",
+                    valueNumber: 942,
+                    valueType: "int",
                     delta: "+12%",
                     icon: solIcon,
                   },
@@ -262,12 +275,13 @@ export function ProductIntentFeature() {
                     deltaColor: "rgba(79,70,229,1)",
                     deltaBg: "rgba(79,70,229,0.08)",
                     widthPercent: 70,
-                    value: "14.2s",
+                    valueNumber: 14.2,
+                    valueType: "seconds",
                     delta: "+8s vs passive",
                     icon: avgSdIcon,
                   },
                 ].map((row) => (
-                  <div key={row.label} className="flex items-center gap-3">
+                  <div key={`${row.label}-${animationResetKey}`} className="flex items-center gap-3">
                     <span
                       className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
                       style={{ backgroundColor: row.iconBg }}
@@ -278,7 +292,9 @@ export function ProductIntentFeature() {
                       <div className="flex items-center justify-between text-[11px]">
                         <p className="font-medium text-slate-800">{row.label}</p>
                         <p className="text-[11px] font-semibold" style={{ color: row.valueColor }}>
-                          {row.value}{" "}
+                          {row.valueType === "seconds"
+                            ? `${(row.valueNumber * breakdownProgress).toFixed(1)}s`
+                            : Math.round(row.valueNumber * breakdownProgress).toLocaleString()}{" "}
                           <span
                             className="ml-1 rounded-full px-1.5 py-[1px] text-[10px]"
                             style={{

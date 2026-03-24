@@ -42,7 +42,7 @@ export function ProductEditorFeature() {
           <p className="mb-3 inline-flex items-center rounded-full bg-[rgba(129,140,248,0.09)] px-3 py-1 text-xs font-semibold text-[rgba(79,70,229,1)]">
             02 · Editor
           </p>
-          <h2 className="text-[30px] font-extrabold leading-[1.15] tracking-[-0.04em] text-slate-900 sm:text-[36px] lg:text-[40px] [font-family:var(--font-display)]">
+          <h2 className="text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
             <span className="block whitespace-normal md:whitespace-nowrap">Convert existing ads with</span>
             <span className="block whitespace-normal text-[rgba(79,70,229,1)] md:whitespace-nowrap">AI in seconds</span>
           </h2>

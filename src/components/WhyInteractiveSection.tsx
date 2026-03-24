@@ -119,7 +119,7 @@ export function WhyInteractiveSection() {
         </div>
 
         <div className="mt-6 text-center">
-          <h2 className="text-[28px] font-extrabold leading-[34px] tracking-tight text-zinc-900 sm:text-[34px] sm:leading-[40px]">
+          <h2 className="text-3xl font-semibold tracking-tight text-zinc-900 sm:text-4xl">
             CTV ads were built for impressions.
             <br className="hidden sm:inline" />
             <span className="text-[#4F46E5]"> Brands now need intent.</span>

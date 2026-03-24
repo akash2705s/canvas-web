@@ -50,7 +50,7 @@ export function AboutCtaSection() {
         </p>
 
         <motion.h2
-          className="mt-4 text-balance text-3xl font-extrabold tracking-tight sm:text-[32px]"
+          className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl"
           initial={{ opacity: 0, y: 18, filter: "blur(12px)" }}
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, amount: 0.6 }}

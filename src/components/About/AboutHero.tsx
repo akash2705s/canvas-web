@@ -77,38 +77,55 @@ export function AboutHero() {
           )}
 
           {reduceMotion ? (
-            <p className="mt-5 max-w-xl text-sm leading-relaxed text-slate-300 sm:text-base">
-              We turn video across CTV, web and mobile into measurable, interactive experiences by capturing
-              real viewer intent in real time. What started as a simple idea "what if viewers could respond inside the video?"
-              is now powering live campaigns across streaming platforms.
-            </p>
+            <div className="mt-5 max-w-xl">
+              <p className="text-sm leading-relaxed text-slate-300 sm:text-base">
+                We turn video across CTV, web and mobile into measurable, interactive experiences by capturing
+                real viewer intent in real time.
+              </p>
+              <p className="mt-3 text-sm leading-relaxed text-[rgba(255,255,255,0.4)] sm:text-base">
+                What started as a simple idea &quot;what if viewers could respond inside the video?&quot; is now powering live
+                campaigns across streaming platforms.
+              </p>
+            </div>
           ) : (
-            <motion.p
-              className="mt-5 max-w-xl text-sm leading-relaxed text-slate-300 sm:text-base"
-              aria-label="We turn video across CTV, web and mobile into measurable, interactive experiences by capturing real viewer intent in real time. What started as a simple idea what if viewers could respond inside the video? is now powering live campaigns across streaming platforms."
-            >
-              {(() => {
-                const text =
-                  "We turn video across CTV, web and mobile into measurable, interactive experiences by capturing real viewer intent in real time. What started as a simple idea \"what if viewers could respond inside the video?\" is now powering live campaigns across streaming platforms.";
-                const words = text.split(" ");
-                return words.map((word, idx) => (
-                  <motion.span
-                    key={`${word}-${idx}-${words.length}`}
-                    initial={{ opacity: 0, y: 14, filter: "blur(12px)" }}
-                    whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                    transition={{
-                      duration: 0.75,
-                      delay: 0.22 + idx * 0.02,
-                      ease: [0.16, 1, 0.3, 1],
-                    }}
-                    viewport={{ once: true, amount: 0.8 }}
-                    className="inline-block align-baseline will-change-transform"
-                  >
-                    {word}&nbsp;
-                  </motion.span>
-                ));
-              })()}
-            </motion.p>
+            <div className="mt-5 max-w-xl">
+              <motion.p
+                className="text-sm leading-relaxed text-slate-300 sm:text-base"
+                aria-label="We turn video across CTV, web and mobile into measurable, interactive experiences by capturing real viewer intent in real time."
+              >
+                {(() => {
+                  const text =
+                    "We turn video across CTV, web and mobile into measurable, interactive experiences by capturing real viewer intent in real time.";
+                  const words = text.split(" ");
+                  return words.map((word, idx) => (
+                    <motion.span
+                      key={`${word}-${idx}-${words.length}`}
+                      initial={{ opacity: 0, y: 14, filter: "blur(12px)" }}
+                      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                      transition={{
+                        duration: 0.75,
+                        delay: 0.22 + idx * 0.02,
+                        ease: [0.16, 1, 0.3, 1],
+                      }}
+                      viewport={{ once: true, amount: 0.8 }}
+                      className="inline-block align-baseline will-change-transform"
+                    >
+                      {word}&nbsp;
+                    </motion.span>
+                  ));
+                })()}
+              </motion.p>
+              <motion.p
+                className="mt-3 text-sm leading-relaxed text-[rgba(255,255,255,0.4)] sm:text-base"
+                initial={{ opacity: 0, y: 10, filter: "blur(8px)" }}
+                whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                transition={{ duration: 0.7, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                viewport={{ once: true, amount: 0.8 }}
+              >
+                What started as a simple idea &quot;what if viewers could respond inside the video?&quot; is now powering live
+                campaigns across streaming platforms.
+              </motion.p>
+            </div>
           )}
 
           <div className="mt-8 flex flex-wrap items-center gap-3">
@@ -260,7 +277,7 @@ function StatCard({ value, label, sub, valueColor }: StatCardProps) {
           background: `radial-gradient(circle at 50% 50%, ${valueColor}15, transparent 70%)`,
         }}
       />
-      
+
       <div className="relative flex h-full flex-col justify-between rounded-2xl bg-transparent px-4 py-4">
         <motion.div
           className="mt-1"

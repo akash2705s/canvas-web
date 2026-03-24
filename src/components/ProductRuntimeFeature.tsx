@@ -52,7 +52,7 @@ export function ProductRuntimeFeature() {
           <p className="mb-3 inline-flex items-center rounded-full bg-[rgba(249,115,22,0.06)] px-3 py-1 text-xs font-semibold text-[rgba(249,115,22,1)]">
             01 · Runtime
           </p>
-          <h2 className="mt-3 text-[30px] font-extrabold leading-[1.15] tracking-[-0.04em] text-slate-900 sm:text-[36px] lg:text-[40px] [font-family:var(--font-display)]">
+          <h2 className="mt-3 text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
             Install a{" "}
             <span className="text-[#F97316]">
               lightweight script

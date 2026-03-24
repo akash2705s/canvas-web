@@ -49,7 +49,7 @@ export function AboutMissionSection() {
           </motion.div>
 
           <motion.h2
-            className="mt-5 text-3xl font-extrabold leading-[1.1] tracking-tight text-slate-900 sm:text-[32px]"
+            className="mt-4 text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl"
             variants={{
               hidden: { opacity: 0, y: 15 },
               visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },

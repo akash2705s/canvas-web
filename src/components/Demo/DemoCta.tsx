@@ -32,7 +32,7 @@ export function DemoCta() {
             </span>
           </div>
 
-          <h2 className="text-[32px] font-extrabold leading-[1.12] tracking-[-0.04em] text-slate-900 sm:text-[40px] lg:text-[46px] [font-family:var(--font-display)]">
+          <h2 className="text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
             Run your first interactive
             <br />
             CTV campaign

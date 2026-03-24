@@ -57,7 +57,7 @@ export function ProductFinalCta() {
           Get started
         </div>
 
-        <h2 className="mt-6 text-[30px] font-extrabold leading-[1.15] tracking-[-0.04em] text-slate-900 sm:text-[34px] lg:text-[38px] [font-family:var(--font-display)]">
+        <h2 className="mt-6 text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
           Put Canvas to work for you
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-sm text-slate-600 sm:text-[15px]">

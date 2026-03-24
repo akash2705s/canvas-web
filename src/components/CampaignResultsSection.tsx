@@ -373,7 +373,7 @@ export function CampaignResultsSection() {
         </div>
 
         <div className="mt-6 text-center">
-          <h2 className="text-[30px] font-extrabold tracking-tight text-center text-zinc-900 sm:text-[34px]">
+          <h2 className="text-3xl font-semibold tracking-tight text-center text-zinc-900 sm:text-4xl">
             Results from our recent campaigns
           </h2>
           <p className="mt-3 text-[13px] leading-6 text-zinc-600 sm:text-[14px]">
@@ -677,7 +677,7 @@ export function CampaignResultsSection() {
 
         <div className="relative mt-10 overflow-hidden rounded-[28px] bg-white/90 px-6 py-10 text-center shadow-[0_30px_90px_rgba(15,23,42,0.14)] ring-1 ring-zinc-100/90 sm:px-10">
           <div className="pointer-events-none absolute -left-16 -top-16 h-[240px] w-[240px] rounded-full bg-[rgba(244,114,182,0.16)] blur-3xl" />
-          <h3 className="text-[30px] font-extrabold tracking-tight text-center text-zinc-900 sm:text-[34px]">
+          <h3 className="text-3xl font-semibold tracking-tight text-center text-zinc-900 sm:text-4xl">
             Run your first interactive CTV campaign
           </h3>
           <p className="mx-auto mt-3 max-w-xl text-[13px] leading-6 text-zinc-600">

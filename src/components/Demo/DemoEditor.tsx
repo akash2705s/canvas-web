@@ -59,7 +59,7 @@ export function DemoEditor() {
             </div>
 
             {/* Heading */}
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-zinc-900 leading-tight">
+            <h2 className="mb-6 text-3xl font-semibold tracking-tight text-zinc-900 sm:text-4xl">
               Create interactive ads
               <br />
               <span style={{ color: "rgba(79, 70, 229, 1)" }}>in seconds</span>

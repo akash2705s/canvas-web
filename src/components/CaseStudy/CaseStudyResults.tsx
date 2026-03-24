@@ -67,7 +67,7 @@ export function CaseStudyResults() {
               Interaction Rate
             </div>
 
-            <h3 className="mt-6 text-[28px] font-extrabold leading-[1.15] tracking-[-0.02em] text-slate-900 sm:text-[32px]">
+            <h3 className="mt-6 text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
               A <span style={{ color: "rgba(249,115,22,1)" }}>26.2%</span> interaction rate :
               <br />
               26x above benchmark
@@ -215,7 +215,7 @@ export function CaseStudyResults() {
 
                   {/* Center content */}
                   <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    <motion.p 
+                    <motion.p
                       className="text-3xl font-extrabold text-slate-900"
                       initial={{ opacity: 0, scale: 0.5 }}
                       animate={cardInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.5 }}
@@ -223,7 +223,7 @@ export function CaseStudyResults() {
                     >
                       26.2%
                     </motion.p>
-                    <motion.p 
+                    <motion.p
                       className="mt-0.5 text-[9px] font-medium text-slate-600"
                       initial={{ opacity: 0 }}
                       animate={cardInView ? { opacity: 1 } : { opacity: 0 }}
@@ -237,7 +237,7 @@ export function CaseStudyResults() {
 
               {/* Comparison bars */}
               <div className="space-y-2">
-                <motion.p 
+                <motion.p
                   className="text-[10px] font-semibold uppercase tracking-wider text-slate-500"
                   initial={{ opacity: 0 }}
                   animate={cardInView ? { opacity: 1 } : { opacity: 0 }}
@@ -263,7 +263,7 @@ export function CaseStudyResults() {
                       animate={cardInView ? { height: "6rem" } : { height: 0 }}
                       transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
                     />
-                    <motion.p 
+                    <motion.p
                       className="text-[11px] font-semibold text-slate-700"
                       initial={{ opacity: 0 }}
                       animate={cardInView ? { opacity: 1 } : { opacity: 0 }}
@@ -271,8 +271,8 @@ export function CaseStudyResults() {
                     >
                       Canvas
                     </motion.p>
-                    <motion.p 
-                      className="mt-0.5 text-[10px] font-bold" 
+                    <motion.p
+                      className="mt-0.5 text-[10px] font-bold"
                       style={{ color: "rgba(249,115,22,1)" }}
                       initial={{ opacity: 0, scale: 0.5 }}
                       animate={cardInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.5 }}
@@ -284,32 +284,32 @@ export function CaseStudyResults() {
 
                   {/* Industry bar */}
                   <motion.div
-                    className="flex flex-col items-center cursor-pointer pt-20"
+                    className="flex flex-col items-center cursor-pointer pt-21"
                     whileHover={!shouldBlur ? { scale: 1.05, y: -4 } : {}}
                     initial={{ opacity: 0, y: 20 }}
                     animate={cardInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                     transition={{ duration: 0.4, delay: 0.65, type: "spring", stiffness: 300, damping: 20 }}
                   >
-                  
+
                     <motion.div
-                      className="mb-2 h-24 w-full rounded-lg bg-slate-200 transition-shadow"
+                      className="mb-2 h-16 w-full rounded-lg bg-slate-200 transition-shadow"
                       whileHover={!shouldBlur ? { boxShadow: "0 12px 24px rgba(0, 0, 0, 0.1)" } : {}}
-                      initial={{ height: "1.2rem" }}
-                      animate={{ height: "1.2rem" }}
+                      initial={{ height: "0.65rem" }}
+                      animate={{ height: "0.65rem" }}
                       transition={{ duration: 0.6, delay: 0.68, ease: "easeOut" }}
                     />
-                    <motion.p 
+                    <motion.p
                       className="text-[11px] font-semibold text-slate-700"
                       initial={{ opacity: 0 }}
-                    animate={cardInView ? { opacity: 1 } : { opacity: 0 }}
+                      animate={cardInView ? { opacity: 1 } : { opacity: 0 }}
                       transition={{ duration: 0.3, delay: 0.85 }}
                     >
                       Industry avg
                     </motion.p>
-                    <motion.p 
+                    <motion.p
                       className="mt-0.5 text-[10px] font-bold text-slate-500"
                       initial={{ opacity: 0, scale: 0.5 }}
-                    animate={cardInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.5 }}
+                      animate={cardInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.5 }}
                       transition={{ duration: 0.4, delay: 0.95 }}
                     >
                       &lt;1%
@@ -323,7 +323,7 @@ export function CaseStudyResults() {
                 className="rounded-lg bg-orange-50 border border-orange-200 px-3 py-2.5 cursor-pointer"
                 whileHover={!shouldBlur ? { scale: 1.02, boxShadow: "0 8px 16px rgba(249, 115, 22, 0.2)" } : {}}
                 initial={{ opacity: 0, y: 10 }}
-              animate={cardInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+                animate={cardInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
                 transition={{ duration: 0.4, delay: 1 }}
               >
                 <div className="flex items-center gap-2.5">

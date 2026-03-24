@@ -32,7 +32,7 @@ export function CaseStudyInteractionTypes() {
               Interaction Types
             </div>
 
-            <h3 className="mt-6 text-[28px] font-extrabold leading-[1.15] tracking-[-0.02em] text-slate-900 sm:text-[32px]">
+            <h3 className="mt-6 text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
               <span style={{ color: "rgba(79, 70, 229, 1)" }}>Declared viewer intent</span>
               <br />
               Four types captured

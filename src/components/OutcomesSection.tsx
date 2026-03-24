@@ -90,7 +90,7 @@ export function OutcomesSection() {
           viewport={{ once: true, amount: 0.5 }}
           transition={{ duration: 0.6, delay: 0.1 }}
         >
-          <h2 className="text-[30px] font-extrabold tracking-tight text-zinc-900 sm:text-[34px]">
+          <h2 className="text-3xl font-semibold tracking-tight text-zinc-900 sm:text-4xl">
             Outcomes speak louder than words
           </h2>
           <p className="mt-3 text-[13px] leading-6 text-zinc-600 sm:text-[14px]">

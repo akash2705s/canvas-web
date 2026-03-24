@@ -270,9 +270,9 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
 
       <div className="relative mx-auto max-w-7xl px-4 pt-6 pb-12 sm:px-6 sm:pt-8 sm:pb-16 lg:px-8 lg:pt-12 lg:pb-24">
         {/* Top: two-column layout */}
-        <div className="grid gap-10 lg:grid-cols-2 lg:gap-16 lg:items-center">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-8 xl:gap-10 lg:items-center">
           {/* Left content */}
-          <div className="flex flex-col">
+          <div className="flex flex-col lg:pr-3">
             <span className="mb-4 inline-flex w-fit items-center gap-2 rounded-full bg-white px-4 py-1.5 text-sm font-semibold text-[#4F46E5] shadow-[0_10px_30px_-18px_rgba(0,0,0,0.35)] ring-1 ring-black/5">
               <span className="relative inline-flex h-2.5 w-2.5 shrink-0 items-center justify-center align-middle">
                 <span className="absolute left-1/2 top-1/2 inline-flex h-full w-full -translate-x-1/2 -translate-y-1/2 animate-ping rounded-full bg-[#4F46E5]/70" />
@@ -481,13 +481,13 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
           </div>
 
           {/* Right: hero visual with intersecting circles */}
-          <div className="relative z-10 flex justify-center lg:justify-end">
-            <div className="relative flex h-[560px] w-full max-w-[1020px] items-center justify-center">
+          <div className="relative z-10 flex justify-center lg:justify-start">
+            <div className="relative flex h-[520px] w-full max-w-[760px] items-center justify-center lg:-ml-10 xl:-ml-14">
               {/* Intersecting circles backdrop */}
               <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-                <div className="relative h-[520px] w-[520px]">
+                <div className="relative h-[500px] w-[500px]">
                   {/* Big middle circle */}
-                  <div className="absolute left-1/2 top-1/2 h-[455px] w-[455px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-violet-200/90 mix-blend-multiply shadow-[0_60px_150px_rgba(167,139,250,0.85)]" />
+                  <div className="absolute left-1/2 top-1/2 h-[430px] w-[430px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-violet-200/90 mix-blend-multiply shadow-[0_60px_150px_rgba(167,139,250,0.85)]" />
                   {/* Small bottom-left */}
                   <div
                     ref={orbitLeftRef}
@@ -503,7 +503,7 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
 
               {/* Central hero visual: autoplaying video instead of static image */}
               <CardContainer containerClassName="h-auto w-full flex justify-center">
-                <CardBody className="relative h-[360px] w-[390px] max-w-full sm:w-[460px] p-0 flex flex-col overflow-hidden rounded-[26px] bg-[#050816]/95 shadow-2xl ring-1 ring-black/40">
+                <CardBody className="relative h-[360px] w-[410px] max-w-full sm:w-[485px] p-0 flex flex-col overflow-hidden rounded-[26px] bg-[#050816]/95 shadow-2xl ring-1 ring-black/40">
                   <CardItem
                     translateZ={50}
                     className="relative w-full flex-[1.25] overflow-hidden rounded-t-[24px] h-full group"

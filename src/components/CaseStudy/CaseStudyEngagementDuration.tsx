@@ -140,7 +140,7 @@ export function CaseStudyEngagementDuration() {
               Engagement Duration
             </div>
 
-            <h3 className="mt-6 text-[28px] font-extrabold leading-[1.15] tracking-[-0.02em] text-slate-900 sm:text-[32px]">
+            <h3 className="mt-6 text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
               Viewers engaged for
               <br />
               <span style={{ color: "rgba(167, 139, 250, 1)" }}>14+ seconds</span> per session

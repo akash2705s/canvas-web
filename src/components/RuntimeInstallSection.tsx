@@ -94,7 +94,7 @@ export function RuntimeInstallSection() {
           viewport={{ once: true, amount: 0.5 }}
           transition={{ duration: 0.6, delay: 0.1 }}
         >
-          <h2 className="text-3xl font-extrabold tracking-[-0.6px] text-zinc-900 sm:text-4xl">
+          <h2 className="text-3xl font-semibold tracking-tight text-zinc-900 sm:text-4xl">
             Three steps from passive to interactive
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-sm leading-6 text-zinc-600 sm:text-base">
@@ -131,7 +131,7 @@ export function RuntimeInstallSection() {
                   </div>
 
                   <motion.h2
-                    className="text-3xl font-extrabold text-zinc-900"
+                    className="text-3xl font-semibold tracking-tight text-zinc-900 sm:text-4xl"
                     whileHover={{ color: "#1f2937" }}
                   >
                     {step.title}

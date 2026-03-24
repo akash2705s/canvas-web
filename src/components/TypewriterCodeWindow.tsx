@@ -171,11 +171,24 @@ export function TypewriterCodeWindow({
   const visible = full.slice(0, idx);
   const highlighted = useMemo(() => highlightTs(visible), [visible]);
 
+  const restartTyping = () => {
+    if (timeoutRef.current) {
+      window.clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+    setIdx(0);
+    setCodeComplete(false);
+    setStarted(false);
+    window.requestAnimationFrame(() => setStarted(true));
+  };
+
   const handleClick = () => {
     if (showingTooltip) {
       setShowingTooltip(false);
       setStarted(true);
+      return;
     }
+    restartTyping();
   };
 
   return (
@@ -184,8 +197,8 @@ export function TypewriterCodeWindow({
       ref={rootRef}
       onClick={handleClick}
       className={[
-        "relative overflow-hidden rounded-2xl border border-white/8 bg-slate-950 shadow-lg text-left",
-        showTooltip ? "cursor-pointer" : "",
+        "relative overflow-hidden rounded-2xl border border-white/8 bg-slate-950 shadow-lg text-left [font-family:var(--font-geist-sans)]",
+        "cursor-pointer",
         className,
       ]
         .filter(Boolean)
@@ -245,12 +258,12 @@ export function TypewriterCodeWindow({
         aria-label="Code viewport"
       >
         <div className="flex h-full">
-          <div className="select-none border-r border-white/5 bg-slate-950/70 px-3 text-right text-[9px] font-mono leading-[1.6] text-white/25" style={{ paddingTop: '12px', paddingBottom: '12px', minWidth: '40px' }}>
+          <div className="select-none border-r border-white/5 bg-slate-950/70 px-3 text-right text-[9px] leading-[1.6] text-white/25" style={{ paddingTop: '12px', paddingBottom: '12px', minWidth: '40px' }}>
             {Array.from({ length: totalLines }, (_, i) => (
               <div key={`ln-${i + 1}`} style={{ height: `${codeFontSize * 1.6}px` }}>{i + 1}</div>
             ))}
           </div>
-          <pre className="flex-1 m-0 px-4 font-mono" style={{ fontSize: `${codeFontSize}px`, lineHeight: 1.6, paddingTop: '12px', paddingBottom: '12px', backgroundColor: 'transparent' }}>
+          <pre className="flex-1 m-0 px-4" style={{ fontSize: `${codeFontSize}px`, lineHeight: 1.6, paddingTop: '12px', paddingBottom: '12px', backgroundColor: 'transparent' }}>
             <code className="text-white/80">
               {highlighted.map((t, i) => (
                 <span key={`${i}-${t.text}`} className={t.className}>

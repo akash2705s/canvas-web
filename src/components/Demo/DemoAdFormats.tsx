@@ -323,7 +323,7 @@ export function DemoAdFormats() {
             </span>
           </motion.div>
           <motion.h2
-            className="text-3xl md:text-4xl font-bold text-zinc-900 mb-4"
+            className="mb-4 text-3xl font-semibold tracking-tight text-zinc-900 sm:text-4xl"
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
