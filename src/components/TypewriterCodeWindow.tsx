@@ -184,7 +184,7 @@ export function TypewriterCodeWindow({
       ref={rootRef}
       onClick={handleClick}
       className={[
-        "relative overflow-hidden rounded-2xl border border-white/8 bg-slate-950 shadow-lg",
+        "relative overflow-hidden rounded-2xl border border-white/8 bg-slate-950 shadow-lg text-left",
         showTooltip ? "cursor-pointer" : "",
         className,
       ]

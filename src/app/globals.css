@@ -307,7 +307,7 @@ html[data-canvas-cursor-enabled="true"] * {
   top: 0;
   width: 56px;
   height: 56px;
-  z-index: 99999;
+  z-index: 100002;
   pointer-events: none;
   opacity: 0;
   transform: translate3d(calc(var(--x) * 1px), calc(var(--y) * 1px), 0) translate(-50%, -50%);
@@ -418,13 +418,14 @@ html[data-canvas-cursor-enabled="true"] * {
 }
 
 .canvas-cursor__prompt {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%) translate(16px, -52px);
+  position: fixed;
+  left: 0;
+  top: 0;
+  transform: translate(0, 0);
   pointer-events: none;
   opacity: 0;
   transition: opacity 180ms ease, transform 180ms ease;
+  z-index: 100001;
 }
 
 .canvas-cursor__prompt[data-visible="true"] {
@@ -434,9 +435,9 @@ html[data-canvas-cursor-enabled="true"] * {
 
 .canvas-cursor__promptInner {
   display: flex;
-  gap: 8px;
-  padding: 10px;
-  border-radius: 16px;
+  gap: 6px;
+  padding: 8px;
+  border-radius: 14px;
   background: rgba(2, 6, 23, 0.74);
   border: 1px solid rgba(255, 255, 255, 0.14);
   box-shadow: 0 28px 80px rgba(0, 0, 0, 0.35);
@@ -445,9 +446,9 @@ html[data-canvas-cursor-enabled="true"] * {
 
 .canvas-cursor__promptBtn {
   pointer-events: auto;
-  padding: 8px 10px;
-  border-radius: 12px;
-  font-size: 12px;
+  padding: 6px 9px;
+  border-radius: 10px;
+  font-size: 11px;
   font-weight: 650;
   color: rgba(255, 255, 255, 0.92);
   background: rgba(255, 255, 255, 0.08);
@@ -466,17 +467,153 @@ html[data-canvas-cursor-enabled="true"] * {
   transform: translateY(0px) scale(0.98);
 }
 
-/* Place prompt a bit differently for each rich zone */
-.canvas-cursor__prompt--hero {
-  transform: translate(-50%, -50%) translate(12px, -56px);
+.canvas-cursor__panel {
+  position: fixed;
+  left: 0;
+  top: 0;
+  transform: translate(0, 0);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 180ms ease, transform 180ms ease;
+  z-index: 100001;
 }
 
-.canvas-cursor__prompt--demo {
-  transform: translate(-50%, -50%) translate(14px, -54px);
+.canvas-cursor__panel[data-visible="true"] {
+  pointer-events: auto;
+  opacity: 1;
 }
 
-.canvas-cursor__prompt--case-study {
-  transform: translate(-50%, -50%) translate(12px, -56px);
+.canvas-cursor__panelInner {
+  width: min(210px, 52vw);
+  padding: 10px;
+  border-radius: 14px;
+  background: rgba(2, 6, 23, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(14px);
+}
+
+.canvas-cursor__panel--qr .canvas-cursor__panelInner {
+  width: min(220px, 54vw);
+  padding: 12px;
+  border-radius: 16px;
+  background:
+    radial-gradient(120% 150% at 10% 0%, rgba(14, 165, 233, 0.22), rgba(14, 165, 233, 0) 55%),
+    linear-gradient(168deg, rgba(2, 6, 23, 0.92), rgba(15, 23, 42, 0.88));
+  border: 1px solid rgba(125, 211, 252, 0.34);
+  box-shadow:
+    0 28px 76px rgba(0, 0, 0, 0.42),
+    0 0 0 1px rgba(56, 189, 248, 0.16) inset;
+}
+
+.canvas-cursor__panel--qr .canvas-cursor__panelTitle {
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(240, 249, 255, 0.98);
+}
+
+.canvas-cursor__panel--qr .canvas-cursor__panelText {
+  margin-top: 4px;
+  margin-bottom: 10px;
+  font-size: 11px;
+  line-height: 1.45;
+  color: rgba(224, 242, 254, 0.88);
+}
+
+.canvas-cursor__panel--poll .canvas-cursor__panelInner {
+  width: min(240px, 56vw);
+  padding: 12px;
+  border-radius: 16px;
+  background:
+    radial-gradient(120% 160% at 0% 0%, rgba(79, 70, 229, 0.28), rgba(79, 70, 229, 0) 52%),
+    linear-gradient(165deg, rgba(2, 6, 23, 0.9), rgba(15, 23, 42, 0.86));
+  border: 1px solid rgba(165, 180, 252, 0.32);
+  box-shadow:
+    0 26px 70px rgba(0, 0, 0, 0.42),
+    0 0 0 1px rgba(129, 140, 248, 0.12) inset;
+}
+
+.canvas-cursor__panel--poll .canvas-cursor__panelTitle {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: rgba(238, 242, 255, 0.98);
+}
+
+.canvas-cursor__panel--poll .canvas-cursor__panelText {
+  margin-top: 5px;
+  margin-bottom: 10px;
+  font-size: 11px;
+  line-height: 1.45;
+  color: rgba(226, 232, 240, 0.86);
+}
+
+.canvas-cursor__panelTitle {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.96);
+}
+
+.canvas-cursor__panelText {
+  margin: 3px 0 8px;
+  font-size: 11px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.canvas-cursor__qrImage {
+  width: 100%;
+  max-width: 156px;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+  padding: 8px;
+  border-radius: 14px;
+  border: 1px solid rgba(186, 230, 253, 0.38);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(240, 249, 255, 0.98));
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.8) inset,
+    0 10px 26px rgba(2, 6, 23, 0.2);
+}
+
+.canvas-cursor__pollActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.canvas-cursor__pollBtn {
+  pointer-events: auto;
+  padding: 7px 10px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 650;
+  color: rgba(240, 244, 255, 0.96);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.06)),
+    rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(196, 203, 255, 0.28);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.22) inset,
+    0 10px 22px rgba(2, 6, 23, 0.26);
+  transition: transform 120ms ease, background 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.canvas-cursor__pollBtn:hover {
+  background:
+    linear-gradient(180deg, rgba(129, 140, 248, 0.28), rgba(129, 140, 248, 0.16)),
+    rgba(99, 102, 241, 0.2);
+  border-color: rgba(199, 210, 254, 0.6);
+  transform: translateY(-1px) scale(1.01);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.24) inset,
+    0 14px 28px rgba(67, 56, 202, 0.28);
+}
+
+.canvas-cursor__pollBtn:active {
+  transform: translateY(0) scale(0.99);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -490,6 +627,10 @@ html[data-canvas-cursor-enabled="true"] * {
   }
 
   .canvas-cursor__prompt {
+    transition: none;
+  }
+
+  .canvas-cursor__panel {
     transition: none;
   }
 }

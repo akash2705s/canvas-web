@@ -23,15 +23,15 @@ export function ProductEditorFeature() {
         <div className="relative w-full lg:flex-[1.15] lg:-ml-2">
           <div className="relative overflow-hidden rounded-[30px] bg-white shadow-[0_30px_90px_rgba(15,23,42,0.45)] ring-1 ring-slate-200/70">
             {/* Body video */}
-              <div className="relative w-full overflow-hidden group">
+            <div className="relative w-full overflow-hidden">
               <video
                 className="block h-auto w-full object-contain"
                 src="/videos/convert_ads_product.mov"
                 muted
                 playsInline
                 preload="auto"
-                  autoPlay
-                  loop
+                autoPlay
+                loop
               />
             </div>
           </div>
@@ -43,10 +43,10 @@ export function ProductEditorFeature() {
             02 · Editor
           </p>
           <h2 className="text-[30px] font-extrabold leading-[1.15] tracking-[-0.04em] text-slate-900 sm:text-[36px] lg:text-[40px] [font-family:var(--font-display)]">
-            <span className="block whitespace-nowrap">Convert existing ads with</span>
-            <span className="block whitespace-nowrap text-[rgba(79,70,229,1)]">AI in seconds</span>
+            <span className="block whitespace-normal md:whitespace-nowrap">Convert existing ads with</span>
+            <span className="block whitespace-normal text-[rgba(79,70,229,1)] md:whitespace-nowrap">AI in seconds</span>
           </h2>
-          <p className="mt-4 text-sm text-[rgba(106,114,130,1)] sm:text-base">
+          <p className="mt-4 max-w-[62ch] text-sm text-[rgba(106,114,130,1)] sm:text-base">
             Agencies use the Canvas Editor or AI assistant to convert video creatives into interactive units — no rebuild
             required. Upload a video or VAST tag and AI suggests interaction points, overlays, and CTAs automatically.
           </p>

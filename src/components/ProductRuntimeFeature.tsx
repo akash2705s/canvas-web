@@ -59,55 +59,53 @@ export function ProductRuntimeFeature() {
             </span>
             , unlock interactivity
           </h2>
-          <p className="mt-4 text-sm text-[rgba(106,114,130,1)] sm:text-base">
+          <p className="mt-4 max-w-[62ch] text-sm text-[rgba(106,114,130,1)] sm:text-base">
             Publishers add a lightweight Canvas runtime to their streaming apps. Minimal integration, maximum
             compatibility — it sits seamlessly alongside existing SSAI environments without disrupting a single
             impression.
           </p>
 
           <ul className="mt-6 space-y-3 text-sm text-slate-700">
-            <li className="flex gap-2">
+            <li className="flex items-start gap-2.5">
               <span className="mt-[3px]">
                 <Image src={tickIcon} alt="" className="h-4 w-4" />
               </span>
-              <span>
-                <span className="font-semibold">Compatible with SSAI</span>
-                <br />
-                <span className="text-[13px] text-slate-500">
+              <span className="leading-tight">
+                <span className="block font-semibold">Compatible with SSAI</span>
+                <span className="mt-0.5 block text-[13px] text-slate-500">
                   Google DAI, AWS MediaTailor, and all major ad servers
                 </span>
               </span>
             </li>
-            <li className="flex gap-2">
+            <li className="flex items-start gap-2.5">
               <span className="mt-[3px]">
                 <Image src={tickIcon} alt="" className="h-4 w-4" />
               </span>
-              <span>
-                <span className="font-semibold">Works across major CTV platforms</span>
-                <br />
-                <span className="text-[13px] text-slate-500">Roku, Fire TV, Apple TV, Samsung, Android TV and more</span>
+              <span className="leading-tight">
+                <span className="block font-semibold">Works across major CTV platforms</span>
+                <span className="mt-0.5 block text-[13px] text-slate-500">
+                  Roku, Fire TV, Apple TV, Samsung, Android TV and more
+                </span>
               </span>
             </li>
-            <li className="flex gap-2">
+            <li className="flex items-start gap-2.5">
               <span className="mt-[3px]">
                 <Image src={tickIcon} alt="" className="h-4 w-4" />
               </span>
-              <span>
-                <span className="font-semibold">Minimal integration — 1 script tag</span>
-                <br />
-                <span className="text-[13px] text-slate-500">
+              <span className="leading-tight">
+                <span className="block font-semibold">Minimal integration — 1 script tag</span>
+                <span className="mt-0.5 block text-[13px] text-slate-500">
                   No SDK, no rebuild, no changes to your ad stack
                 </span>
               </span>
             </li>
-            <li className="flex gap-2">
+            <li className="flex items-start gap-2.5">
               <span className="mt-[3px]">
                 <Image src={tickIcon} alt="" className="h-4 w-4" />
               </span>
-              <span>
-                <span className="font-semibold">Playback-safe by design</span>
-                <br />
-                <span className="text-[13px] text-slate-500">
+              <span className="leading-tight">
+                <span className="block font-semibold">Playback-safe by design</span>
+                <span className="mt-0.5 block text-[13px] text-slate-500">
                   Non-destructive overlay — zero impact on all fill rates
                 </span>
               </span>

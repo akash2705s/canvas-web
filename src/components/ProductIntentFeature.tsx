@@ -63,8 +63,6 @@ export function ProductIntentFeature() {
 
   return (
     <section className="relative overflow-hidden">
-
-
       <div className="relative mx-auto flex max-w-6xl flex-col-reverse gap-10 px-6 py-16 sm:px-8 lg:flex-row lg:items-center lg:gap-12 lg:py-20">
         {/* Left copy */}
         <div className="max-w-xl lg:pr-10">
@@ -80,7 +78,7 @@ export function ProductIntentFeature() {
               <span className="text-[rgba(167,139,250,1)]">viewer intent</span> in real time
             </span>
           </h2>
-          <p className="mt-4 text-sm text-[rgba(106,114,130,1)] sm:text-base">
+          <p className="mt-4 max-w-[62ch] text-sm text-[rgba(106,114,130,1)] sm:text-base">
             This is the moat. Every viewer interaction — QR scan, CTA click, product exploration, save-for-later —
             becomes a measurable first-party intent signal. Not inferred behavior. Declared intent, captured live.
           </p>

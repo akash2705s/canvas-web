@@ -89,8 +89,8 @@ export function CaseStudyLiveExperience() {
         </video>
 
 
-          {/* Glow effect */}
-          <div className="absolute -inset-6 rounded-3xl blur-2xl -z-10" />
+        {/* Glow effect */}
+        <div className="absolute -inset-6 rounded-3xl blur-2xl -z-10" />
 
       </motion.div>
     </section>

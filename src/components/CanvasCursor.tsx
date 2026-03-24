@@ -9,6 +9,31 @@ type PromptItem = {
   label: string;
 };
 
+type AnchorPoint = {
+  x: number;
+  y: number;
+};
+
+type InteractionPanel =
+  | {
+    type: "qr";
+    title: string;
+    description: string;
+    imageUrl: string;
+  }
+  | {
+    type: "poll";
+    title: string;
+    question: string;
+    options: string[];
+  }
+  | {
+    type: "info";
+    title: string;
+    description: string;
+    cta?: string;
+  };
+
 const CURSOR_MODES: CursorMode[] = ["default", "hover", "media", "play", "explore"];
 
 function isCursorMode(value: unknown): value is CursorMode {
@@ -44,6 +69,11 @@ export function CanvasCursor() {
   const [promptZone, setPromptZone] = useState<string | null>(null);
   const [promptItems, setPromptItems] = useState<PromptItem[]>([]);
   const [promptVisible, setPromptVisible] = useState(false);
+  const [promptAnchor, setPromptAnchor] = useState<AnchorPoint | null>(null);
+  const [activePanel, setActivePanel] = useState<InteractionPanel | null>(null);
+  const [panelVisible, setPanelVisible] = useState(false);
+  const [panelAnchor, setPanelAnchor] = useState<AnchorPoint | null>(null);
+  const [pollVote, setPollVote] = useState<string | null>(null);
 
   const rafIdRef = useRef<number | null>(null);
   const reduceMotionRef = useRef(false);
@@ -58,6 +88,9 @@ export function CanvasCursor() {
   const suppressPromptRef = useRef(false);
   const promptTimeoutRef = useRef<number | null>(null);
   const promptCloseTimeoutRef = useRef<number | null>(null);
+  const promptHoveringRef = useRef(false);
+  const panelHoveringRef = useRef(false);
+  const inRichZoneRef = useRef(false);
 
   const prompts = useMemo(() => {
     return {
@@ -81,6 +114,7 @@ export function CanvasCursor() {
   }, []);
 
   const hidePrompt = useCallback(() => {
+    if (promptHoveringRef.current || panelHoveringRef.current) return;
     setPromptVisible(false);
     if (promptCloseTimeoutRef.current) window.clearTimeout(promptCloseTimeoutRef.current);
     promptCloseTimeoutRef.current = window.setTimeout(() => {
@@ -89,23 +123,33 @@ export function CanvasCursor() {
     }, 220);
   }, []);
 
+  const schedulePromptAutoHide = useCallback(() => {
+    if (promptTimeoutRef.current) window.clearTimeout(promptTimeoutRef.current);
+    promptTimeoutRef.current = window.setTimeout(() => {
+      hidePrompt();
+    }, 1800);
+  }, [hidePrompt]);
+
   const showPromptForZone = useCallback(
     (zone: "hero" | "demo" | "case-study") => {
       if (suppressPromptRef.current) return;
 
       const items = prompts[zone];
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const px = Math.min(Math.max(currentRef.current.x + 24, 24), vw - 220);
+      const py = Math.min(Math.max(currentRef.current.y - 70, 24), vh - 140);
+
       setPromptZone(zone);
       setPromptItems(items.slice(0, zone === "demo" ? 3 : 3));
+      setPromptAnchor({ x: px, y: py });
       setPromptVisible(true);
+      setPanelAnchor({ x: Math.min(px + 8, vw - 280), y: Math.min(py + 52, vh - 220) });
 
       if (promptCloseTimeoutRef.current) window.clearTimeout(promptCloseTimeoutRef.current);
-
-      if (promptTimeoutRef.current) window.clearTimeout(promptTimeoutRef.current);
-      promptTimeoutRef.current = window.setTimeout(() => {
-        hidePrompt();
-      }, 1600);
+      schedulePromptAutoHide();
     },
-    [hidePrompt, prompts],
+    [prompts, schedulePromptAutoHide],
   );
 
   const setCursorDomVariables = useCallback((x: number, y: number) => {
@@ -153,7 +197,10 @@ export function CanvasCursor() {
     if (!mql?.matches) return;
 
     const onBlur = () => setVisible(false);
-    const onScroll = () => hidePrompt();
+    const onScroll = () => {
+      hidePrompt();
+      setPanelVisible(false);
+    };
 
     window.addEventListener("blur", onBlur);
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -230,25 +277,25 @@ export function CanvasCursor() {
           }
         }
 
-        // 2b) Format hover label (optional micro copy).
-        if (zone === "formats" && !nextLabel) {
-          const formatEl = getClosest<HTMLElement>(nextEl, "[data-format-id]");
-          if (formatEl) {
-            const formatLabel = formatEl.dataset.formatLabel ?? formatEl.dataset.formatTitle;
-            if (formatLabel) nextLabel = formatLabel;
-          }
-        }
+        // No floating text labels for ad-format cards; keep visuals clean.
+        if (zone === "formats") nextLabel = null;
 
         // Rich prompt triggers: show only on enter.
         let nextRichZone: string | null = null;
         if (zone === "hero" || zone === "demo" || zone === "case-study") nextRichZone = zone;
+        inRichZoneRef.current = nextRichZone !== null || promptHoveringRef.current || panelHoveringRef.current;
 
         if (nextRichZone !== prevRichZoneRef.current) {
           // Leaving a rich zone.
           if (!nextRichZone) {
+            if (promptHoveringRef.current || panelHoveringRef.current) {
+              rafIdRef.current = window.requestAnimationFrame(tick);
+              return;
+            }
             prevRichZoneRef.current = null;
             suppressPromptRef.current = false;
             hidePrompt();
+            setPanelVisible(false);
           } else {
             // Entering a rich zone.
             prevRichZoneRef.current = nextRichZone;
@@ -263,6 +310,9 @@ export function CanvasCursor() {
               showPromptForZone(z);
             }, 120);
           }
+        } else if (nextRichZone && !promptVisible && !promptHoveringRef.current && !panelHoveringRef.current) {
+          // Re-show prompt if user is still in a rich zone and it faded.
+          showPromptForZone(nextRichZone as "hero" | "demo" | "case-study");
         }
 
         // Only commit React state when it changes.
@@ -298,36 +348,136 @@ export function CanvasCursor() {
   }, [promptVisible, hidePrompt]);
 
   const onPromptClick = (id: string) => {
-    suppressPromptRef.current = true;
-    hidePrompt();
-    setLabel(`Selected: ${id}`);
+    const zone = promptZone;
+    if (!zone) return;
 
-    window.setTimeout(() => {
-      setLabel(null);
-    }, 700);
+    const buildPanel = (): InteractionPanel => {
+      if (id === "qr") {
+        return {
+          type: "qr",
+          title: "Scan QR",
+          description: zone === "demo" ? "Open demo offer on mobile." : "Open interactive experience on mobile.",
+          imageUrl: "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https%3A%2F%2Fcanvas-tv.com%2Fdemo",
+        };
+      }
+
+      if (id === "poll") {
+        return {
+          type: "poll",
+          title: "Quick Poll",
+          question: "Which interaction would you use first?",
+          options: ["QR Scan", "Product Explore", "Offer Reveal", "Save for Later"],
+        };
+      }
+
+      if (id === "offer") {
+        return {
+          type: "info",
+          title: "Offer Reveal",
+          description: "Exclusive 20% launch promo unlocked for this session.",
+          cta: "Apply Offer",
+        };
+      }
+
+      if (id === "product") {
+        return {
+          type: "info",
+          title: "Product Card",
+          description: "View specs, pricing, and key differentiators inline.",
+          cta: "Open Card",
+        };
+      }
+
+      if (id === "signals") {
+        return {
+          type: "info",
+          title: "View Signals",
+          description: "QR, CTA, and dwell interactions captured in real time.",
+          cta: "Open Signals",
+        };
+      }
+
+      if (id === "result") {
+        return {
+          type: "info",
+          title: "Open Result",
+          description: "See full campaign outcomes and conversion lift details.",
+          cta: "Open Results",
+        };
+      }
+
+      return {
+        type: "info",
+        title: id === "interaction" ? "See Interaction" : "Explore",
+        description: "Dive deeper into this interactive touchpoint.",
+        cta: "Explore",
+      };
+    };
+
+    setActivePanel(buildPanel());
+    setPollVote(null);
+    setPanelVisible(true);
+    setPromptVisible(true);
+    schedulePromptAutoHide();
+  };
+
+  const onPromptMouseEnter = () => {
+    promptHoveringRef.current = true;
+    inRichZoneRef.current = true;
+    if (promptTimeoutRef.current) window.clearTimeout(promptTimeoutRef.current);
+  };
+
+  const onPromptMouseLeave = () => {
+    promptHoveringRef.current = false;
+    if (!inRichZoneRef.current && !panelHoveringRef.current) {
+      hidePrompt();
+      return;
+    }
+    schedulePromptAutoHide();
+  };
+
+  const onPanelMouseEnter = () => {
+    panelHoveringRef.current = true;
+    inRichZoneRef.current = true;
+    if (promptTimeoutRef.current) window.clearTimeout(promptTimeoutRef.current);
+  };
+
+  const onPanelMouseLeave = () => {
+    panelHoveringRef.current = false;
+    if (!inRichZoneRef.current && !promptHoveringRef.current) {
+      setPanelVisible(false);
+      hidePrompt();
+      return;
+    }
+    schedulePromptAutoHide();
   };
 
   return (
-    <div
-      ref={cursorElRef}
-      className="canvas-cursor"
-      data-visible={visible ? "true" : "false"}
-      data-mode={mode}
-      aria-hidden="true"
-    >
-      <div className="canvas-cursor__dot" />
-      <div className="canvas-cursor__ring" />
+    <>
+      <div
+        ref={cursorElRef}
+        className="canvas-cursor"
+        data-visible={visible ? "true" : "false"}
+        data-mode={mode}
+        aria-hidden="true"
+      >
+        <div className="canvas-cursor__dot" />
+        <div className="canvas-cursor__ring" />
 
-      {label && !promptVisible && (mode === "hover" || mode === "media") && (
-        <div className="canvas-cursor__label">
-          <span>{label}</span>
-        </div>
-      )}
+        {label && !promptVisible && (mode === "hover" || mode === "media") && (
+          <div className="canvas-cursor__label">
+            <span>{label}</span>
+          </div>
+        )}
+      </div>
 
-      {promptZone && (
+      {promptZone && promptAnchor && (
         <div
           className={`canvas-cursor__prompt canvas-cursor__prompt--${promptZone}`}
           data-visible={promptVisible ? "true" : "false"}
+          style={{ left: promptAnchor.x, top: promptAnchor.y }}
+          onMouseEnter={onPromptMouseEnter}
+          onMouseLeave={onPromptMouseLeave}
         >
           <div className="canvas-cursor__promptInner">
             {promptItems.map((item) => (
@@ -347,7 +497,66 @@ export function CanvasCursor() {
           </div>
         </div>
       )}
-    </div>
+
+      {activePanel && panelAnchor && (
+        <div
+          className={`canvas-cursor__panel canvas-cursor__panel--${activePanel.type}`}
+          data-visible={panelVisible ? "true" : "false"}
+          style={{ left: panelAnchor.x, top: panelAnchor.y }}
+          onMouseEnter={onPanelMouseEnter}
+          onMouseLeave={onPanelMouseLeave}
+        >
+          <div className="canvas-cursor__panelInner">
+            {activePanel.type === "qr" ? (
+              <>
+                <p className="canvas-cursor__panelTitle">{activePanel.title}</p>
+                <p className="canvas-cursor__panelText">{activePanel.description}</p>
+                <img src={activePanel.imageUrl} alt="QR code" className="canvas-cursor__qrImage" />
+              </>
+            ) : null}
+
+            {activePanel.type === "poll" ? (
+              <>
+                <p className="canvas-cursor__panelTitle">{activePanel.title}</p>
+                {pollVote ? (
+                  <p className="canvas-cursor__panelText">
+                    Thanks for voting. You picked <strong>{pollVote}</strong> — this helps us tune the interactive flow.
+                  </p>
+                ) : (
+                  <>
+                    <p className="canvas-cursor__panelText">{activePanel.question}</p>
+                    <div className="canvas-cursor__pollActions">
+                      {activePanel.options.map((opt) => (
+                        <button
+                          key={opt}
+                          type="button"
+                          className="canvas-cursor__pollBtn"
+                          onClick={() => setPollVote(opt)}
+                        >
+                          {opt}
+                        </button>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </>
+            ) : null}
+
+            {activePanel.type === "info" ? (
+              <>
+                <p className="canvas-cursor__panelTitle">{activePanel.title}</p>
+                <p className="canvas-cursor__panelText">{activePanel.description}</p>
+                {activePanel.cta ? (
+                  <button type="button" className="canvas-cursor__pollBtn">
+                    {activePanel.cta}
+                  </button>
+                ) : null}
+              </>
+            ) : null}
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 

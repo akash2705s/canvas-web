@@ -26,7 +26,7 @@ function MediaCard({ item, idx }: { item: MediaItem; idx: number }) {
     if (!video) return;
     video.muted = true;
     video.currentTime = 0;
-    void video.play().catch(() => {});
+    void video.play().catch(() => { });
   };
 
   const handleLeave = () => {

@@ -151,7 +151,7 @@ export function RuntimeInstallSection() {
                   </motion.div>
 
                   <motion.div
-                    className="mt-auto pt-6 border-t border-zinc-200/50"
+                    className="mt-auto border-t border-zinc-200/50 pt-6 pl-1.5"
                     whileHover={{ x: 4 }}
                     transition={{ duration: 0.3 }}
                   >
