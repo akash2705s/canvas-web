@@ -327,16 +327,42 @@ html[data-canvas-cursor-enabled="true"] * {
   height: var(--dotSize, 8px);
   border-radius: 9999px;
   transform: translate(-50%, -50%);
-  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.95), var(--accent) 55%, rgba(0, 0, 0, 0.06) 100%);
+  background: radial-gradient(
+    circle at 35% 30%,
+    rgba(255, 255, 255, 0.95) 0%,
+    color-mix(in srgb, var(--accent) 70%, #ffffff 30%) 38%,
+    color-mix(in srgb, var(--accent) 96%, rgba(0, 0, 0, 0.14) 4%) 85%
+  );
   box-shadow:
-    0 0 0 1px rgba(0, 0, 0, 0.08),
-    0 14px 34px rgba(0, 0, 0, 0.22),
-    0 0 26px color-mix(in srgb, var(--accent) 60%, transparent);
+    0 0 0 1px rgba(255, 255, 255, 0.12),
+    0 0 0 6px color-mix(in srgb, var(--accent) 18%, transparent),
+    0 16px 38px rgba(0, 0, 0, 0.22);
   transition:
     width 180ms cubic-bezier(0.2, 0.9, 0.2, 1),
     height 180ms cubic-bezier(0.2, 0.9, 0.2, 1),
     background 220ms ease,
     box-shadow 220ms ease;
+  z-index: 1;
+}
+
+.canvas-cursor__dot::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(var(--dotSize, 8px) * 2.25);
+  height: calc(var(--dotSize, 8px) * 2.25);
+  transform: translate(-50%, -50%);
+  border-radius: 9999px;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--accent) 55%, transparent) 0%,
+    rgba(0, 0, 0, 0) 62%
+  );
+  opacity: 0; /* keep the center dot purely circular; ring is the interactive halo */
+  filter: none;
+  transition: none;
+  pointer-events: none;
 }
 
 .canvas-cursor__ring {
@@ -346,55 +372,95 @@ html[data-canvas-cursor-enabled="true"] * {
   width: var(--ringSize, 16px);
   height: var(--ringSize, 16px);
   border-radius: 9999px;
-  border: 1.25px solid var(--ring);
-  transform: translate(-50%, -50%) scale(var(--ringScale, 1));
-  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02) 45%, rgba(255, 255, 255, 0.0) 72%);
+  transform: translate(-50%, -50%) scale(var(--ringScale, 1)) rotate(0deg);
+  background: conic-gradient(from 210deg,
+      color-mix(in srgb, var(--accent) 92%, #ffffff 8%) 0deg,
+      color-mix(in srgb, var(--ring) 90%, #ffffff 10%) 62deg,
+      color-mix(in srgb, var(--accent) 38%, #ffffff 62%) 132deg,
+      color-mix(in srgb, var(--ring) 82%, #000000 18%) 222deg,
+      color-mix(in srgb, var(--accent) 92%, #ffffff 8%) 360deg);
+  -webkit-mask: radial-gradient(farthest-side,
+      transparent calc(100% - var(--ringThickness, 2px)),
+      #000 calc(100% - var(--ringThickness, 2px)));
+  mask: radial-gradient(farthest-side,
+      transparent calc(100% - var(--ringThickness, 2px)),
+      #000 calc(100% - var(--ringThickness, 2px)));
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.03),
-    0 18px 44px rgba(0, 0, 0, 0.22),
-    0 0 40px color-mix(in srgb, var(--ring) 70%, transparent);
-  transition: transform 200ms cubic-bezier(0.2, 0.9, 0.2, 1), border-color 200ms ease, width 200ms cubic-bezier(0.2, 0.9, 0.2, 1),
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 0 32px color-mix(in srgb, var(--accent) 35%, transparent),
+    0 18px 44px rgba(0, 0, 0, 0.22);
+  opacity: var(--ringOpacity, 0);
+  transition:
+    transform 200ms cubic-bezier(0.2, 0.9, 0.2, 1),
+    opacity 200ms ease,
+    width 200ms cubic-bezier(0.2, 0.9, 0.2, 1),
     height 200ms cubic-bezier(0.2, 0.9, 0.2, 1);
+  will-change: transform, opacity;
+}
+
+@keyframes canvas-cursor-ring-pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(var(--ringScale, 1)) rotate(0deg);
+  }
+
+  60% {
+    transform: translate(-50%, -50%) scale(calc(var(--ringScale, 1) * 1.08)) rotate(18deg);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(var(--ringScale, 1)) rotate(0deg);
+  }
 }
 
 .canvas-cursor[data-mode="default"] {
   --accent: rgba(79, 70, 229, 0.95);
   --ring: rgba(79, 70, 229, 0.55);
-  --dotSize: 8px;
+  --dotSize: 12px;
   --ringSize: 28px;
   --ringScale: 1;
+  --ringOpacity: 0;
+  --dotGlowOpacity: 0;
+  --ringThickness: 2px;
 }
 
 .canvas-cursor[data-mode="hover"] {
   --accent: rgba(79, 70, 229, 0.98);
   --ring: rgba(79, 70, 229, 0.75);
-  --dotSize: 8.5px;
+  --dotSize: 11px;
   --ringSize: 32px;
   --ringScale: 1.12;
+  --ringOpacity: 1;
+  --dotGlowOpacity: 1;
 }
 
 .canvas-cursor[data-mode="media"] {
   --accent: rgba(16, 185, 129, 0.95);
   --ring: rgba(16, 185, 129, 0.55);
-  --dotSize: 9px;
+  --dotSize: 12px;
   --ringSize: 38px;
   --ringScale: 1.18;
+  --ringOpacity: 1;
+  --dotGlowOpacity: 1;
 }
 
 .canvas-cursor[data-mode="explore"] {
   --accent: rgba(167, 139, 250, 0.95);
   --ring: rgba(167, 139, 250, 0.6);
-  --dotSize: 9px;
+  --dotSize: 12px;
   --ringSize: 38px;
   --ringScale: 1.22;
+  --ringOpacity: 1;
+  --dotGlowOpacity: 1;
 }
 
 .canvas-cursor[data-mode="play"] {
   --accent: rgba(249, 115, 22, 0.95);
   --ring: rgba(249, 115, 22, 0.6);
-  --dotSize: 9px;
+  --dotSize: 12px;
   --ringSize: 36px;
   --ringScale: 1.2;
+  --ringOpacity: 1;
+  --dotGlowOpacity: 1;
 }
 
 .canvas-cursor__label {
@@ -415,6 +481,13 @@ html[data-canvas-cursor-enabled="true"] * {
   pointer-events: none;
   white-space: nowrap;
   backdrop-filter: blur(10px);
+}
+
+.canvas-cursor[data-mode="hover"] .canvas-cursor__ring,
+.canvas-cursor[data-mode="media"] .canvas-cursor__ring,
+.canvas-cursor[data-mode="explore"] .canvas-cursor__ring,
+.canvas-cursor[data-mode="play"] .canvas-cursor__ring {
+  animation: canvas-cursor-ring-pulse 1100ms ease-in-out infinite;
 }
 
 .canvas-cursor__prompt {
@@ -624,6 +697,10 @@ html[data-canvas-cursor-enabled="true"] * {
   .canvas-cursor__ring,
   .canvas-cursor__dot {
     transition: none;
+  }
+
+  .canvas-cursor__ring {
+    animation: none;
   }
 
   .canvas-cursor__prompt {

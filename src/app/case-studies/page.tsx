@@ -13,6 +13,7 @@ export default function CaseStudiesPage() {
   return (
     <>
       <CaseStudyHero />
+      <CaseStudyArchitecture />
       <CaseStudyLiveExperience />
       <CaseStudyResults />
       <CaseStudyEngagementDuration />
@@ -21,7 +22,6 @@ export default function CaseStudiesPage() {
       <CaseStudyBrandPlaybook />
       <CaseStudyFaq />
       <CaseStudyCta />
-      <CaseStudyArchitecture />
     </>
   );
 }

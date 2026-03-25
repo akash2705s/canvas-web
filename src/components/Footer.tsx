@@ -213,9 +213,20 @@ export function Footer() {
           </div>
         </div>
       </div>
-      <div className="mt-6 flex justify-center overflow-hidden pb-6 text-[72px] font-extrabold tracking-tight text-[#e4e1f5] sm:text-[110px] lg:text-[150px]">
-        <span className="whitespace-nowrap leading-none" style={{ letterSpacing: "-0.06em" }}>
-          Canvas
+      <div className="mt-6 flex justify-center overflow-hidden hover:overflow-visible pb-6 text-[72px] font-extrabold tracking-tight text-[#e4e1f5] sm:text-[110px] lg:text-[150px]">
+        <span className="relative inline-block whitespace-nowrap leading-none group" style={{ letterSpacing: "-0.06em" }}>
+          {/* Solid base text (prevents hover clipping on bg-clip-text) */}
+          <span className="block relative z-[1] transition-opacity duration-150 group-hover:opacity-0">
+            Canvas
+          </span>
+
+          {/* Gradient overlay */}
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-[-4px] opacity-0 transition-opacity duration-150 group-hover:opacity-100 bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] bg-clip-text text-transparent"
+          >
+            Canvas
+          </span>
         </span>
       </div>
 

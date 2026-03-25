@@ -4,7 +4,7 @@ import Image from "next/image";
 import type { StaticImageData } from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { motion, useAnimation, useInView, useReducedMotion } from "framer-motion";
+import { motion, useAnimation, useReducedMotion } from "framer-motion";
 import { RequestDemoTrigger } from "@/components/RequestDemoTrigger";
 import proofImpressions from "@/assets/proof/impressions.svg";
 import proofInteractionRate from "@/assets/proof/interaction_rate.svg";
@@ -229,7 +229,8 @@ export function CampaignResultsSection() {
   const svtaConfettiCanvasRef = useRef<HTMLCanvasElement | null>(null);
   useEffect(() => {
     ecoControls.start({
-      x: ["0%", "-50%"],
+      // ecosystem logos: left -> right
+      x: ["-50%", "0%"],
       transition: { repeat: Infinity, repeatType: "loop", duration: 26, ease: "linear" },
     });
     ctvControls.start({
@@ -511,7 +512,7 @@ export function CampaignResultsSection() {
             <motion.div
               className="flex gap-10"
               aria-hidden="true"
-              initial={{ x: 0 }}
+                initial={{ x: "-50%" }}
               animate={ecoControls}
             >
               {[ECOSYSTEM_LOGOS, ECOSYSTEM_LOGOS].map((row, pass) =>
@@ -523,6 +524,7 @@ export function CampaignResultsSection() {
                       ? "opacity-40 grayscale"
                       : "opacity-100 grayscale-0"
                       }`}
+                    data-cursor="default"
                     onMouseEnter={() => {
                       setHoveredLogoId(logo.id);
                       ecoControls.stop();
@@ -531,7 +533,8 @@ export function CampaignResultsSection() {
                     onMouseLeave={() => {
                       setHoveredLogoId(null);
                       ecoControls.start({
-                        x: ["0%", "-50%"],
+                        // ecosystem logos: left -> right
+                        x: ["-50%", "0%"],
                         transition: {
                           repeat: Infinity,
                           repeatType: "loop",
@@ -606,6 +609,7 @@ export function CampaignResultsSection() {
                       ? "opacity-40 grayscale"
                       : "opacity-100 grayscale-0"
                       }`}
+                    data-cursor="default"
                     onMouseEnter={() => {
                       setHoveredLogoId(logo.id);
                       ctvControls.stop();
@@ -623,7 +627,8 @@ export function CampaignResultsSection() {
                         },
                       });
                       ecoControls.start({
-                        x: ["0%", "-50%"],
+                        // ecosystem logos: left -> right
+                        x: ["-50%", "0%"],
                         transition: {
                           repeat: Infinity,
                           repeatType: "loop",

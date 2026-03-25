@@ -196,6 +196,7 @@ export function TypewriterCodeWindow({
       type="button"
       ref={rootRef}
       onClick={handleClick}
+      data-cursor-label={title === "canvas-runtime.ts" ? "Click to interact" : undefined}
       className={[
         "relative overflow-hidden rounded-2xl border border-white/8 bg-slate-950 shadow-lg text-left [font-family:var(--font-geist-sans)]",
         "cursor-pointer",

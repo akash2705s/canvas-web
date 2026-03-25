@@ -28,6 +28,16 @@ type InteractionPanel =
     options: string[];
   }
   | {
+    type: "explore-links";
+    title: string;
+    links: Array<{
+      id: "macys" | "ourplace";
+      label: string;
+      url: string;
+      iconLetter: string;
+    }>;
+  }
+  | {
     type: "info";
     title: string;
     description: string;
@@ -130,15 +140,38 @@ export function CanvasCursor() {
     }, 1800);
   }, [hidePrompt]);
 
+  // Stable indirection so hook dependency arrays don't change length during HMR.
+  const schedulePromptAutoHideRef = useRef(schedulePromptAutoHide);
+  schedulePromptAutoHideRef.current = schedulePromptAutoHide;
+
   const showPromptForZone = useCallback(
-    (zone: "hero" | "demo" | "case-study") => {
+    (zone: "hero" | "demo" | "case-study", zoneRect?: DOMRect) => {
       if (suppressPromptRef.current) return;
 
       const items = prompts[zone];
       const vw = window.innerWidth;
       const vh = window.innerHeight;
-      const px = Math.min(Math.max(currentRef.current.x + 24, 24), vw - 220);
-      const py = Math.min(Math.max(currentRef.current.y - 70, 24), vh - 140);
+
+      // Default anchor: follow cursor, clamped to viewport.
+      let px = Math.min(Math.max(currentRef.current.x + 24, 24), vw - 220);
+      let py = Math.min(Math.max(currentRef.current.y - 70, 24), vh - 140);
+
+      // For hero video, keep the prompt inside the hovered media box (no overflow outside it).
+      if (zoneRect && zone === "hero") {
+        const margin = 8;
+        // Conservative sizing for the prompt so we can clamp top/left safely.
+        const promptW = 235;
+        const promptH = 44;
+
+        const minX = zoneRect.left + margin;
+        const minY = zoneRect.top + margin;
+        const maxX = zoneRect.right - promptW - margin;
+        const maxY = zoneRect.bottom - promptH - margin;
+
+        // If the zone is too small, fall back to the minimum anchor.
+        px = maxX >= minX ? Math.min(Math.max(px, minX), maxX) : minX;
+        py = maxY >= minY ? Math.min(Math.max(py, minY), maxY) : minY;
+      }
 
       setPromptZone(zone);
       setPromptItems(items.slice(0, zone === "demo" ? 3 : 3));
@@ -147,9 +180,9 @@ export function CanvasCursor() {
       setPanelAnchor({ x: Math.min(px + 8, vw - 280), y: Math.min(py + 52, vh - 220) });
 
       if (promptCloseTimeoutRef.current) window.clearTimeout(promptCloseTimeoutRef.current);
-      schedulePromptAutoHide();
+      schedulePromptAutoHideRef.current();
     },
-    [prompts, schedulePromptAutoHide],
+    [prompts],
   );
 
   const setCursorDomVariables = useCallback((x: number, y: number) => {
@@ -236,6 +269,20 @@ export function CanvasCursor() {
         const zoneEl = getClosest<HTMLElement>(nextEl, "[data-interaction-zone]");
         const zone = zoneEl?.dataset.interactionZone ?? null;
 
+        // Track whether the pointer is currently hovering our own floating UI.
+        // This avoids relying on mouse events on non-interactive elements.
+        const promptHoverNow = !!getClosest<HTMLElement>(nextEl, "[data-cursor-prompt]");
+        const panelHoverNow = !!getClosest<HTMLElement>(nextEl, "[data-cursor-panel]");
+        const promptHoverWas = promptHoveringRef.current;
+        const panelHoverWas = panelHoveringRef.current;
+
+        if ((promptHoverNow && !promptHoverWas) || (panelHoverNow && !panelHoverWas)) {
+          if (promptTimeoutRef.current) window.clearTimeout(promptTimeoutRef.current);
+        }
+
+        promptHoveringRef.current = promptHoverNow;
+        panelHoveringRef.current = panelHoverNow;
+
         let nextMode: CursorMode = "default";
         let nextLabel: string | null = null;
 
@@ -285,6 +332,17 @@ export function CanvasCursor() {
         if (zone === "hero" || zone === "demo" || zone === "case-study") nextRichZone = zone;
         inRichZoneRef.current = nextRichZone !== null || promptHoveringRef.current || panelHoveringRef.current;
 
+        // If the prompt/panel was hovered and the pointer left it while still in the same rich zone,
+        // restart the auto-hide timer (previously done via mouse events).
+        if (
+          nextRichZone &&
+          promptVisible &&
+          ((promptHoverWas && !promptHoverNow && !panelHoverNow) ||
+            (panelHoverWas && !panelHoverNow && !promptHoverNow))
+        ) {
+          schedulePromptAutoHideRef.current();
+        }
+
         if (nextRichZone !== prevRichZoneRef.current) {
           // Leaving a rich zone.
           if (!nextRichZone) {
@@ -303,16 +361,20 @@ export function CanvasCursor() {
             hidePrompt();
 
             // Delay slightly so it feels like a "micro interaction", not a jumpy tooltip.
+            const zoneRectSnapshot = zoneEl?.getBoundingClientRect();
             window.setTimeout(() => {
               if (!prevRichZoneRef.current) return;
               const z = nextRichZone as "hero" | "demo" | "case-study";
               if (prevRichZoneRef.current !== z) return;
-              showPromptForZone(z);
+              showPromptForZone(z, zoneRectSnapshot);
             }, 120);
           }
         } else if (nextRichZone && !promptVisible && !promptHoveringRef.current && !panelHoveringRef.current) {
           // Re-show prompt if user is still in a rich zone and it faded.
-          showPromptForZone(nextRichZone as "hero" | "demo" | "case-study");
+          showPromptForZone(
+            nextRichZone as "hero" | "demo" | "case-study",
+            zoneEl?.getBoundingClientRect(),
+          );
         }
 
         // Only commit React state when it changes.
@@ -333,7 +395,7 @@ export function CanvasCursor() {
       if (promptTimeoutRef.current) window.clearTimeout(promptTimeoutRef.current);
       if (promptCloseTimeoutRef.current) window.clearTimeout(promptCloseTimeoutRef.current);
     };
-  }, [hidePrompt, setCursorDomVariables, showPromptForZone]);
+  }, [hidePrompt, promptVisible, setCursorDomVariables, showPromptForZone]);
 
   useEffect(() => {
     if (!promptVisible) return;
@@ -406,6 +468,27 @@ export function CanvasCursor() {
         };
       }
 
+      if (id === "explore") {
+        return {
+          type: "explore-links",
+          title: "Explore",
+          links: [
+            {
+              id: "macys",
+              label: "Macy's",
+              url: "https://www.macys.com/",
+              iconLetter: "M",
+            },
+            {
+              id: "ourplace",
+              label: "Our Place",
+              url: "https://fromourplace.com/",
+              iconLetter: "O",
+            },
+          ],
+        };
+      }
+
       return {
         type: "info",
         title: id === "interaction" ? "See Interaction" : "Explore",
@@ -417,39 +500,9 @@ export function CanvasCursor() {
     setActivePanel(buildPanel());
     setPollVote(null);
     setPanelVisible(true);
-    setPromptVisible(true);
-    schedulePromptAutoHide();
-  };
-
-  const onPromptMouseEnter = () => {
-    promptHoveringRef.current = true;
-    inRichZoneRef.current = true;
-    if (promptTimeoutRef.current) window.clearTimeout(promptTimeoutRef.current);
-  };
-
-  const onPromptMouseLeave = () => {
-    promptHoveringRef.current = false;
-    if (!inRichZoneRef.current && !panelHoveringRef.current) {
-      hidePrompt();
-      return;
-    }
-    schedulePromptAutoHide();
-  };
-
-  const onPanelMouseEnter = () => {
-    panelHoveringRef.current = true;
-    inRichZoneRef.current = true;
-    if (promptTimeoutRef.current) window.clearTimeout(promptTimeoutRef.current);
-  };
-
-  const onPanelMouseLeave = () => {
-    panelHoveringRef.current = false;
-    if (!inRichZoneRef.current && !promptHoveringRef.current) {
-      setPanelVisible(false);
-      hidePrompt();
-      return;
-    }
-    schedulePromptAutoHide();
+    // For the Explore destination picker, keep the prompt buttons out of the way.
+    setPromptVisible(id !== "explore");
+    schedulePromptAutoHideRef.current();
   };
 
   return (
@@ -472,12 +525,11 @@ export function CanvasCursor() {
       </div>
 
       {promptZone && promptAnchor && (
-        <div
+        <section
           className={`canvas-cursor__prompt canvas-cursor__prompt--${promptZone}`}
+          data-cursor-prompt="true"
           data-visible={promptVisible ? "true" : "false"}
           style={{ left: promptAnchor.x, top: promptAnchor.y }}
-          onMouseEnter={onPromptMouseEnter}
-          onMouseLeave={onPromptMouseLeave}
         >
           <div className="canvas-cursor__promptInner">
             {promptItems.map((item) => (
@@ -495,16 +547,15 @@ export function CanvasCursor() {
               </button>
             ))}
           </div>
-        </div>
+        </section>
       )}
 
       {activePanel && panelAnchor && (
-        <div
+        <section
           className={`canvas-cursor__panel canvas-cursor__panel--${activePanel.type}`}
+          data-cursor-panel="true"
           data-visible={panelVisible ? "true" : "false"}
           style={{ left: panelAnchor.x, top: panelAnchor.y }}
-          onMouseEnter={onPanelMouseEnter}
-          onMouseLeave={onPanelMouseLeave}
         >
           <div className="canvas-cursor__panelInner">
             {activePanel.type === "qr" ? (
@@ -542,6 +593,51 @@ export function CanvasCursor() {
               </>
             ) : null}
 
+            {activePanel.type === "explore-links" ? (
+              <>
+                <p className="canvas-cursor__panelTitle">{activePanel.title}</p>
+                <p className="canvas-cursor__panelText">Choose a destination</p>
+                <div className="canvas-cursor__pollActions">
+                  {activePanel.links.map((link) => (
+                    <button
+                      key={link.id}
+                      type="button"
+                      className="canvas-cursor__pollBtn"
+                      aria-label={`Open ${link.label}`}
+                      onClick={() => {
+                        window.open(link.url, "_blank", "noopener,noreferrer");
+                      }}
+                    >
+                      <span className="inline-flex items-center gap-2">
+                        <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true">
+                          <defs>
+                            <linearGradient id={`g-${link.id}`} x1="0" y1="0" x2="32" y2="32">
+                              <stop offset="0" stopColor="rgba(129, 140, 248, 0.9)" />
+                              <stop offset="1" stopColor="rgba(249, 115, 22, 0.85)" />
+                            </linearGradient>
+                          </defs>
+                          <circle cx="16" cy="16" r="14" fill="url(#g-${link.id})" opacity="0.18" />
+                          <circle cx="16" cy="16" r="14" fill="none" stroke="rgba(255,255,255,0.35)" />
+                          <text
+                            x="16"
+                            y="20.5"
+                            textAnchor="middle"
+                            fontSize="14"
+                            fontWeight="800"
+                            fill="rgba(255, 255, 255, 0.92)"
+                            fontFamily="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial"
+                          >
+                            {link.iconLetter}
+                          </text>
+                        </svg>
+                        <span>{link.label}</span>
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </>
+            ) : null}
+
             {activePanel.type === "info" ? (
               <>
                 <p className="canvas-cursor__panelTitle">{activePanel.title}</p>
@@ -554,7 +650,7 @@ export function CanvasCursor() {
               </>
             ) : null}
           </div>
-        </div>
+        </section>
       )}
     </>
   );
