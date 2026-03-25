@@ -344,13 +344,13 @@ export function RequestDemoModal({ open, onClose }: RequestDemoModalProps) {
                                   canSubmit ? "hover:shadow-md" : "cursor-not-allowed opacity-60",
                                 ].join(" ")}
                               >
-                                <span className="relative flex items-center gap-2 overflow-hidden rounded-full bg-white px-8 py-2.5 text-slate-900">
+                                <span className="relative flex items-center gap-1.5 overflow-hidden rounded-full bg-white px-5 py-1.5 text-slate-900">
                                   <span className="pointer-events-none absolute inset-0 origin-right scale-x-0 bg-slate-900 transition-transform duration-300 ease-out group-hover:scale-x-100" />
-                                  <span className="relative z-10 transition-colors duration-200 group-hover:text-white">Request Demo</span>
-                                  <span className="relative z-10 flex h-[32px] w-[32px] items-center justify-center rounded-[11px] bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] text-white">
+                                  <span className="relative z-10 text-[12px] transition-colors duration-200 group-hover:text-white">Request Demo</span>
+                                  <span className="relative z-10 flex h-[24px] w-[24px] items-center justify-center rounded-[8px] bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] text-white">
                                     <svg
-                                      width="14"
-                                      height="14"
+                                      width="10"
+                                      height="10"
                                       viewBox="0 0 24 24"
                                       fill="none"
                                       stroke="currentColor"
