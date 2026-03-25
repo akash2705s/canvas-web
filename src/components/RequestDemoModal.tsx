@@ -43,6 +43,8 @@ export function RequestDemoModal({ open, onClose }: RequestDemoModalProps) {
     email: "",
     company: "",
   });
+  const [showForm, setShowForm] = useState(false);
+  const [activeField, setActiveField] = useState<keyof FormState | null>(null);
 
   useEffect(() => {
     if (!open) return;
@@ -55,12 +57,21 @@ export function RequestDemoModal({ open, onClose }: RequestDemoModalProps) {
 
   useEffect(() => {
     if (!open) return;
-    // prevent background scroll
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = prev;
     };
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) {
+      setShowForm(false);
+      return;
+    }
+    setShowForm(false);
+    const id = window.setTimeout(() => setShowForm(true), 1200);
+    return () => window.clearTimeout(id);
   }, [open]);
 
   const canSubmit = useMemo(() => {
@@ -71,6 +82,36 @@ export function RequestDemoModal({ open, onClose }: RequestDemoModalProps) {
       form.email.includes("@")
     );
   }, [form]);
+
+  const firstNameHint = form.firstName.trim()
+    ? `Nice to meet you, ${form.firstName.trim()}.`
+    : "Tell us your first name so we can personalize the walkthrough.";
+  const lastNameHint = form.lastName.trim()
+    ? `Thanks, ${form.lastName.trim()} looks perfect.`
+    : "Add your last name so we can prep your personalized brief.";
+  const emailHint = form.email.trim()
+    ? "We will use this to tailor your live walkthrough in real time."
+    : "Drop your work email and we will tune the narrative to your stack.";
+  const completionScore = [
+    form.firstName.trim().length > 0,
+    form.lastName.trim().length > 0,
+    form.email.trim().length > 0 && form.email.includes("@"),
+    form.company.trim().length > 0,
+  ].filter(Boolean).length;
+  const completionPct = `${(completionScore / 4) * 100}%`;
+
+  const activeHint = (() => {
+    if (activeField === "firstName") return firstNameHint;
+    if (activeField === "lastName") return lastNameHint;
+    if (activeField === "email") return emailHint;
+    if (activeField === "company")
+      return form.company.trim()
+        ? "Perfect — we will tailor examples to your org context."
+        : "Company helps us pick the right examples (optional).";
+    if (form.email.trim()) return emailHint;
+    if (form.firstName.trim()) return firstNameHint;
+    return "Start typing — the TV overlay adapts instantly.";
+  })();
 
   return (
     <AnimatePresence>
@@ -87,7 +128,7 @@ export function RequestDemoModal({ open, onClose }: RequestDemoModalProps) {
           role="dialog"
         >
           <motion.div
-            className="relative w-full max-w-[650px] overflow-hidden rounded-[28px] bg-white shadow-[0_30px_110px_rgba(0,0,0,0.55)]"
+            className="relative w-full max-w-[560px]"
             initial={{ y: 14, scale: 0.98, opacity: 0 }}
             animate={{ y: 0, scale: 1, opacity: 1 }}
             exit={{ y: 10, scale: 0.985, opacity: 0 }}
@@ -96,120 +137,244 @@ export function RequestDemoModal({ open, onClose }: RequestDemoModalProps) {
             <button
               type="button"
               onClick={onClose}
-              className="absolute right-5 top-5 inline-flex h-8 w-8 items-center justify-center rounded-full text-slate-400 hover:bg-slate-50 hover:text-slate-700"
+              className="absolute right-4 top-4 z-20 inline-flex h-8 w-8 items-center justify-center rounded-full text-slate-300 hover:bg-slate-800 hover:text-white"
               aria-label="Close"
             >
               <CloseIcon />
             </button>
 
-            <div className="px-7 pb-6 pt-5 sm:px-8 sm:pb-7 sm:pt-6">
-              <div className="text-left">
-                <h2 className="text-[28px] font-extrabold leading-[1.1] tracking-tight text-slate-900 sm:text-[30px] [font-family:var(--font-display)]">
-                  Have Questions?
-                  <br />
-                  <span className="text-[#4F46E5]">Schedule a demo</span>
-                </h2>
+            <div className="relative overflow-hidden rounded-[30px] border border-slate-700/70 bg-[radial-gradient(circle_at_10%_-10%,#020617,#020617_60%)] p-3 shadow-[0_40px_160px_rgba(15,23,42,0.95)] ring-1 ring-slate-900/60">
+              <div className="pointer-events-none absolute -inset-24 -z-10 bg-[radial-gradient(circle_at_10%_0%,rgba(56,189,248,0.24),transparent_55%),radial-gradient(circle_at_90%_0%,rgba(244,114,182,0.24),transparent_62%),radial-gradient(circle_at_50%_110%,rgba(249,115,22,0.24),transparent_70%)] blur-[66px]" />
+
+              <div className="flex items-center justify-between gap-3 rounded-2xl bg-slate-950/90 px-4 py-2.5">
+                <div className="flex items-center gap-1.5">
+                  <span className="h-2 w-2 rounded-full bg-rose-500/80" />
+                  <span className="h-2 w-2 rounded-full bg-amber-400/80" />
+                  <span className="h-2 w-2 rounded-full bg-emerald-400/80" />
+                </div>
+                <div className="flex flex-1 justify-end gap-1.5">
+                  <span className="h-[7px] w-[34px] rounded-full bg-slate-700" />
+                  <span className="h-[7px] w-[7px] rounded-full bg-emerald-400/90" />
+                </div>
               </div>
 
-              <div className="mt-5 h-px w-full bg-slate-100" />
+              <div className="relative mt-3 overflow-hidden rounded-[24px] border border-slate-800/80 bg-slate-950">
+                <div className="relative min-h-[248px] w-full p-2 sm:p-2.5">
+                  <div
+                    className="pointer-events-none absolute inset-0 z-10 opacity-[0.18] mix-blend-screen"
+                    style={{
+                      backgroundImage: "url(https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif)",
+                      backgroundSize: "cover",
+                    }}
+                  />
+                  <AnimatePresence mode="wait">
+                    {!showForm ? (
+                      <motion.div
+                        key="boot-screen"
+                        initial={{ opacity: 0.35, scale: 0.98 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 1.04, filter: "blur(8px)" }}
+                        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                        className="relative flex min-h-[232px] items-center justify-center overflow-hidden rounded-[20px] border border-slate-700/70 bg-[radial-gradient(circle_at_20%_10%,rgba(14,116,144,0.22),transparent_45%),radial-gradient(circle_at_90%_0%,rgba(124,58,237,0.22),transparent_42%),linear-gradient(135deg,#020617,#111827_55%,#020617)]"
+                      >
+                        <div className="pointer-events-none absolute inset-0 opacity-45 mix-blend-screen [background-image:repeating-linear-gradient(0deg,transparent_0,transparent_2px,rgba(255,255,255,0.06)_2px,rgba(255,255,255,0.06)_4px)]" />
+                        <div className="text-center">
+                          <p className="text-[12px] uppercase tracking-[0.22em] text-slate-300">
+                            Morphing TV Experience
+                          </p>
+                          <p className="mt-3 text-[18px] font-semibold text-white [font-family:var(--font-display)]">
+                            Activating demo overlay...
+                          </p>
+                          <div className="mx-auto mt-4 h-[3px] w-28 overflow-hidden rounded-full bg-slate-700/80">
+                            <motion.div
+                              className="h-full w-full origin-left bg-gradient-to-r from-emerald-400 via-sky-400 to-violet-400"
+                              initial={{ scaleX: 0 }}
+                              animate={{ scaleX: 1 }}
+                              transition={{ duration: 1.05, ease: "easeOut" }}
+                            />
+                          </div>
+                        </div>
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="request-form"
+                        initial={{ opacity: 0, scale: 0.94, filter: "blur(10px)" }}
+                        animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                        className="overflow-hidden rounded-[22px] bg-white shadow-[0_24px_70px_rgba(15,23,42,0.5)]"
+                      >
+                        <div className="relative px-4 pb-3 pt-3 sm:px-5 sm:pb-4 sm:pt-4">
+                          <div className="pointer-events-none absolute inset-x-0 top-0 h-[2px] bg-[linear-gradient(90deg,#4F46E5_0%,#06B6D4_45%,#22C55E_70%,#F59E0B_100%)]" />
+                          <div className="pointer-events-none absolute inset-0 opacity-[0.12] [background-image:radial-gradient(circle_at_20%_10%,rgba(79,70,229,0.55),transparent_35%),radial-gradient(circle_at_80%_20%,rgba(14,165,233,0.5),transparent_40%),radial-gradient(circle_at_50%_110%,rgba(34,197,94,0.45),transparent_42%)]" />
 
-              <form
-                className="mt-5"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  if (!canSubmit) return;
-                  // No backend wiring yet — just close for now.
-                  onClose();
-                  setForm({ firstName: "", lastName: "", email: "", company: "" });
-                }}
-              >
-                <div className="grid gap-3.5 sm:grid-cols-2">
-                  <label className="block">
-                    <span className="text-[13px] font-semibold text-slate-700">
-                      First Name<span className="text-[#4F46E5]">*</span>
-                    </span>
-                    <input
-                      value={form.firstName}
-                      onChange={(e) => setForm((s) => ({ ...s, firstName: e.target.value }))}
-                      className="mt-2 h-[38px] w-full rounded-[13px] bg-[#F6F7FF] px-4 text-[13px] text-slate-900 outline-none ring-1 ring-slate-100 focus:ring-2 focus:ring-[#4F46E5]/30"
-                      placeholder=""
-                      autoComplete="given-name"
-                    />
-                  </label>
+                          <div className="relative flex items-start justify-between gap-3">
+                            <div className="min-w-0">
+                              <p className="inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-slate-500">
+                                <span className="inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_0_4px_rgba(16,185,129,0.12)]" />
+                                concierge console
+                              </p>
+                              <h2 className="mt-1 text-[19px] font-extrabold leading-[1.05] tracking-tight text-slate-900 sm:text-[21px] [font-family:var(--font-display)]">
+                                Have Questions?
+                                <span className="ml-2 text-[#4F46E5]">Schedule a demo</span>
+                              </h2>
+                            </div>
 
-                  <label className="block">
-                    <span className="text-[13px] font-semibold text-slate-700">
-                      Last Name<span className="text-[#4F46E5]">*</span>
-                    </span>
-                    <input
-                      value={form.lastName}
-                      onChange={(e) => setForm((s) => ({ ...s, lastName: e.target.value }))}
-                      className="mt-2 h-[38px] w-full rounded-[13px] bg-[#F6F7FF] px-4 text-[13px] text-slate-900 outline-none ring-1 ring-slate-100 focus:ring-2 focus:ring-[#4F46E5]/30"
-                      placeholder=""
-                      autoComplete="family-name"
-                    />
-                  </label>
+                            <div className="flex shrink-0 flex-col items-end gap-1">
+                              <span className="rounded-full border border-slate-200 bg-white/70 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-600 backdrop-blur">
+                                {completionScore}/4
+                              </span>
+                              <div className="flex items-center gap-1.5">
+                                {[0, 1, 2, 3].map((i) => (
+                                  <span
+                                    key={i}
+                                    className={[
+                                      "h-[6px] w-[6px] rounded-full transition-colors",
+                                      i < completionScore ? "bg-[#4F46E5]" : "bg-slate-200",
+                                    ].join(" ")}
+                                  />
+                                ))}
+                              </div>
+                            </div>
+                          </div>
 
-                  <label className="block">
-                    <span className="text-[13px] font-semibold text-slate-700">
-                      Email<span className="text-[#4F46E5]">*</span>
-                    </span>
-                    <input
-                      type="email"
-                      value={form.email}
-                      onChange={(e) => setForm((s) => ({ ...s, email: e.target.value }))}
-                      className="mt-2 h-[38px] w-full rounded-[13px] bg-[#F6F7FF] px-4 text-[13px] text-slate-900 outline-none ring-1 ring-slate-100 focus:ring-2 focus:ring-[#4F46E5]/30"
-                      placeholder=""
-                      autoComplete="email"
-                    />
-                  </label>
+                          <div className="mt-2.5 h-1.5 w-full overflow-hidden rounded-full bg-slate-100">
+                            <motion.div
+                              className="h-full rounded-full bg-[linear-gradient(90deg,#4F46E5_0%,#06B6D4_40%,#22C55E_75%)]"
+                              initial={{ width: 0 }}
+                              animate={{ width: completionPct }}
+                              transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
+                            />
+                          </div>
 
-                  <label className="block">
-                    <span className="text-[13px] font-semibold text-slate-700">Company Name</span>
-                    <input
-                      value={form.company}
-                      onChange={(e) => setForm((s) => ({ ...s, company: e.target.value }))}
-                      className="mt-2 h-[38px] w-full rounded-[13px] bg-[#F6F7FF] px-4 text-[13px] text-slate-900 outline-none ring-1 ring-slate-100 focus:ring-2 focus:ring-[#4F46E5]/30"
-                      placeholder=""
-                      autoComplete="organization"
-                    />
-                  </label>
+                          <AnimatePresence mode="wait">
+                            <motion.div
+                              key={`${activeField ?? "none"}-${completionScore}-${form.firstName}-${form.lastName}-${form.email}-${form.company}`}
+                              initial={{ y: 10, opacity: 0, filter: "blur(6px)" }}
+                              animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+                              exit={{ y: -8, opacity: 0, filter: "blur(6px)" }}
+                              transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                              className="mt-2.5 flex items-start gap-2 rounded-[14px] border border-slate-200/90 bg-white/70 px-3 py-2 backdrop-blur"
+                            >
+                              <span className="mt-0.5 inline-flex h-5 w-5 items-center justify-center rounded-full bg-slate-900 text-[10px] font-bold text-white">
+                                i
+                              </span>
+                              <p className="text-[12px] leading-relaxed text-slate-700">{activeHint}</p>
+                            </motion.div>
+                          </AnimatePresence>
+
+                          <div className="mt-3.5 h-px w-full bg-slate-100" />
+
+                          <form
+                            className="mt-3.5"
+                            onSubmit={(e) => {
+                              e.preventDefault();
+                              if (!canSubmit) return;
+                              onClose();
+                              setForm({ firstName: "", lastName: "", email: "", company: "" });
+                            }}
+                          >
+                            <div className="grid gap-2.5 sm:grid-cols-2">
+                              <label className="block">
+                                <span className="text-[13px] font-semibold text-slate-700">
+                                  First Name<span className="text-[#4F46E5]">*</span>
+                                </span>
+                                <input
+                                  value={form.firstName}
+                                  onChange={(e) => setForm((s) => ({ ...s, firstName: e.target.value }))}
+                                  onFocus={() => setActiveField("firstName")}
+                                  onBlur={() => setActiveField(null)}
+                                  className="mt-1.5 h-[34px] w-full rounded-[11px] bg-[#F6F7FF] px-3 text-[12px] text-slate-900 outline-none ring-1 ring-slate-100 focus:ring-2 focus:ring-[#4F46E5]/30"
+                                  placeholder=""
+                                  autoComplete="given-name"
+                                />
+                              </label>
+
+                              <label className="block">
+                                <span className="text-[13px] font-semibold text-slate-700">
+                                  Last Name<span className="text-[#4F46E5]">*</span>
+                                </span>
+                                <input
+                                  value={form.lastName}
+                                  onChange={(e) => setForm((s) => ({ ...s, lastName: e.target.value }))}
+                                  onFocus={() => setActiveField("lastName")}
+                                  onBlur={() => setActiveField(null)}
+                                  className="mt-1.5 h-[34px] w-full rounded-[11px] bg-[#F6F7FF] px-3 text-[12px] text-slate-900 outline-none ring-1 ring-slate-100 focus:ring-2 focus:ring-[#4F46E5]/30"
+                                  placeholder=""
+                                  autoComplete="family-name"
+                                />
+                              </label>
+
+                              <label className="block">
+                                <span className="text-[13px] font-semibold text-slate-700">
+                                  Email<span className="text-[#4F46E5]">*</span>
+                                </span>
+                                <input
+                                  type="email"
+                                  value={form.email}
+                                  onChange={(e) => setForm((s) => ({ ...s, email: e.target.value }))}
+                                  onFocus={() => setActiveField("email")}
+                                  onBlur={() => setActiveField(null)}
+                                  className="mt-1.5 h-[34px] w-full rounded-[11px] bg-[#F6F7FF] px-3 text-[12px] text-slate-900 outline-none ring-1 ring-slate-100 focus:ring-2 focus:ring-[#4F46E5]/30"
+                                  placeholder=""
+                                  autoComplete="email"
+                                />
+                              </label>
+
+                              <label className="block">
+                                <span className="text-[13px] font-semibold text-slate-700">Company Name</span>
+                                <input
+                                  value={form.company}
+                                  onChange={(e) => setForm((s) => ({ ...s, company: e.target.value }))}
+                                  onFocus={() => setActiveField("company")}
+                                  onBlur={() => setActiveField(null)}
+                                  className="mt-1.5 h-[34px] w-full rounded-[11px] bg-[#F6F7FF] px-3 text-[12px] text-slate-900 outline-none ring-1 ring-slate-100 focus:ring-2 focus:ring-[#4F46E5]/30"
+                                  placeholder=""
+                                  autoComplete="organization"
+                                />
+                              </label>
+                            </div>
+
+                            <div className="mt-3 flex justify-center">
+                              <button
+                                type="submit"
+                                disabled={!canSubmit}
+                                className={[
+                                  "group inline-flex items-center gap-2 rounded-full bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] p-[3px] text-sm font-semibold shadow-sm transition",
+                                  canSubmit ? "hover:shadow-md" : "cursor-not-allowed opacity-60",
+                                ].join(" ")}
+                              >
+                                <span className="relative flex items-center gap-2 overflow-hidden rounded-full bg-white px-8 py-2.5 text-slate-900">
+                                  <span className="pointer-events-none absolute inset-0 origin-right scale-x-0 bg-slate-900 transition-transform duration-300 ease-out group-hover:scale-x-100" />
+                                  <span className="relative z-10 transition-colors duration-200 group-hover:text-white">Request Demo</span>
+                                  <span className="relative z-10 flex h-[32px] w-[32px] items-center justify-center rounded-[11px] bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] text-white">
+                                    <svg
+                                      width="14"
+                                      height="14"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      strokeWidth="2.5"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      aria-hidden="true"
+                                      role="presentation"
+                                      focusable="false"
+                                    >
+                                      <path d="M5 12h14" />
+                                      <path d="M12 5l7 7-7 7" />
+                                    </svg>
+                                  </span>
+                                </span>
+                              </button>
+                            </div>
+                          </form>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
-
-                <div className="mt-6 flex justify-center">
-                  <button
-                    type="submit"
-                    disabled={!canSubmit}
-                    className={[
-                      "group inline-flex items-center gap-2 rounded-full bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] p-[3px] text-sm font-semibold shadow-sm transition",
-                      canSubmit ? "hover:shadow-md" : "opacity-60 cursor-not-allowed",
-                    ].join(" ")}
-                  >
-                    <span className="relative flex items-center gap-2 overflow-hidden rounded-full bg-white px-8 py-2.5 text-slate-900">
-                      <span className="pointer-events-none absolute inset-0 origin-right scale-x-0 bg-slate-900 transition-transform duration-300 ease-out group-hover:scale-x-100" />
-                      <span className="relative z-10 transition-colors duration-200 group-hover:text-white">Submit</span>
-                      <span className="relative z-10 flex h-[32px] w-[32px] items-center justify-center rounded-[11px] bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] text-white">
-                        <svg
-                          width="14"
-                          height="14"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          aria-hidden="true"
-                          role="presentation"
-                          focusable="false"
-                        >
-                          <path d="M5 12h14" />
-                          <path d="M12 5l7 7-7 7" />
-                        </svg>
-                      </span>
-                    </span>
-                  </button>
-                </div>
-              </form>
+              </div>
             </div>
           </motion.div>
         </motion.div>

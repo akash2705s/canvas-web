@@ -49,7 +49,15 @@ function Counter({ value, delay }: { value: number; delay: number }) {
   return <span>{displayValue}%</span>;
 }
 
-function CardVisual({ id }: { id: CardId }) {
+function CardVisual({
+  id,
+  replayToken,
+  onReplay,
+}: {
+  id: CardId;
+  replayToken: number;
+  onReplay: () => void;
+}) {
   if (id === "ai-conversion") {
     const rows = [
       { label: "QR Code CTA", value: 98, color: "bg-orange-400" },
@@ -58,7 +66,15 @@ function CardVisual({ id }: { id: CardId }) {
     ];
 
     return (
-      <div className="mt-4 space-y-1.5 rounded-2xl bg-[#020420] px-2.5 py-2.5 text-[10px] text-slate-100 shadow-[0_14px_40px_rgba(59,130,246,0.5)] ring-1 ring-indigo-500/40">
+      <button
+        key={replayToken}
+        type="button"
+        className="mt-4 space-y-1.5 rounded-2xl bg-[#020420] px-2.5 py-2.5 text-[10px] text-slate-100 shadow-[0_14px_40px_rgba(59,130,246,0.5)] ring-1 ring-indigo-500/40"
+        data-cursor="hover"
+        data-cursor-label="Click to interact"
+        data-interaction-zone="custom-card"
+        onClick={onReplay}
+      >
         {rows.map((row, idx) => (
           <motion.div
             key={row.label}
@@ -74,7 +90,7 @@ function CardVisual({ id }: { id: CardId }) {
               />
               <span className="text-[9px] text-slate-200">{row.label}</span>
             </div>
-            <motion.span 
+            <motion.span
               className="text-[9px] font-semibold text-slate-100"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -85,20 +101,28 @@ function CardVisual({ id }: { id: CardId }) {
             </motion.span>
           </motion.div>
         ))}
-      </div>
+      </button>
     );
   }
 
   if (id === "intent-signals") {
     return (
-      <div className="mt-4 overflow-hidden rounded-2xl bg-gradient-to-b from-white to-[rgba(249,115,22,0.07)] px-4 py-3 ring-1 ring-[rgba(249,115,22,0.18)] shadow-[0_18px_55px_rgba(249,115,22,0.16)]">
+      <button
+        key={replayToken}
+        type="button"
+        className="mt-4 overflow-hidden rounded-2xl bg-gradient-to-b from-white to-[rgba(249,115,22,0.07)] px-4 py-3 ring-1 ring-[rgba(249,115,22,0.18)] shadow-[0_18px_55px_rgba(249,115,22,0.16)]"
+        data-cursor="hover"
+        data-cursor-label="Click to interact"
+        data-interaction-zone="custom-card"
+        onClick={onReplay}
+      >
         <div className="relative overflow-hidden rounded-2xl bg-white/80 px-4 pb-3 pt-3 ring-1 ring-zinc-100">
           <div className="pointer-events-none absolute inset-0">
             <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(244,63,94,0.0),rgba(249,115,22,0.10),rgba(234,179,8,0.08),rgba(244,63,94,0.0))]" />
             <div className="absolute inset-0 opacity-60 [background-image:linear-gradient(to_right,rgba(24,24,27,0.05)_1px,transparent_1px),linear-gradient(to_top,rgba(24,24,27,0.05)_1px,transparent_1px)] [background-size:18px_18px]" />
           </div>
 
-          <motion.div 
+          <motion.div
             className="relative flex items-end justify-between gap-2"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -130,7 +154,7 @@ function CardVisual({ id }: { id: CardId }) {
             })}
           </motion.div>
         </div>
-      </div>
+      </button>
     );
   }
 
@@ -142,7 +166,15 @@ function CardVisual({ id }: { id: CardId }) {
     ];
 
     return (
-      <div className="mt-4 overflow-hidden rounded-2xl bg-gradient-to-b from-[#0B1027] via-[#080A1A] to-[#020617] px-3 py-3 text-[9px] text-violet-50 shadow-[0_18px_55px_rgba(79,70,229,0.45)] ring-1 ring-indigo-500/30">
+      <button
+        key={replayToken}
+        type="button"
+        className="mt-4 overflow-hidden rounded-2xl bg-gradient-to-b from-[#0B1027] via-[#080A1A] to-[#020617] px-3 py-3 text-[9px] text-violet-50 shadow-[0_18px_55px_rgba(79,70,229,0.45)] ring-1 ring-indigo-500/30"
+        data-cursor="hover"
+        data-cursor-label="Click to interact"
+        data-interaction-zone="custom-card"
+        onClick={onReplay}
+      >
         <div className="relative overflow-hidden rounded-2xl bg-white/[0.04] px-3 py-3 ring-1 ring-white/10">
           <div className="pointer-events-none absolute inset-0 opacity-70 [background-image:linear-gradient(to_right,rgba(148,163,184,0.16)_1px,transparent_1px),linear-gradient(to_top,rgba(148,163,184,0.16)_1px,transparent_1px)] [background-size:22px_18px]" />
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(99,102,241,0.25),transparent_55%),radial-gradient(circle_at_85%_35%,rgba(168,85,247,0.22),transparent_55%),radial-gradient(circle_at_40%_110%,rgba(249,115,22,0.18),transparent_60%)]" />
@@ -196,7 +228,7 @@ function CardVisual({ id }: { id: CardId }) {
               { x: 138, y: 18, c: "#6366F1" },
               { x: 186, y: 34, c: "#A855F7" },
             ].map((p, idx) => (
-              <motion.g 
+              <motion.g
                 key={`${p.x}-${p.y}`}
                 initial={{ scale: 0 }}
                 whileInView={{ scale: 1 }}
@@ -209,7 +241,7 @@ function CardVisual({ id }: { id: CardId }) {
             ))}
           </motion.svg>
 
-          <motion.div 
+          <motion.div
             className="relative mt-2 flex items-center justify-between"
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -224,20 +256,26 @@ function CardVisual({ id }: { id: CardId }) {
             ))}
           </motion.div>
         </div>
-      </div>
+      </button>
     );
   }
 
   if (id === "runtime") {
     return (
-      <motion.div 
+      <motion.button
+        key={replayToken}
+        type="button"
         className="mt-4 rounded-2xl bg-[#020617] px-3 py-3 text-[10px] leading-4 text-slate-100 shadow-[0_10px_30px_rgba(15,23,42,0.6)] ring-1 ring-slate-800/80"
+        data-cursor="hover"
+        data-cursor-label="Click to interact"
+        data-interaction-zone="custom-card"
+        onClick={onReplay}
         initial={{ opacity: 0, scale: 0.95 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true, amount: 0.5 }}
         transition={{ duration: 0.6 }}
       >
-        <motion.div 
+        <motion.div
           className="mb-2 flex items-center justify-between text-[9px] text-slate-400"
           initial={{ opacity: 0, x: -10 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -245,7 +283,7 @@ function CardVisual({ id }: { id: CardId }) {
           transition={{ duration: 0.5, delay: 0.1 }}
         >
           <span className="inline-flex items-center gap-1">
-            <motion.span 
+            <motion.span
               className="inline-flex h-2 w-2 items-center justify-center rounded-full bg-emerald-500/90"
               animate={{ opacity: [0.5, 1, 0.5] }}
               transition={{ duration: 2, repeat: Infinity }}
@@ -259,7 +297,7 @@ function CardVisual({ id }: { id: CardId }) {
               canvas-runtime.ts
             </motion.span>
           </span>
-          <motion.span 
+          <motion.span
             className="rounded-full bg-emerald-500/10 px-2 py-0.5 text-[8px] font-medium text-emerald-300"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -269,7 +307,7 @@ function CardVisual({ id }: { id: CardId }) {
             Live
           </motion.span>
         </motion.div>
-        <motion.code 
+        <motion.code
           className="block rounded-xl bg-slate-900/70 px-3 py-2 font-mono text-[9px] leading-relaxed text-slate-100"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -291,7 +329,7 @@ function CardVisual({ id }: { id: CardId }) {
             <TypewriterText text={`// ✓ Ready — Canvas is live`} delay={1} />
           </span>
         </motion.code>
-      </motion.div>
+      </motion.button>
     );
   }
 
@@ -341,6 +379,13 @@ const CARDS = [
 ];
 
 export function PlatformCapabilitiesSection() {
+  const [replayByCard, setReplayByCard] = React.useState<Record<CardId, number>>({
+    "ai-conversion": 0,
+    "intent-signals": 0,
+    analytics: 0,
+    runtime: 0,
+  });
+
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-[#f5f2ff] via-[#f7f4ff] to-[#f9f6ff] py-16 sm:py-20">
       <div className="pointer-events-none absolute inset-0">
@@ -375,6 +420,7 @@ export function PlatformCapabilitiesSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.4 }}
               transition={{ duration: 0.7, delay: 0.1 + idx * 0.08, ease: [0.16, 1, 0.3, 1] }}
+              data-cursor="default"
             >
               <div className="flex items-center justify-between">
                 <span className="inline-flex h-[40px] w-[40px] items-center justify-center rounded-[14px] bg-zinc-50 ring-1 ring-zinc-100">
@@ -391,7 +437,14 @@ export function PlatformCapabilitiesSection() {
               </div>
               <h3 className="mt-4 text-[15px] font-semibold leading-5 text-zinc-900">{card.title}</h3>
               <p className="mt-2 text-[12px] leading-5 text-zinc-600">{card.body}</p>
-              <CardVisual id={card.id as CardId} />
+              <CardVisual
+                id={card.id as CardId}
+                replayToken={replayByCard[card.id as CardId] ?? 0}
+                onReplay={() => {
+                  const id = card.id as CardId;
+                  setReplayByCard((prev) => ({ ...prev, [id]: (prev[id] ?? 0) + 1 }));
+                }}
+              />
               <div className="mt-auto pt-4">
                 <div
                   className={`inline-flex items-center rounded-full px-3 py-1 text-[11px] font-medium ${card.footerTint}`}

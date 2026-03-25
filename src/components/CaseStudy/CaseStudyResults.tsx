@@ -2,12 +2,13 @@
 
 import { motion, useInView } from "framer-motion";
 import Image from "next/image";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import tickIcon from "@/assets/case_Studies/results/tick1.svg";
 
 export function CaseStudyResults() {
   const cardRef = useRef<HTMLDivElement>(null);
   const cardInView = useInView(cardRef, { amount: 0.5, once: true });
+  const [replayToken, setReplayToken] = useState(0);
   const shouldBlur = !cardInView;
   return (
     <section className="relative overflow-hidden py-16 sm:py-20 lg:py-24" style={{ backgroundColor: "rgba(255, 255, 255, 1)" }}>
@@ -25,15 +26,15 @@ export function CaseStudyResults() {
           </motion.div>
 
           <motion.h2
-            className="mt-6 text-[32px] font-extrabold leading-[1.12] tracking-[-0.04em] text-slate-900 sm:text-[40px] lg:text-[52px] [font-family:var(--font-display)]"
+            className="mt-6 text-[38px] leading-[1.05] font-semibold tracking-tight text-slate-900 sm:text-[44px]"
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <span className="block">The results weren't</span>
-            <span className="block">just good.</span>
-            <span className="block" style={{ color: "rgba(167, 139, 250, 1)" }}>
+            <span className="block leading-[1.05]">The results weren't</span>
+            <span className="block leading-[1.05]">just good.</span>
+            <span className="block leading-[1.05]" style={{ color: "rgba(167, 139, 250, 1)" }}>
               They were historic.
             </span>
           </motion.h2>
@@ -111,6 +112,11 @@ export function CaseStudyResults() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
             ref={cardRef}
+            key={replayToken}
+            onClick={() => setReplayToken((v) => v + 1)}
+            data-cursor="hover"
+            data-cursor-label="Click to interact"
+            data-interaction-zone="custom-card"
           >
             <motion.div
               className="w-full max-w-sm rounded-2xl bg-white p-8 shadow-[0_20px_60px_rgba(0,0,0,0.12)] border border-white/20 space-y-5 transition-shadow"

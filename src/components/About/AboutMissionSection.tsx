@@ -94,6 +94,7 @@ export function AboutMissionSection() {
             </div>
 
             <motion.p
+              data-cursor="hover"
               className="mt-4 rounded-xl border border-[#4F46E5]/20 bg-[#4F46E5]/6 px-4 py-2.5 text-sm leading-relaxed text-slate-700 sm:text-[15px]"
               whileHover={{ y: -1, boxShadow: "0 12px 26px rgba(79,70,229,0.12)" }}
             >
@@ -116,6 +117,7 @@ export function AboutMissionSection() {
           {FEATURE_CARDS.map((card) => (
             <motion.article
               key={card.title}
+              data-cursor="hover"
               variants={{
                 hidden: { opacity: 0, y: 18, filter: "blur(12px)" },
                 visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.6 } },

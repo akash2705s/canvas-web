@@ -327,12 +327,10 @@ html[data-canvas-cursor-enabled="true"] * {
   height: var(--dotSize, 8px);
   border-radius: 9999px;
   transform: translate(-50%, -50%);
-  background: radial-gradient(
-    circle at 35% 30%,
-    rgba(255, 255, 255, 0.95) 0%,
-    color-mix(in srgb, var(--accent) 70%, #ffffff 30%) 38%,
-    color-mix(in srgb, var(--accent) 96%, rgba(0, 0, 0, 0.14) 4%) 85%
-  );
+  background: radial-gradient(circle at 35% 30%,
+      rgba(255, 255, 255, 0.95) 0%,
+      color-mix(in srgb, var(--accent) 70%, #ffffff 30%) 38%,
+      color-mix(in srgb, var(--accent) 96%, rgba(0, 0, 0, 0.14) 4%) 85%);
   box-shadow:
     0 0 0 1px rgba(255, 255, 255, 0.12),
     0 0 0 6px color-mix(in srgb, var(--accent) 18%, transparent),
@@ -345,6 +343,21 @@ html[data-canvas-cursor-enabled="true"] * {
   z-index: 1;
 }
 
+.canvas-cursor__dot::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: radial-gradient(circle at 35% 30%,
+      rgba(255, 255, 255, 0.95) 0%,
+      var(--accent) 75%,
+      rgba(0, 0, 0, 0.14) 100%);
+  /* Start as semicircle (half clipped). */
+  clip-path: inset(0 50% 0 0 round 9999px);
+  opacity: 0;
+  pointer-events: none;
+}
+
 .canvas-cursor__dot::after {
   content: "";
   position: absolute;
@@ -354,15 +367,26 @@ html[data-canvas-cursor-enabled="true"] * {
   height: calc(var(--dotSize, 8px) * 2.25);
   transform: translate(-50%, -50%);
   border-radius: 9999px;
-  background: radial-gradient(
-    circle,
-    color-mix(in srgb, var(--accent) 55%, transparent) 0%,
-    rgba(0, 0, 0, 0) 62%
-  );
-  opacity: 0; /* keep the center dot purely circular; ring is the interactive halo */
+  background: radial-gradient(circle,
+      color-mix(in srgb, var(--accent) 55%, transparent) 0%,
+      rgba(0, 0, 0, 0) 62%);
+  opacity: 0;
+  /* keep the center dot purely circular; ring is the interactive halo */
   filter: none;
   transition: none;
   pointer-events: none;
+}
+
+@keyframes canvas-cursor-dot-fill {
+  from {
+    clip-path: inset(0 50% 0 0 round 9999px);
+    opacity: 1;
+  }
+
+  to {
+    clip-path: inset(0 0% 0 0 round 9999px);
+    opacity: 1;
+  }
 }
 
 .canvas-cursor__ring {
@@ -488,6 +512,14 @@ html[data-canvas-cursor-enabled="true"] * {
 .canvas-cursor[data-mode="explore"] .canvas-cursor__ring,
 .canvas-cursor[data-mode="play"] .canvas-cursor__ring {
   animation: canvas-cursor-ring-pulse 1100ms ease-in-out infinite;
+}
+
+.canvas-cursor[data-mode="hover"] .canvas-cursor__dot::before,
+.canvas-cursor[data-mode="media"] .canvas-cursor__dot::before,
+.canvas-cursor[data-mode="explore"] .canvas-cursor__dot::before,
+.canvas-cursor[data-mode="play"] .canvas-cursor__dot::before {
+  opacity: 1;
+  animation: canvas-cursor-dot-fill 1100ms ease-in-out both;
 }
 
 .canvas-cursor__prompt {

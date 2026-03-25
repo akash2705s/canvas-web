@@ -7,8 +7,10 @@ import ctaIcon from "@/assets/case_Studies/results/cta.svg";
 import storeIcon from "@/assets/case_Studies/results/store_locator.svg";
 import productIcon from "@/assets/case_Studies/results/product_browse.svg";
 import tick3Icon from "@/assets/case_Studies/results/tick3.svg";
+import { useState } from "react";
 
 export function CaseStudyInteractionTypes() {
+  const [replayToken, setReplayToken] = useState(0);
   const interactions = [
     { id: "qr", icon: qrIcon, label: "QR Code Scan", percentage: "38%", color: "rgba(79, 70, 229, 1)", bgColor: "rgba(79, 70, 229, 0.1)" },
     { id: "cta", icon: ctaIcon, label: "Learn More CTA", percentage: "29%", color: "rgba(249, 115, 22, 1)", bgColor: "rgba(249, 115, 22, 0.1)" },
@@ -68,12 +70,17 @@ export function CaseStudyInteractionTypes() {
           {/* Right: Interaction Breakdown */}
           <div className="relative">
             <motion.div
+              key={replayToken}
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.2 }}
               whileHover={{ y: -4, boxShadow: "0 25px 50px rgba(0,0,0,0.1)" }}
               className="rounded-2xl bg-slate-50 p-8 transition-shadow"
+              onClick={() => setReplayToken((v) => v + 1)}
+              data-cursor="hover"
+              data-cursor-label="Click to interact"
+              data-interaction-zone="custom-card"
             >
             <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-8">Interaction Breakdown</p>
 

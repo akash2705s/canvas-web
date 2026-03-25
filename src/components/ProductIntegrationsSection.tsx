@@ -200,6 +200,7 @@ function IntegrationMiniCard({ card, index }: { card: IntegrationCard; index: nu
 
   return (
     <motion.div
+      data-cursor="hover"
       className={[
         "relative overflow-hidden rounded-[20px] border border-white/60 bg-white/80 p-4 shadow-[0_18px_55px_rgba(15,23,42,0.08)] ring-1 ring-slate-100/80 cursor-pointer transition-all duration-300",
         bg,
@@ -255,7 +256,7 @@ export function ProductIntegrationsSection() {
         </div>
 
         <div className="mt-6 text-center">
-          <h2 className="text-[34px] font-extrabold leading-[1.08] tracking-tight text-slate-900 sm:text-[42px] [font-family:var(--font-display)]">
+          <h2 className="text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
             Plugs into your existing stack
           </h2>
           <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-[15px]">

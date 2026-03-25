@@ -3,8 +3,10 @@
 import { motion } from "framer-motion";
 import tick4Icon from "@/assets/case_Studies/results/tick4.svg";
 import Image from "next/image";
+import { useState } from "react";
 
 export function CaseStudyCampaignSpeed() {
+  const [replayToken, setReplayToken] = useState(0);
   const weeks = [
     {
       id: "week1",
@@ -55,11 +57,16 @@ export function CaseStudyCampaignSpeed() {
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16 lg:items-center">
           {/* Left: Timeline Card */}
           <motion.div
+            key={replayToken}
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
             className="relative rounded-2xl bg-white p-8 shadow-[0_20px_60px_rgba(0,0,0,0.12)]"
+            onClick={() => setReplayToken((v) => v + 1)}
+            data-cursor="hover"
+            data-cursor-label="Click to interact"
+            data-interaction-zone="custom-card"
           >
             <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-6">Campaign Timeline — 4 Weeks</p>
 

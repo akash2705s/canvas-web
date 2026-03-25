@@ -41,7 +41,7 @@ export function CaseStudyLiveExperience() {
           </motion.div>
 
           <motion.h2
-            className="mt-3 text-[32px] font-extrabold leading-[1.12] tracking-[-0.04em] text-slate-900 sm:text-[40px] lg:text-[46px] [font-family:var(--font-display)]"
+            className="mt-3 text-[38px] leading-[1.05] font-semibold tracking-tight text-slate-900 sm:text-[44px]"
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}

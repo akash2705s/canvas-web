@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useState } from "react";
 
 import canvasRuntimeIcon from "../assets/Product/runtime/canvas_runtime.svg";
 import interactOverlayIcon from "../assets/Product/runtime/interact_overlay.png";
@@ -12,6 +13,7 @@ import streamIcon from "../assets/Product/runtime/stream.png";
 import tickIcon from "../assets/Product/runtime/tick.svg";
 
 export function ProductRuntimeFeature() {
+  const [replayToken, setReplayToken] = useState(0);
   const architectureItems = [
     {
       id: "streaming-app",
@@ -114,7 +116,10 @@ export function ProductRuntimeFeature() {
 
           {/* Code card */}
           <div className="mt-8 flex w-full flex-col gap-4">
-            <div className="w-full max-w-sm overflow-hidden rounded-[18px] bg-[#050816] shadow-[0_26px_80px_rgba(15,23,42,0.7)] ring-1 ring-slate-900/60">
+            <div
+              className="w-full max-w-sm overflow-hidden rounded-[18px] bg-[#050816] shadow-[0_26px_80px_rgba(15,23,42,0.7)] ring-1 ring-slate-900/60"
+              data-cursor="hover"
+            >
               <div className="flex items-center justify-between border-b border-white/5 bg-black/40 px-4 py-2.5">
                 <div className="flex items-center gap-1.5">
                   <span className="h-2.5 w-2.5 rounded-full bg-red-400" />
@@ -206,6 +211,11 @@ export function ProductRuntimeFeature() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             viewport={{ once: true, amount: 0.5 }}
+            key={replayToken}
+            onClick={() => setReplayToken((v) => v + 1)}
+            data-cursor="hover"
+            data-cursor-label="Click to interact"
+            data-interaction-zone="custom-card"
           >
             <div className="mb-4 flex items-center justify-between text-[11px] font-medium tracking-[0.18em] text-slate-400">
               <span>CANVAS RUNTIME ARCHITECTURE</span>

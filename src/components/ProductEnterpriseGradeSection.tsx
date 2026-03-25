@@ -342,7 +342,7 @@ export function ProductEnterpriseGradeSection() {
         </div>
 
         <div className="mt-6 text-center">
-          <h2 className="text-[32px] font-extrabold leading-[1.08] tracking-tight text-slate-900 sm:text-[40px] [font-family:var(--font-display)]">
+          <h2 className="text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
             Built for streaming infrastructure
           </h2>
           <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-[15px]">
@@ -364,6 +364,7 @@ export function ProductEnterpriseGradeSection() {
             const content = (
               <motion.div
                 key={card.id}
+                data-cursor="hover"
                 className={[
                   "group relative overflow-hidden rounded-[22px] p-6 shadow-[0_18px_45px_rgba(15,23,42,0.08)] ring-1 ring-slate-100/90 cursor-pointer transition-all duration-300",
                   card.tint,

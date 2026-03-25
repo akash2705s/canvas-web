@@ -10,11 +10,20 @@ import tfiIcon from "@/assets/case_Studies/Hero/tfi.svg";
 import intentLiftIcon from "@/assets/case_Studies/Hero/intent_lift.svg";
 import { RequestDemoTrigger } from "@/components/RequestDemoTrigger";
 
-function useCountUp(target: number, inView: boolean, durationMs = 1200) {
+function useCountUp(target: number, inView: boolean, durationMs = 1200, replayToken: number) {
   const [value, setValue] = useState(0);
   const hasAnimatedRef = useRef(false);
+  const prevReplayRef = useRef(replayToken);
 
   useEffect(() => {
+    const replayChanged = prevReplayRef.current !== replayToken;
+    prevReplayRef.current = replayToken;
+
+    if (replayChanged) {
+      hasAnimatedRef.current = false;
+      setValue(0);
+    }
+
     if (!inView) {
       hasAnimatedRef.current = false;
       setValue(0);
@@ -38,19 +47,20 @@ function useCountUp(target: number, inView: boolean, durationMs = 1200) {
     };
 
     requestAnimationFrame(tick);
-  }, [inView, target, durationMs]);
+  }, [inView, target, durationMs, replayToken]);
 
   return inView ? value : 0;
 }
 
 export function CaseStudyHero() {
   const [hoveredMetricId, setHoveredMetricId] = useState<string | null>(null);
+  const [replayToken, setReplayToken] = useState(0);
   const cardRef = useRef<HTMLDivElement>(null);
   const cardInView = useInView(cardRef, { amount: 0.5, once: true });
 
-  const interactionRate = useCountUp(26.2, cardInView);
-  const engagementTime = useCountUp(14, cardInView, 1000);
-  const timeToFirst = useCountUp(6, cardInView, 800);
+  const interactionRate = useCountUp(26.2, cardInView, 1200, replayToken);
+  const engagementTime = useCountUp(14, cardInView, 1000, replayToken);
+  const timeToFirst = useCountUp(6, cardInView, 800, replayToken);
 
   return (
     <section className="relative overflow-hidden" style={{ backgroundColor: "rgba(238, 240, 251, 1)" }}>
@@ -238,8 +248,13 @@ export function CaseStudyHero() {
 
         {/* Right: campaign card */}
         <div className="relative w-full max-w-[580px] lg:-mt-4" ref={cardRef}>
-          <motion.div
-            className="relative overflow-hidden rounded-[24px] bg-white shadow-[0_24px_72px_rgba(15,23,42,0.32)] ring-1 ring-slate-900/5"
+          <motion.button
+            type="button"
+            className="block w-full text-left relative overflow-hidden rounded-[24px] bg-white shadow-[0_24px_72px_rgba(15,23,42,0.32)] ring-1 ring-slate-900/5"
+            data-interaction-zone="custom-card"
+            data-cursor="hover"
+            data-cursor-label="Click to interact"
+            onClick={() => setReplayToken((v) => v + 1)}
           >
             {/* Header */}
             <div className="flex items-start justify-between border-b border-slate-100 px-6 py-4">
@@ -257,6 +272,7 @@ export function CaseStudyHero() {
             <div className="grid grid-cols-3 gap-4 border-b border-slate-100 px-6 py-4 text-[11px]">
               <div className="text-center">
                 <motion.p
+                  key={`interaction-rate-number-${replayToken}`}
                   className="font-extrabold"
                   style={{ fontSize: 24, lineHeight: "24px", color: "rgba(249,115,22,1)" }}
                   initial={{ opacity: 0, scale: 0.5 }}
@@ -266,6 +282,7 @@ export function CaseStudyHero() {
                   {interactionRate.toFixed(1)}%
                 </motion.p>
                 <motion.p
+                  key={`interaction-rate-label-${replayToken}`}
                   className="mt-1 font-medium text-slate-600"
                   initial={{ opacity: 0 }}
                   animate={cardInView ? { opacity: 1 } : { opacity: 0 }}
@@ -276,6 +293,7 @@ export function CaseStudyHero() {
               </div>
               <div className="text-center">
                 <motion.p
+                  key={`engagement-time-number-${replayToken}`}
                   className="font-extrabold"
                   style={{ fontSize: 24, lineHeight: "24px", color: "rgba(129,140,248,1)" }}
                   initial={{ opacity: 0, scale: 0.5 }}
@@ -285,6 +303,7 @@ export function CaseStudyHero() {
                   {engagementTime.toFixed(0)}s+
                 </motion.p>
                 <motion.p
+                  key={`engagement-time-label-${replayToken}`}
                   className="mt-1 font-medium text-slate-600"
                   initial={{ opacity: 0 }}
                   animate={cardInView ? { opacity: 1 } : { opacity: 0 }}
@@ -295,6 +314,7 @@ export function CaseStudyHero() {
               </div>
               <div className="text-center">
                 <motion.p
+                  key={`time-to-first-number-${replayToken}`}
                   className="font-extrabold"
                   style={{ fontSize: 24, lineHeight: "24px", color: "rgba(79, 70, 229, 1)" }}
                   initial={{ opacity: 0, scale: 0.5 }}
@@ -304,6 +324,7 @@ export function CaseStudyHero() {
                   {timeToFirst.toFixed(0)}s+
                 </motion.p>
                 <motion.p
+                  key={`time-to-first-label-${replayToken}`}
                   className="mt-1 font-medium text-slate-600"
                   initial={{ opacity: 0 }}
                   animate={cardInView ? { opacity: 1 } : { opacity: 0 }}
@@ -315,8 +336,8 @@ export function CaseStudyHero() {
             </div>
 
             {/* Interaction breakdown */}
-            <InteractionBreakdown isRevealed={cardInView} />
-          </motion.div>
+            <InteractionBreakdown key={replayToken} isRevealed={cardInView} />
+          </motion.button>
         </div>
       </div>
 
@@ -375,6 +396,7 @@ export function CaseStudyHero() {
           return (
             <motion.div
               key={item.label}
+              data-cursor="hover"
               className="h-[182px] w-[198px] shrink-0"
               initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}

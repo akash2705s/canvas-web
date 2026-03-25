@@ -400,6 +400,7 @@ export function CampaignResultsSection() {
               return (
                 <motion.div
                   key={m.id}
+                  data-cursor="hover"
                   className="h-[182px] w-[198px] shrink-0"
                   initial={{ opacity: 0, y: 18 }}
                   whileInView={{ opacity: 1, y: 0 }}

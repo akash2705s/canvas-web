@@ -3,8 +3,11 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import tick2Icon from "@/assets/case_Studies/results/tick2.svg";
+import { useState } from "react";
 
 export function CaseStudyEngagementDuration() {
+  const [replayToken, setReplayToken] = useState(0);
+
   return (
     <section className="relative overflow-hidden py-16 sm:py-20 lg:py-24" style={{ backgroundColor: "rgba(238, 240, 251, 1)" }}>
       {/* Gradient overlays */}
@@ -20,12 +23,17 @@ export function CaseStudyEngagementDuration() {
           {/* Left: Timeline Chart Card */}
           <div className="relative">
             <motion.div
+              key={replayToken}
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.2 }}
               whileHover={{ y: -4, boxShadow: "0 25px 50px rgba(0,0,0,0.15)" }}
               className="relative rounded-2xl bg-white p-8 shadow-[0_20px_60px_rgba(0,0,0,0.12)] transition-shadow"
+              onClick={() => setReplayToken((v) => v + 1)}
+              data-cursor="hover"
+              data-cursor-label="Click to interact"
+              data-interaction-zone="custom-card"
             >
               <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-6">Viewer Engagement Timeline</p>
 

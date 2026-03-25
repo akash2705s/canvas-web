@@ -144,6 +144,7 @@ export function WhyInteractiveSection() {
           {CARDS.map((card, idx) => (
             <motion.div
               key={card.id}
+              data-cursor="hover"
               className="relative flex h-full flex-col overflow-hidden rounded-[24px] bg-white/95 px-5 pb-5 pt-6 shadow-[0_26px_80px_rgba(15,23,42,0.13)] ring-1 ring-zinc-100/90"
               variants={{
                 hidden: { opacity: 0, y: -60 },

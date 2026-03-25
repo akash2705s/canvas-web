@@ -565,6 +565,7 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
           {STAT_CARDS.map((card) => (
             <motion.div
               key={card.label}
+              data-cursor="hover"
               whileHover={{ y: -8, scale: 1.02 }}
               transition={{ type: "spring", stiffness: 260, damping: 24 }}
               className={[

@@ -65,7 +65,7 @@ export function ProductFaqAccordion() {
         </div>
 
         <div className="mt-6 text-center">
-          <h2 className="text-[28px] font-extrabold leading-[1.1] tracking-tight text-slate-900 sm:text-[32px]">
+          <h2 className="text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
             Frequently asked questions
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-slate-600 sm:text-[15px]">
@@ -113,6 +113,7 @@ export function ProductFaqAccordion() {
               >
                 <motion.button
                   type="button"
+                  data-cursor-label="Click to view"
                   className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left sm:px-6 sm:py-4.5"
                   onClick={() => setOpenId(isOpen ? null : item.id)}
                   whileHover={{ backgroundColor: "rgba(249,115,22,0.02)" }}

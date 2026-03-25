@@ -12,7 +12,6 @@ import intentSignalsIcon from "@/assets/case_Studies/campaign/intent_signal_cap.
 
 export function CaseStudyArchitecture() {
   const ENABLE_CASE_STUDY_ARCHITECTURE = true;
-  if (!ENABLE_CASE_STUDY_ARCHITECTURE) return null;
 
   const steps = [
     {
@@ -60,6 +59,8 @@ export function CaseStudyArchitecture() {
     return () => window.clearInterval(id);
   }, [steps.length]);
 
+  if (!ENABLE_CASE_STUDY_ARCHITECTURE) return null;
+
   return (
     <section className="relative overflow-hidden bg-[#F8FAFF] py-16 sm:py-20 lg:py-24">
       <div className="relative mx-auto max-w-5xl px-6 sm:px-8">
@@ -90,6 +91,7 @@ export function CaseStudyArchitecture() {
               return (
                 <motion.div
                   key={step.title}
+                  data-cursor="hover"
                   className="relative overflow-hidden rounded-2xl border bg-white px-4 py-3.5 transition-all duration-300"
                   style={{
                     borderColor: isActive ? `${step.accent}` : "rgba(226,232,240,1)",

@@ -19,9 +19,12 @@ function useCountUp(target: number, inView: boolean, resetKey: number, durationM
   useEffect(() => {
     if (!inView) return;
 
+    // resetKey intentionally restarts this effect (replay on click)
+    // biome sometimes flags deps when only used as a trigger.
+    const resetSeed = resetKey;
     setValue(0);
 
-    const start = performance.now();
+    const start = performance.now() + resetSeed * 0;
     let rafId = 0;
 
     const tick = (now: number) => {
@@ -55,6 +58,8 @@ export function ProductIntentFeature() {
   const breakdownProgress = useCountUp(1, metricsInView, animationResetKey, 1000);
 
   useEffect(() => {
+    // animationResetKey intentionally triggers replay of the chart path.
+    void animationResetKey;
     if (chartInView) {
       chartControls.set({ pathLength: 0 });
       chartControls.start({ pathLength: 1, transition: { duration: 1.4, ease: [0.22, 1, 0.36, 1] } });
@@ -159,11 +164,14 @@ export function ProductIntentFeature() {
 
         {/* Right: dashboard replica */}
         <div className="relative w-full max-w-[640px] lg:flex-[1.1]">
-          <motion.div
-            className="relative overflow-hidden rounded-[30px] bg-white shadow-[0_30px_90px_rgba(15,23,42,0.4)] ring-1 ring-slate-200/70 px-6 py-5 group"
+          <motion.button
+            key={animationResetKey}
+            type="button"
+            className="relative overflow-hidden rounded-[30px] bg-white shadow-[0_30px_90px_rgba(15,23,42,0.4)] ring-1 ring-slate-200/70 px-6 py-5 group w-full text-left"
             onClick={() => setAnimationResetKey((k) => k + 1)}
-            role="button"
-            tabIndex={0}
+            data-cursor="hover"
+            data-cursor-label="Click to interact"
+            data-interaction-zone="custom-card"
             onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault();
@@ -416,7 +424,7 @@ export function ProductIntentFeature() {
                 </span>
               </div>
             </div>
-          </motion.div>
+          </motion.button>
         </div>
       </div>
     </section>

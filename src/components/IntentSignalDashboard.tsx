@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Area, AreaChart, CartesianGrid, Tooltip, XAxis } from "recharts";
+import { useState } from "react";
 
 const chartData = [
   { label: "W1", qr: 18, cta: 12, explore: 8 },
@@ -15,6 +16,7 @@ const chartData = [
 ];
 
 export function IntentSignalDashboard() {
+  const [replayToken, setReplayToken] = useState(0);
   return (
     <motion.div
       className="relative w-full rounded-[28px] bg-white/95 p-5 shadow-[0_28px_80px_rgba(15,23,42,0.45)] ring-1 ring-zinc-200/80"
@@ -22,6 +24,11 @@ export function IntentSignalDashboard() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.4 }}
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      key={replayToken}
+      onClick={() => setReplayToken((v) => v + 1)}
+      data-cursor="hover"
+      data-cursor-label="Click to interact"
+      data-interaction-zone="custom-card"
     >
       {/* Header */}
       <motion.div className="flex items-start justify-between gap-4" whileHover={{ x: 2 }}>
@@ -59,7 +66,7 @@ export function IntentSignalDashboard() {
           { value: "26.2%", label: "Interaction Rate", color: "text-amber-500" },
           { value: "14s+", label: "Avg Duration", color: "text-sky-500" },
           { value: "3x", label: "Intent Signals", color: "text-violet-500" },
-        ].map((stat, idx) => (
+        ].map((stat) => (
           <motion.div
             key={stat.label}
             variants={{
@@ -93,49 +100,49 @@ export function IntentSignalDashboard() {
             data={chartData}
             margin={{ top: 8, right: 8, left: 0, bottom: 0 }}
           >
-              <defs>
-                <linearGradient id="qrArea" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#F97316" stopOpacity={0.55} />
-                  <stop offset="100%" stopColor="#F97316" stopOpacity={0} />
-                </linearGradient>
-                <linearGradient id="ctaArea" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#0EA5E9" stopOpacity={0.55} />
-                  <stop offset="100%" stopColor="#0EA5E9" stopOpacity={0} />
-                </linearGradient>
-              </defs>
-              <CartesianGrid vertical={false} stroke="#E5E7EB" strokeDasharray="3 3" opacity={0.6} />
-              <XAxis
-                dataKey="label"
-                tickLine={false}
-                axisLine={false}
-                tick={{ fontSize: 10, fill: "#9CA3AF" }}
-              />
-              <Tooltip
-                cursor={{ stroke: "#CBD5F5", strokeWidth: 1 }}
-                contentStyle={{
-                  borderRadius: 10,
-                  border: "1px solid #E5E7EB",
-                  fontSize: 11,
-                }}
-              />
-              <Area
-                type="monotone"
-                dataKey="qr"
-                stroke="#F97316"
-                strokeWidth={2}
-                fill="url(#qrArea)"
-                animationDuration={900}
-              />
-              <Area
-                type="monotone"
-                dataKey="cta"
-                stroke="#6366F1"
-                strokeWidth={2}
-                fill="url(#ctaArea)"
-                animationDuration={900}
-                animationBegin={150}
-              />
-            </AreaChart>
+            <defs>
+              <linearGradient id="qrArea" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#F97316" stopOpacity={0.55} />
+                <stop offset="100%" stopColor="#F97316" stopOpacity={0} />
+              </linearGradient>
+              <linearGradient id="ctaArea" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#0EA5E9" stopOpacity={0.55} />
+                <stop offset="100%" stopColor="#0EA5E9" stopOpacity={0} />
+              </linearGradient>
+            </defs>
+            <CartesianGrid vertical={false} stroke="#E5E7EB" strokeDasharray="3 3" opacity={0.6} />
+            <XAxis
+              dataKey="label"
+              tickLine={false}
+              axisLine={false}
+              tick={{ fontSize: 10, fill: "#9CA3AF" }}
+            />
+            <Tooltip
+              cursor={{ stroke: "#CBD5F5", strokeWidth: 1 }}
+              contentStyle={{
+                borderRadius: 10,
+                border: "1px solid #E5E7EB",
+                fontSize: 11,
+              }}
+            />
+            <Area
+              type="monotone"
+              dataKey="qr"
+              stroke="#F97316"
+              strokeWidth={2}
+              fill="url(#qrArea)"
+              animationDuration={900}
+            />
+            <Area
+              type="monotone"
+              dataKey="cta"
+              stroke="#6366F1"
+              strokeWidth={2}
+              fill="url(#ctaArea)"
+              animationDuration={900}
+              animationBegin={150}
+            />
+          </AreaChart>
         </motion.div>
 
         {/* Legend */}

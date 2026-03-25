@@ -128,6 +128,7 @@ export function DemoVAST() {
             whileHover={{ y: -4 }}
           >
             <motion.div
+              data-cursor="hover"
               className="bg-white rounded-2xl overflow-hidden shadow-lg transition-shadow duration-300 h-full flex flex-col p-6 cursor-pointer"
               whileHover={{ boxShadow: "0 25px 50px rgba(0,0,0,0.15)" }}
             >
@@ -219,6 +220,7 @@ export function DemoVAST() {
             whileHover={{ y: -4 }}
           >
             <motion.div
+              data-cursor="hover"
               className="bg-white rounded-2xl overflow-hidden shadow-lg transition-shadow duration-300 h-full flex flex-col p-6 cursor-pointer"
               whileHover={{ boxShadow: "0 25px 50px rgba(0,0,0,0.15)" }}
             >
@@ -326,6 +328,7 @@ export function DemoVAST() {
             whileHover={{ y: -4 }}
           >
             <motion.div
+              data-cursor="hover"
               className="bg-white rounded-2xl overflow-hidden shadow-lg transition-shadow duration-300 h-full flex flex-col p-6 cursor-pointer"
               whileHover={{ boxShadow: "0 25px 50px rgba(0,0,0,0.15)" }}
             >

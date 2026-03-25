@@ -104,6 +104,7 @@ export function OutcomesSection() {
             <motion.button
               key={card.id}
               type="button"
+              data-cursor="hover"
               className={[
                 "relative flex h-full cursor-pointer flex-col rounded-[24px] bg-white/90 px-6 pb-6 pt-6 shadow-[0_28px_80px_rgba(15,23,42,0.18)] ring-1 transition duration-200 group overflow-hidden",
                 activeId === card.id ? "ring-zinc-200/90" : "ring-zinc-100/90 hover:ring-zinc-200/80",

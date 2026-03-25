@@ -52,7 +52,7 @@ export function CaseStudyBrandPlaybook() {
           </motion.div>
 
           <motion.h2
-            className="mt-6 text-[32px] font-extrabold leading-[1.12] tracking-[-0.04em] text-slate-900 sm:text-[40px] lg:text-[46px] [font-family:var(--font-display)]"
+            className="mt-6 text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl"
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -77,6 +77,7 @@ export function CaseStudyBrandPlaybook() {
           {benefits.map((benefit, idx) => (
             <motion.div
               key={benefit.id}
+              data-cursor="hover"
               className="rounded-2xl p-5.5 flex flex-col bg-white border border-slate-100"
               style={{ boxShadow: "0 20px 60px rgba(15, 23, 42, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.5)" }}
               initial={{ opacity: 0, y: 20 }}
