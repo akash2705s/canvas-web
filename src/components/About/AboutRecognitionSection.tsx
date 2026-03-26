@@ -98,8 +98,8 @@ export function AboutRecognitionSection() {
               className="group relative flex flex-col rounded-[18px] bg-white px-5 py-5 shadow-[0_18px_40px_rgba(15,23,42,0.05)] ring-1 ring-slate-100"
             >
               <div className="flex items-start justify-between gap-3">
-                <div className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-[#F8F7FF] text-slate-500">
-                  <Image src={card.icon} alt="" className="h-7 w-7" aria-hidden />
+                <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-[#F8F7FF] text-slate-500">
+                  <Image src={card.icon} alt="" className="h-9 w-9" aria-hidden />
                 </div>
                 {card.year && (
                   <span className="inline-flex items-center rounded-full bg-[#F7F4FF] px-2.5 py-0.5 text-[10px] font-semibold text-[#6D63E5]">

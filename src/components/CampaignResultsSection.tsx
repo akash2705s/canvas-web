@@ -27,6 +27,7 @@ import ecoOneStudio from "@/assets/proof/ecosystems/onestudio.svg";
 import ecoOttStudio from "@/assets/proof/ecosystems/ott_studio.svg";
 import ecoMovin from "@/assets/proof/ecosystems/movin.svg";
 import ecoCineverse from "@/assets/proof/ecosystems/cineverse.png";
+import { playSvtaConfettiSequence } from "@/lib/confetti/svtaConfetti";
 
 type Metric = {
   id: string;
@@ -224,9 +225,9 @@ export function CampaignResultsSection() {
   const reduceMotion = useReducedMotion();
   const ecoControls = useAnimation();
   const ctvControls = useAnimation();
-  const [showSvtaConfetti, setShowSvtaConfetti] = useState(false);
   const svtaBadgeRef = useRef<HTMLDivElement | null>(null);
   const svtaConfettiCanvasRef = useRef<HTMLCanvasElement | null>(null);
+  const svtaConfettiCleanupRef = useRef<{ cancel: () => void } | null>(null);
   useEffect(() => {
     ecoControls.start({
       // ecosystem logos: left -> right
@@ -240,119 +241,37 @@ export function CampaignResultsSection() {
   }, [ecoControls, ctvControls]);
 
   useEffect(() => {
-    let stopped = false;
-    let active = false;
-    let hasTriggered = false;
+    if (reduceMotion) return;
 
     const badge = svtaBadgeRef.current;
     const canvas = svtaConfettiCanvasRef.current;
     if (!badge || !canvas) return;
 
-    const stopLoop = () => {
-      active = false;
-      setShowSvtaConfetti(false);
-    };
+    let done = false;
 
-    const checkAndTrigger = () => {
-      if (stopped || active || hasTriggered) return;
-      if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        const e = entries[0];
+        if (!e?.isIntersecting || done) return;
+        done = true;
+        io.disconnect();
 
-      const badgeRect = badge.getBoundingClientRect();
-      const isInView = badgeRect.top < window.innerHeight && badgeRect.bottom > 0;
-
-      if (isInView) {
-        hasTriggered = true;
-        active = true;
-        setShowSvtaConfetti(true);
-
-        void import("canvas-confetti").then(({ default: confetti }) => {
-          if (stopped || !active) return;
-
-          const fire = confetti.create(canvas, { resize: true, useWorker: false });
-          const colors = ["#F59E0B", "#A78BFA", "#34D399", "#FB7185", "#38BDF8"];
-
-          const pass = () => {
-            const badgeRect = badge.getBoundingClientRect();
-            const canvasRect = canvas.getBoundingClientRect();
-
-            const y = Math.min(
-              0.9,
-              Math.max(0.05, (badgeRect.top - canvasRect.top + badgeRect.height * 0.1) / canvasRect.height),
-            );
-
-            fire({
-              particleCount: 18,
-              angle: 40,
-              spread: 18,
-              startVelocity: 14,
-              ticks: 120,
-              decay: 0.94,
-              gravity: 1.0,
-              scalar: 0.7,
-              origin: { x: 0, y },
-              colors,
-            });
-            fire({
-              particleCount: 18,
-              angle: 140,
-              spread: 18,
-              startVelocity: 14,
-              ticks: 120,
-              decay: 0.94,
-              gravity: 1.0,
-              scalar: 0.7,
-              origin: { x: 1, y },
-              colors,
-            });
-          };
-
-          let cyclesRun = 0;
-
-          const cycle = () => {
-            if (stopped || !active) return;
-            pass();
-            window.setTimeout(() => {
-              if (stopped || !active) return;
-              pass();
-            }, 333);
-            window.setTimeout(() => {
-              if (stopped || !active) return;
-              pass();
-            }, 666);
-
-            cyclesRun += 1;
-            if (cyclesRun >= 3) {
-              window.setTimeout(() => {
-                if (!stopped && active) {
-                  stopLoop();
-                }
-              }, 1000);
-            } else {
-              window.setTimeout(cycle, 1000);
-            }
-          };
-
-          cycle();
+        svtaConfettiCleanupRef.current?.cancel();
+        svtaConfettiCleanupRef.current = playSvtaConfettiSequence(canvas, badge, {
+          colors: ["#F59E0B", "#A78BFA", "#34D399", "#FB7185", "#38BDF8"],
         });
-      }
-    };
+      },
+      { threshold: 0.45, rootMargin: "0px 0px -8% 0px" },
+    );
 
-    const handleScroll = () => {
-      checkAndTrigger();
-    };
-
-    // Check on mount
-    checkAndTrigger();
-
-    // Add scroll listener
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    io.observe(badge);
 
     return () => {
-      stopped = true;
-      stopLoop();
-      window.removeEventListener("scroll", handleScroll);
+      io.disconnect();
+      svtaConfettiCleanupRef.current?.cancel();
+      svtaConfettiCleanupRef.current = null;
     };
-  }, []);
+  }, [reduceMotion]);
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-[#f7f6ff] via-[#f6f4ff] to-[#f5f3ff] py-14 sm:py-18">
@@ -649,13 +568,11 @@ export function CampaignResultsSection() {
 
           <div className="mt-6 flex justify-center">
             <div className="relative inline-block">
-              {showSvtaConfetti ? (
-                <canvas
-                  aria-hidden
-                  ref={svtaConfettiCanvasRef}
-                  className="pointer-events-none absolute left-1/2 top-1/2 z-30 h-[260px] w-[560px] -translate-x-1/2 -translate-y-1/2"
-                />
-              ) : null}
+              <canvas
+                aria-hidden
+                ref={svtaConfettiCanvasRef}
+                className="pointer-events-none absolute left-1/2 top-1/2 z-30 h-[260px] w-[560px] -translate-x-1/2 -translate-y-1/2"
+              />
 
               <div ref={svtaBadgeRef} className="relative inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-yellow-400 to-amber-400 px-5 py-3 shadow-lg">
                 {/* Confetti dot inside pill */}

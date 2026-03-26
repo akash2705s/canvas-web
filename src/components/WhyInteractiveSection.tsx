@@ -1,16 +1,18 @@
 "use client";
 
-import Image from "next/image";
+import Image, { type StaticImageData } from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 
 import whyCtv from "@/assets/why/ctv.svg";
 import whyBrands from "@/assets/why/brands.svg";
 import whyIfs from "@/assets/why/ifs.svg";
+import whyEye from "@/assets/why/eye.svg";
+import whyChart from "@/assets/why/chart.svg";
 
 type CardConfig = {
   id: string;
-  icon: any;
+  icon: StaticImageData;
   statValue: number;
   statSuffix: string;
   statLabel: string;
@@ -141,11 +143,11 @@ export function WhyInteractiveSection() {
             },
           }}
         >
-          {CARDS.map((card, idx) => (
+          {CARDS.map((card) => (
             <motion.div
               key={card.id}
               data-cursor="hover"
-              className="relative flex h-full flex-col overflow-hidden rounded-[24px] bg-white/95 px-5 pb-5 pt-6 shadow-[0_26px_80px_rgba(15,23,42,0.13)] ring-1 ring-zinc-100/90"
+              className="group relative flex h-full flex-col overflow-hidden rounded-[24px] bg-white/95 px-5 pb-5 pt-6 shadow-[0_26px_80px_rgba(15,23,42,0.13)] ring-1 ring-zinc-100/90"
               variants={{
                 hidden: { opacity: 0, y: -60 },
                 visible: {
@@ -159,6 +161,94 @@ export function WhyInteractiveSection() {
               }}
             >
               <div className={`pointer-events-none absolute inset-0 ${card.highlight}`} />
+
+              {/* Dim background logo overlays for the first two cards */}
+              {card.id === "ctv-passive" ? (
+                <div className="pointer-events-none absolute inset-0 opacity-50 transition-opacity duration-300 group-hover:opacity-100">
+                  <Image
+                    src={whyEye}
+                    alt=""
+                    aria-hidden
+                    className="absolute left-1/2 top-1/2 h-[70%] w-[70%] -translate-x-1/2 -translate-y-1/2 object-contain"
+                  />
+                </div>
+              ) : card.id === "brands-need" ? (
+                <div className="pointer-events-none absolute inset-0 opacity-60 transition-opacity duration-300 group-hover:opacity-100">
+                  <Image
+                    src={whyChart}
+                    alt=""
+                    aria-hidden
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                </div>
+              ) : card.id === "interactive-formats" ? (
+                <div className="pointer-events-none absolute inset-0 opacity-40 transition-opacity duration-300 group-hover:opacity-70">
+                  <svg
+                    className="absolute left-1/2 top-[58%] h-[220px] w-[220px] -translate-x-1/2 -translate-y-1/2"
+                    viewBox="0 0 200 200"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    role="presentation"
+                    aria-hidden
+                  >
+                    <title>Interactive formats</title>
+                    <defs>
+                      <linearGradient
+                        id="ifsStroke"
+                        x1="30"
+                        y1="40"
+                        x2="170"
+                        y2="170"
+                        gradientUnits="userSpaceOnUse"
+                      >
+                        <stop stopColor="rgba(124,58,237,0.55)" />
+                        <stop offset="1" stopColor="rgba(79,70,229,0.55)" />
+                      </linearGradient>
+                      <radialGradient
+                        id="ifsGlow"
+                        cx="0"
+                        cy="0"
+                        r="1"
+                        gradientUnits="userSpaceOnUse"
+                        gradientTransform="translate(100 100) rotate(90) scale(90)"
+                      >
+                        <stop stopColor="rgba(124,58,237,0.22)" />
+                        <stop offset="1" stopColor="rgba(124,58,237,0)" />
+                      </radialGradient>
+                    </defs>
+
+                    <circle cx="100" cy="100" r="92" fill="url(#ifsGlow)" />
+                    <path
+                      d="M34 116C55 86 70 80 92 92C110 102 124 84 141 68C154 56 167 52 176 60"
+                      stroke="url(#ifsStroke)"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+
+                    {[
+                      { x: 34, y: 116 },
+                      { x: 92, y: 92 },
+                      { x: 141, y: 68 },
+                      { x: 176, y: 60 },
+                    ].map((p) => (
+                      <g key={`${p.x}-${p.y}`}>
+                        <circle cx={p.x} cy={p.y} r="8" fill="rgba(124,58,237,0.18)" />
+                        <circle cx={p.x} cy={p.y} r="3.5" fill="rgba(124,58,237,0.7)" />
+                      </g>
+                    ))}
+
+                    <path
+                      d="M58 146C72 134 86 130 99 136C114 143 126 134 138 124"
+                      stroke="rgba(124,58,237,0.35)"
+                      strokeWidth="2.2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeDasharray="4 7"
+                    />
+                  </svg>
+                </div>
+              ) : null}
 
               <div className="relative flex items-center justify-between">
                 <span className="inline-flex h-[40px] w-[40px] items-center justify-center rounded-[14px] bg-zinc-50 ring-1 ring-zinc-100">

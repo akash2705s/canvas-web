@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 type RequestDemoModalProps = {
   open: boolean;
@@ -15,27 +15,6 @@ type FormState = {
   company: string;
 };
 
-function CloseIcon() {
-  return (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      role="presentation"
-      focusable="false"
-    >
-      <path d="M18 6L6 18" />
-      <path d="M6 6l12 12" />
-    </svg>
-  );
-}
-
 export function RequestDemoModal({ open, onClose }: RequestDemoModalProps) {
   const [form, setForm] = useState<FormState>({
     firstName: "",
@@ -45,6 +24,10 @@ export function RequestDemoModal({ open, onClose }: RequestDemoModalProps) {
   });
   const [showForm, setShowForm] = useState(false);
   const [activeField, setActiveField] = useState<keyof FormState | null>(null);
+  const [unlocked, setUnlocked] = useState(false);
+  const [submitAck, setSubmitAck] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const submitTimerRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (!open) return;
@@ -67,12 +50,38 @@ export function RequestDemoModal({ open, onClose }: RequestDemoModalProps) {
   useEffect(() => {
     if (!open) {
       setShowForm(false);
+      setUnlocked(false);
+      setSubmitAck(false);
+      setIsSubmitting(false);
+      if (submitTimerRef.current) {
+        window.clearTimeout(submitTimerRef.current);
+        submitTimerRef.current = null;
+      }
       return;
     }
     setShowForm(false);
+    setUnlocked(false);
+    setSubmitAck(false);
+    setIsSubmitting(false);
+    if (submitTimerRef.current) {
+      window.clearTimeout(submitTimerRef.current);
+      submitTimerRef.current = null;
+    }
     const id = window.setTimeout(() => setShowForm(true), 1200);
     return () => window.clearTimeout(id);
   }, [open]);
+
+  useEffect(() => {
+    if (!unlocked) return;
+    const id = window.setTimeout(() => {
+      onClose();
+      setForm({ firstName: "", lastName: "", email: "", company: "" });
+      setUnlocked(false);
+      setSubmitAck(false);
+      setIsSubmitting(false);
+    }, 2200);
+    return () => window.clearTimeout(id);
+  }, [unlocked, onClose]);
 
   const canSubmit = useMemo(() => {
     return (
@@ -134,41 +143,78 @@ export function RequestDemoModal({ open, onClose }: RequestDemoModalProps) {
             exit={{ y: 10, scale: 0.985, opacity: 0 }}
             transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
           >
-            <button
-              type="button"
-              onClick={onClose}
-              className="absolute right-4 top-4 z-20 inline-flex h-8 w-8 items-center justify-center rounded-full text-slate-300 hover:bg-slate-800 hover:text-white"
-              aria-label="Close"
-            >
-              <CloseIcon />
-            </button>
-
             <div className="relative overflow-hidden rounded-[30px] border border-slate-700/70 bg-[radial-gradient(circle_at_10%_-10%,#020617,#020617_60%)] p-3 shadow-[0_40px_160px_rgba(15,23,42,0.95)] ring-1 ring-slate-900/60">
               <div className="pointer-events-none absolute -inset-24 -z-10 bg-[radial-gradient(circle_at_10%_0%,rgba(56,189,248,0.24),transparent_55%),radial-gradient(circle_at_90%_0%,rgba(244,114,182,0.24),transparent_62%),radial-gradient(circle_at_50%_110%,rgba(249,115,22,0.24),transparent_70%)] blur-[66px]" />
 
               <div className="flex items-center justify-between gap-3 rounded-2xl bg-slate-950/90 px-4 py-2.5">
-                <div className="flex items-center gap-1.5">
-                  <span className="h-2 w-2 rounded-full bg-rose-500/80" />
-                  <span className="h-2 w-2 rounded-full bg-amber-400/80" />
-                  <span className="h-2 w-2 rounded-full bg-emerald-400/80" />
-                </div>
-                <div className="flex flex-1 justify-end gap-1.5">
+                <div className="flex flex-1 justify-start gap-1.5">
                   <span className="h-[7px] w-[34px] rounded-full bg-slate-700" />
                   <span className="h-[7px] w-[7px] rounded-full bg-emerald-400/90" />
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <button
+                    type="button"
+                    onClick={onClose}
+                    data-cursor="default"
+                    className="inline-flex h-[26px] w-[26px] items-center justify-center rounded-full bg-rose-500/90 hover:bg-rose-500/100"
+                  >
+                    <svg
+                      width="13"
+                      height="13"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.8"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                      role="presentation"
+                      focusable="false"
+                      className="text-white"
+                    >
+                      <path d="M18 6L6 18" />
+                      <path d="M6 6l12 12" />
+                    </svg>
+                  </button>
                 </div>
               </div>
 
               <div className="relative mt-3 overflow-hidden rounded-[24px] border border-slate-800/80 bg-slate-950">
                 <div className="relative min-h-[248px] w-full p-2 sm:p-2.5">
-                  <div
-                    className="pointer-events-none absolute inset-0 z-10 opacity-[0.18] mix-blend-screen"
-                    style={{
-                      backgroundImage: "url(https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif)",
-                      backgroundSize: "cover",
-                    }}
-                  />
+                  {!showForm && !unlocked ? (
+                    <div
+                      className="pointer-events-none absolute inset-0 z-10 opacity-[0.18] mix-blend-screen"
+                      style={{
+                        backgroundImage:
+                          "url(https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif)",
+                        backgroundSize: "cover",
+                      }}
+                    />
+                  ) : null}
                   <AnimatePresence mode="wait">
-                    {!showForm ? (
+                    {unlocked ? (
+                      <motion.div
+                        key="unlocked-screen"
+                        initial={{ opacity: 0, scale: 0.96, filter: "blur(8px)" }}
+                        animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+                        exit={{ opacity: 0, scale: 1.02, filter: "blur(8px)" }}
+                        transition={{ duration: 0.42, ease: [0.16, 1, 0.3, 1] }}
+                        className="relative flex min-h-[232px] flex-col items-center justify-center overflow-hidden rounded-[20px] border border-slate-700/70 bg-[radial-gradient(circle_at_50%_10%,rgba(79,70,229,0.22),transparent_55%),linear-gradient(180deg,#070A14_0%,#0B1220_100%)]"
+                      >
+                        <div className="pointer-events-none absolute inset-0 opacity-55 [background-image:repeating-linear-gradient(0deg,transparent_0,transparent_2px,rgba(255,255,255,0.06)_2px,rgba(255,255,255,0.06)_4px)]" />
+                        <div className="relative z-10 text-center">
+                          <p className="text-[12px] uppercase tracking-[0.22em] text-slate-300">
+                            Demo unlocked
+                          </p>
+                          <p className="mt-3 text-[24px] font-semibold text-white [font-family:var(--font-display)]">
+                            Ready for your walkthrough
+                          </p>
+                          <p className="mt-2 text-[12px] text-slate-400">
+                            We’ll tailor the demo flow to {form.firstName.trim() ? form.firstName.trim() : "you"}.
+                          </p>
+                        </div>
+                      </motion.div>
+                    ) : !showForm ? (
                       <motion.div
                         key="boot-screen"
                         initial={{ opacity: 0.35, scale: 0.98 }}
@@ -183,7 +229,10 @@ export function RequestDemoModal({ open, onClose }: RequestDemoModalProps) {
                             Morphing TV Experience
                           </p>
                           <p className="mt-3 text-[18px] font-semibold text-white [font-family:var(--font-display)]">
-                            Activating demo overlay...
+                            Demo unlocked
+                          </p>
+                          <p className="mt-2 text-[12px] text-slate-400">
+                            Preparing a tailored walkthrough…
                           </p>
                           <div className="mx-auto mt-4 h-[3px] w-28 overflow-hidden rounded-full bg-slate-700/80">
                             <motion.div
@@ -210,10 +259,9 @@ export function RequestDemoModal({ open, onClose }: RequestDemoModalProps) {
 
                           <div className="relative flex items-start justify-between gap-3">
                             <div className="min-w-0">
-                              <p className="inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-slate-500">
+                              <div className="inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-slate-500">
                                 <span className="inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_0_4px_rgba(16,185,129,0.12)]" />
-                                concierge console
-                              </p>
+                              </div>
                               <h2 className="mt-1 text-[19px] font-extrabold leading-[1.05] tracking-tight text-slate-900 sm:text-[21px] [font-family:var(--font-display)]">
                                 Have Questions?
                                 <span className="ml-2 text-[#4F46E5]">Schedule a demo</span>
@@ -269,9 +317,20 @@ export function RequestDemoModal({ open, onClose }: RequestDemoModalProps) {
                             className="mt-3.5"
                             onSubmit={(e) => {
                               e.preventDefault();
-                              if (!canSubmit) return;
-                              onClose();
-                              setForm({ firstName: "", lastName: "", email: "", company: "" });
+                              if (!canSubmit || isSubmitting) return;
+
+                              setIsSubmitting(true);
+                              setSubmitAck(true);
+
+                              if (submitTimerRef.current) {
+                                window.clearTimeout(submitTimerRef.current);
+                              }
+
+                              submitTimerRef.current = window.setTimeout(() => {
+                                setUnlocked(true);
+                                setShowForm(false);
+                                setActiveField(null);
+                              }, 850);
                             }}
                           >
                             <div className="grid gap-2.5 sm:grid-cols-2">
@@ -338,33 +397,94 @@ export function RequestDemoModal({ open, onClose }: RequestDemoModalProps) {
                             <div className="mt-3 flex justify-center">
                               <button
                                 type="submit"
-                                disabled={!canSubmit}
+                                disabled={!canSubmit || isSubmitting}
                                 className={[
                                   "group inline-flex items-center gap-2 rounded-full bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] p-[3px] text-sm font-semibold shadow-sm transition",
-                                  canSubmit ? "hover:shadow-md" : "cursor-not-allowed opacity-60",
+                                  canSubmit && !isSubmitting ? "hover:shadow-md" : "cursor-not-allowed opacity-60",
                                 ].join(" ")}
                               >
                                 <span className="relative flex items-center gap-1.5 overflow-hidden rounded-full bg-white px-5 py-1.5 text-slate-900">
                                   <span className="pointer-events-none absolute inset-0 origin-right scale-x-0 bg-slate-900 transition-transform duration-300 ease-out group-hover:scale-x-100" />
-                                  <span className="relative z-10 text-[12px] transition-colors duration-200 group-hover:text-white">Request Demo</span>
-                                  <span className="relative z-10 flex h-[24px] w-[24px] items-center justify-center rounded-[8px] bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] text-white">
-                                    <svg
-                                      width="10"
-                                      height="10"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      strokeWidth="2.5"
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      aria-hidden="true"
-                                      role="presentation"
-                                      focusable="false"
-                                    >
-                                      <path d="M5 12h14" />
-                                      <path d="M12 5l7 7-7 7" />
-                                    </svg>
-                                  </span>
+                                  <AnimatePresence mode="wait" initial={false}>
+                                    {submitAck ? (
+                                      <motion.span
+                                        key="demo-unlocked"
+                                        className="relative z-10 text-[12px] font-semibold text-slate-900"
+                                        initial={{ opacity: 0, y: 6 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: -6 }}
+                                        transition={{ duration: 0.18 }}
+                                      >
+                                        Demo unlocked
+                                      </motion.span>
+                                    ) : (
+                                      <motion.span
+                                        key="request-demo"
+                                        className="relative z-10 text-[12px] transition-colors duration-200 group-hover:text-white"
+                                        initial={{ opacity: 0, y: 6 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: -6 }}
+                                        transition={{ duration: 0.18 }}
+                                      >
+                                        Request Demo
+                                      </motion.span>
+                                    )}
+                                  </AnimatePresence>
+
+                                  <AnimatePresence mode="wait" initial={false}>
+                                    {submitAck ? (
+                                      <motion.span
+                                        key="icon-check"
+                                        className="relative z-10 flex h-[24px] w-[24px] items-center justify-center rounded-[8px] bg-[linear-gradient(90deg,#22C55E_0%,#06B6D4_55%,#3B82F6_100%)] text-white"
+                                        initial={{ opacity: 0, scale: 0.92 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        exit={{ opacity: 0, scale: 0.92 }}
+                                        transition={{ duration: 0.18 }}
+                                      >
+                                        <svg
+                                          width="12"
+                                          height="12"
+                                          viewBox="0 0 24 24"
+                                          fill="none"
+                                          stroke="currentColor"
+                                          strokeWidth="2.5"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                          aria-hidden="true"
+                                          role="presentation"
+                                          focusable="false"
+                                        >
+                                          <path d="M20 6L9 17l-5-5" />
+                                        </svg>
+                                      </motion.span>
+                                    ) : (
+                                      <motion.span
+                                        key="icon-arrow"
+                                        className="relative z-10 flex h-[24px] w-[24px] items-center justify-center rounded-[8px] bg-[linear-gradient(90deg,#F97316_0%,#EAB308_20%,#22C55E_40%,#06B6D4_60%,#3B82F6_80%,#8B5CF6_100%)] text-white"
+                                        initial={{ opacity: 0, scale: 0.92 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        exit={{ opacity: 0, scale: 0.92 }}
+                                        transition={{ duration: 0.18 }}
+                                      >
+                                        <svg
+                                          width="10"
+                                          height="10"
+                                          viewBox="0 0 24 24"
+                                          fill="none"
+                                          stroke="currentColor"
+                                          strokeWidth="2.5"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                          aria-hidden="true"
+                                          role="presentation"
+                                          focusable="false"
+                                        >
+                                          <path d="M5 12h14" />
+                                          <path d="M12 5l7 7-7 7" />
+                                        </svg>
+                                      </motion.span>
+                                    )}
+                                  </AnimatePresence>
                                 </span>
                               </button>
                             </div>

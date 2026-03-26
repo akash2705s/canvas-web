@@ -88,7 +88,7 @@ export function ProductFaqAccordion() {
             },
           }}
         >
-          {FAQ_ITEMS.map((item, index) => {
+          {FAQ_ITEMS.map((item) => {
             const isOpen = item.id === openId;
             return (
               <motion.div
@@ -113,7 +113,7 @@ export function ProductFaqAccordion() {
               >
                 <motion.button
                   type="button"
-                  data-cursor-label="Click to view"
+                  data-cursor-label={isOpen ? "Click to close" : "Click to view"}
                   className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left sm:px-6 sm:py-4.5"
                   onClick={() => setOpenId(isOpen ? null : item.id)}
                   whileHover={{ backgroundColor: "rgba(249,115,22,0.02)" }}

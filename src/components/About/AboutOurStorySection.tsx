@@ -17,7 +17,6 @@ type TimelineItem = {
 
 import teamIcon from "@/assets/About/our_story/team.svg";
 import builtIcon from "@/assets/About/our_story/built.svg";
-import zeroIcon from "@/assets/About/our_story/zero.svg";
 
 const STORY_PILLS: StoryPill[] = [
   { label: "Clear gap, rapid execution", icon: teamIcon },
@@ -47,17 +46,40 @@ const TIMELINE_ITEMS: TimelineItem[] = [
 
 const timelineLineVariants = {
   hidden: { scaleY: 0, opacity: 0, filter: "blur(10px)" },
-  visible: {
-    scaleY: 1,
+  visible: (custom: {
+    scaleValues: number[];
+    times: number[];
+    delay: number;
+    duration: number;
+  }) => ({
+    scaleY: custom.scaleValues,
     opacity: 1,
     filter: "blur(0px)",
-    transition: { duration: 1.8, delay: 0.05, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
-  },
+    transition: {
+      duration: custom.duration,
+      delay: custom.delay,
+      ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
+      times: custom.times,
+    },
+  }),
 } as const;
 
 export function AboutOurStorySection() {
   const ENABLE_ABOUT_OUR_STORY_SECTION = true;
   if (!ENABLE_ABOUT_OUR_STORY_SECTION) return null;
+
+  const total = TIMELINE_ITEMS.length;
+  const lastIndex = Math.max(total - 1, 1);
+
+  // Must match the per-item delay math below:
+  // delay = 0.05 + position * 1.8 + 0.08
+  const cardDelays = TIMELINE_ITEMS.map((_, index) => 0.05 + (index / lastIndex) * 1.8 + 0.08);
+  const lineDelay = cardDelays[0] ?? 0;
+  const lineDuration = Math.max((cardDelays[cardDelays.length - 1] ?? 0) - lineDelay, 0.01);
+
+  // Line should grow stepwise with each card.
+  const scaleValues = TIMELINE_ITEMS.map((_, index) => index / lastIndex);
+  const times = TIMELINE_ITEMS.map((_, index) => (cardDelays[index] - lineDelay) / lineDuration);
 
   return (
     <section className="relative overflow-hidden bg-[#EEF0FB] py-14 sm:py-18 lg:py-22">
@@ -116,6 +138,12 @@ export function AboutOurStorySection() {
             <motion.div
               className="origin-top h-full w-[2px] bg-gradient-to-b from-[#F97316] via-[#4F46E5] to-[#8B5CF6]"
               variants={timelineLineVariants}
+              custom={{
+                scaleValues,
+                times,
+                delay: lineDelay,
+                duration: lineDuration,
+              }}
             />
           </div>
           <div className="space-y-3.5 sm:space-y-4">
@@ -124,25 +152,6 @@ export function AboutOurStorySection() {
               const clampedTotal = Math.max(total - 1, 1);
               const position = index / clampedTotal;
               const delay = 0.05 + position * 1.8 + 0.08;
-              const isOrange = index === 0;
-              const isIndigo = index === 2 || index === 4;
-              const isPurple = index === 3;
-
-              const yearBg = isOrange
-                ? "#F9731612"
-                : isIndigo
-                  ? "#4F46E512"
-                  : isPurple
-                    ? "#A78BFA12"
-                    : "#EAB30812";
-
-              const yearText = isOrange
-                ? "#F97316"
-                : isIndigo
-                  ? "#4F46E5"
-                  : isPurple
-                    ? "#A78BFA"
-                    : "#EAB308";
 
               return (
                 <motion.article
