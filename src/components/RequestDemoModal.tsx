@@ -225,9 +225,7 @@ export function RequestDemoModal({ open, onClose }: RequestDemoModalProps) {
                       >
                         <div className="pointer-events-none absolute inset-0 opacity-45 mix-blend-screen [background-image:repeating-linear-gradient(0deg,transparent_0,transparent_2px,rgba(255,255,255,0.06)_2px,rgba(255,255,255,0.06)_4px)]" />
                         <div className="text-center">
-                          <p className="text-[12px] uppercase tracking-[0.22em] text-slate-300">
-                            Morphing TV Experience
-                          </p>
+
                           <p className="mt-3 text-[18px] font-semibold text-white [font-family:var(--font-display)]">
                             Demo unlocked
                           </p>

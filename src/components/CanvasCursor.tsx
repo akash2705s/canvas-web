@@ -93,6 +93,8 @@ export function CanvasCursor() {
 
   const lastElementRef = useRef<Element | null>(null);
   const lastComputedElementRef = useRef<Element | null>(null);
+  const lastCursorOverrideLabelRef = useRef<string | null>(null);
+  const lastInteractiveOverrideLabelRef = useRef<string | null>(null);
 
   const prevRichZoneRef = useRef<string | null>(null);
   const suppressPromptRef = useRef(false);
@@ -262,8 +264,27 @@ export function CanvasCursor() {
       }
 
       const nextEl = lastElementRef.current;
-      if (nextEl && nextEl !== lastComputedElementRef.current) {
+      const cursorOverrideEl = nextEl
+        ? getClosest<HTMLElement>(nextEl, "[data-cursor]")
+        : null;
+      const cursorOverrideLabel = cursorOverrideEl?.dataset.cursorLabel ?? null;
+      const interactiveElForOverride = nextEl
+        ? getClosest<HTMLElement>(
+            nextEl,
+            "a[href], button, [role='button'], input, textarea, select, summary, [data-clickable='true']",
+          )
+        : null;
+      const interactiveOverrideLabel = interactiveElForOverride?.getAttribute("data-cursor-label") ?? null;
+
+      if (
+        nextEl &&
+        (nextEl !== lastComputedElementRef.current ||
+          cursorOverrideLabel !== lastCursorOverrideLabelRef.current ||
+          interactiveOverrideLabel !== lastInteractiveOverrideLabelRef.current)
+      ) {
         lastComputedElementRef.current = nextEl;
+        lastCursorOverrideLabelRef.current = cursorOverrideLabel;
+        lastInteractiveOverrideLabelRef.current = interactiveOverrideLabel;
 
         const cursorOverride = getClosest<HTMLElement>(nextEl, "[data-cursor]");
         const zoneEl = getClosest<HTMLElement>(nextEl, "[data-interaction-zone]");
