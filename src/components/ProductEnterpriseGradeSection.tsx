@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import type { ReactNode } from "react";
 import { useEffect, useMemo, useState } from "react";
@@ -221,11 +221,11 @@ function PillTabs({
   );
 }
 
-interface PlatformBadgeProps {
+type PlatformBadgeProps = {
   label: string;
   rgb: string;
   position: string;
-}
+};
 
 function PlatformBadge({ label, rgb, position }: PlatformBadgeProps) {
   return (
@@ -241,12 +241,11 @@ function PlatformBadge({ label, rgb, position }: PlatformBadgeProps) {
 }
 
 export function ProductEnterpriseGradeSection() {
-  const reduceMotion = useReducedMotion();
   const [tab, setTab] = useState<TabId>("runtime");
 
   useEffect(() => {
     const id = window.setInterval(() => {
-      setTab((current) => {
+      setTab((current: TabId) => {
         const idx = TABS.findIndex((t) => t.id === current);
         const next = TABS[(idx + 1) % TABS.length];
         return next?.id ?? "runtime";
@@ -289,12 +288,12 @@ export function ProductEnterpriseGradeSection() {
         </div>
 
         <div className="mt-10 grid grid-cols-1 gap-7 sm:mt-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
-          {cards.map((card, index) => {
+          {cards.map((card) => {
             const config = ACCENT_CONFIG[card.accent];
             const diagStroke = `rgba(${config.rgb},0.18)`;
             const horizFill = `rgba(${config.rgb},0.62)`;
 
-            const content = (
+            return (
               <motion.div
                 key={card.id}
                 data-cursor="hover"
@@ -305,16 +304,24 @@ export function ProductEnterpriseGradeSection() {
                 whileHover={{ scale: 1.01 }}
               >
                 {card.id === "playback-safety" ? (
-                  <Image
-                    src={bgPlayback}
-                    alt=""
+                  <div
+                    className="pointer-events-none absolute left-1/2 top-1/2 z-0 h-[190px] w-[190px] -translate-x-1/2 -translate-y-1/2 opacity-[0.64]"
                     aria-hidden
-                    width={190}
-                    height={190}
-                    priority={false}
-                    className="pointer-events-none absolute left-1/2 top-1/2 z-0 h-[190px] w-[190px] -translate-x-1/2 -translate-y-1/2 object-contain opacity-[0.64]"
-                  />
+                  >
+                    <div className="canvas-float-soft h-full w-full">
+                      <Image
+                        src={bgPlayback}
+                        alt=""
+                        aria-hidden
+                        width={190}
+                        height={190}
+                        priority={false}
+                        className="h-[190px] w-[190px] object-contain"
+                      />
+                    </div>
+                  </div>
                 ) : null}
+
                 <div className="pointer-events-none absolute inset-0 opacity-[0.78]">
                   <div className="absolute -left-12 -bottom-10 h-40 w-40 rounded-full bg-white/60 blur-2xl" />
                   <div className="absolute -right-10 -top-10 h-44 w-44 rounded-full bg-white/40 blur-2xl" />
@@ -359,8 +366,11 @@ export function ProductEnterpriseGradeSection() {
                 ) : null}
 
                 {card.id === "cross-platform" ? (
-                  <div className="pointer-events-none absolute left-1/2 top-[52%] z-0 -translate-x-1/2 -translate-y-1/2 opacity-20">
-                    <div className="flex items-end justify-center gap-4">
+                  <div
+                    className="pointer-events-none absolute left-1/2 top-[52%] z-0 -translate-x-1/2 -translate-y-1/2 opacity-20"
+                    aria-hidden
+                  >
+                    <div className="canvas-drift-soft flex items-end justify-center gap-4">
                       <Image
                         src={mobileIcon}
                         alt=""
@@ -437,12 +447,17 @@ export function ProductEnterpriseGradeSection() {
                     </IconBadge>
 
                     {card.id === "50kb-runtime" ? (
-                      <Image
-                        src={binary50kbIcon}
-                        alt=""
+                      <div
+                        className="pointer-events-none absolute left-26 top-2 h-8 w-8 canvas-wobble-soft"
                         aria-hidden
-                        className="pointer-events-none absolute left-26 top-2 h-8 w-8"
-                      />
+                      >
+                        <Image
+                          src={binary50kbIcon}
+                          alt=""
+                          aria-hidden
+                          className="h-8 w-8"
+                        />
+                      </div>
                     ) : null}
                   </div>
                 </motion.div>
@@ -464,12 +479,14 @@ export function ProductEnterpriseGradeSection() {
 
                   {card.id === "50kb-runtime" ? (
                     <div className="pointer-events-none absolute right-0 top-0 -translate-x-2 pt-1">
-                      <Image
-                        src={jsIcon}
-                        alt=""
-                        aria-hidden
-                        className="h-16 w-auto"
-                      />
+                      <div className="canvas-float-soft" aria-hidden>
+                        <Image
+                          src={jsIcon}
+                          alt=""
+                          aria-hidden
+                          className="h-16 w-auto"
+                        />
+                      </div>
                     </div>
                   ) : null}
                 </div>
@@ -513,48 +530,21 @@ export function ProductEnterpriseGradeSection() {
                   </div>
                 ) : null}
 
-                {card.id === "realtime-signals" ? (
-                  <Image
-                    src={signalCardSvg}
-                    alt=""
-                    aria-hidden
-                    className="pointer-events-none absolute bottom-[10px] left-1/2 z-10 -translate-x-1/2 h-8 w-auto opacity-85"
-                  />
-                ) : null}
-
-                <motion.div
-                  className="pointer-events-none absolute inset-x-0 bottom-0 h-[2px] group-hover:h-[3px] bg-[linear-gradient(90deg,rgba(249,115,22,0.0)_0%,rgba(234,179,8,0.0)_30%,rgba(79,70,229,0.0)_60%,rgba(167,139,250,0.0)_100%)]"
-                  aria-hidden
-                  whileHover={{ opacity: 1 }}
-                  initial={{ opacity: 0.5 }}
-                />
-              </motion.div>
-            );
-
-            if (reduceMotion) return content;
-            return (
-              <motion.div
-                key={card.id}
-                initial={{ opacity: 0, y: 16, filter: "blur(10px)" }}
-                whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                viewport={{ once: true, amount: 0.35 }}
-                transition={{
-                  type: "spring",
-                  stiffness: 260,
-                  damping: 24,
-                  duration: 0.65,
-                  delay: 0.06 + index * 0.06,
-                  ease: [0.16, 1, 0.3, 1],
-                }}
-                whileHover={{
-                  y: -4,
-                  filter: "blur(0px)",
-                  boxShadow: "0 20px 40px rgba(79,70,229,0.10)",
-                  scale: 1.01,
-                }}
-                whileTap={{ scale: 0.99 }}
-              >
-                {content}
+                {card.id === "realtime-signals" && (
+                  <div
+                    className="pointer-events-none absolute bottom-5 right-6 z-10 opacity-90"
+                    aria-hidden="true"
+                  >
+                    <div className="canvas-drift-soft" aria-hidden="true">
+                      <Image
+                        src={signalCardSvg}
+                        alt=""
+                        aria-hidden
+                        className="h-14 w-auto object-contain"
+                      />
+                    </div>
+                  </div>
+                )}
               </motion.div>
             );
           })}

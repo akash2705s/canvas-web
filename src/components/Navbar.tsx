@@ -700,7 +700,12 @@ export function Navbar() {
                       <Link
                         key={item.label}
                         href={mobileHref}
-                        className="rounded-lg px-3 py-2 text-sm font-semibold text-zinc-800 hover:bg-zinc-50"
+                        className={[
+                          "rounded-lg px-3 py-2 text-sm font-semibold",
+                          isActiveLink(mobileHref)
+                            ? "bg-zinc-900 text-white"
+                            : "text-zinc-800 hover:bg-zinc-50",
+                        ].join(" ")}
                         onClick={() => setMobileOpen(false)}
                       >
                         {item.label}

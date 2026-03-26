@@ -265,7 +265,7 @@ function CardVisual({
       <motion.button
         key={replayToken}
         type="button"
-        className="mt-4 rounded-2xl bg-[#020617] px-3 py-3 text-[10px] leading-4 text-slate-100 shadow-[0_10px_30px_rgba(15,23,42,0.6)] ring-1 ring-slate-800/80"
+        className="mt-4 w-full rounded-2xl bg-[#020617] px-2 py-3 text-left text-[10px] leading-4 text-slate-100 shadow-[0_10px_30px_rgba(15,23,42,0.6)] ring-1 ring-slate-800/80 sm:px-3"
         data-cursor="hover"
         data-cursor-label="Click to interact"
         data-interaction-zone="custom-card"
@@ -308,7 +308,7 @@ function CardVisual({
           </motion.span>
         </motion.div>
         <motion.code
-          className="block rounded-xl bg-slate-900/70 px-3 py-2 font-mono text-[9px] leading-relaxed text-slate-100"
+          className="block rounded-xl bg-slate-900/70 px-2 py-2 font-mono text-[9px] leading-relaxed text-slate-100 sm:px-3"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true, amount: 0.5 }}

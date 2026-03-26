@@ -46,6 +46,66 @@
   }
 }
 
+/* --- Card background micro-motion (Enterprise-grade cards) --- */
+@keyframes canvas-float-soft {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(0, -10px, 0) rotate(1deg);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+}
+
+@keyframes canvas-drift-soft {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(8px, -6px, 0) rotate(-1deg);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+}
+
+@keyframes canvas-wobble-soft {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(-6px, -8px, 0) rotate(2deg);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+}
+
+.canvas-float-soft {
+  animation: canvas-float-soft 7.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+.canvas-drift-soft {
+  animation: canvas-drift-soft 9.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+.canvas-wobble-soft {
+  animation: canvas-wobble-soft 8.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .canvas-float-soft,
+  .canvas-drift-soft,
+  .canvas-wobble-soft {
+    animation: none !important;
+  }
+}
+
 :root {
   --background: #ffffff;
   --foreground: #ffffff;

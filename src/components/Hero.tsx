@@ -454,15 +454,15 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
             <p className="mt-10 text-xs font-medium uppercase tracking-widest text-zinc-400">
               Trusted by the Streaming Ecosystem
             </p>
-            <div className="mt-3 grid grid-cols-3 place-items-center gap-x-2 gap-y-2 sm:grid-cols-5 sm:gap-x-2 sm:gap-y-2">
+            <div className="mt-3 grid grid-cols-3 place-items-center gap-x-2 gap-y-2 pt-1 sm:grid-cols-5 sm:gap-x-2 sm:gap-y-2">
               {(logos ?? ECO_LOGO).map((logo, idx) => (
                 <div
                   key={logo.alt}
                   className={[
                     // Mobile: consistent boxes so logos align cleanly
-                    "relative w-full h-10 max-w-[140px]",
-                    // Mobile-only nudge for OTT Studio
-                    idx === 0 ? "ml-16 sm:ml-0" : "",
+                    "relative w-full h-12 max-w-[132px] overflow-visible",
+                    // Mobile: nudge FLS slightly left
+                    idx === 1 ? "-ml-4" : "",
                     // Desktop: keep previous per-logo sizing + spacing tweaks
                     idx === 0 ? "sm:h-9 sm:max-w-[110px]" : "sm:h-11 sm:max-w-[160px]",
                     idx === 1 ? "sm:mr-8" : "",
@@ -503,7 +503,7 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
 
               {/* Central hero visual: autoplaying video instead of static image */}
               <CardContainer containerClassName="h-auto w-full flex justify-center">
-                <CardBody className="relative h-[360px] w-[410px] max-w-full sm:w-[485px] p-0 flex flex-col overflow-hidden rounded-[26px] bg-[#050816]/95 shadow-2xl ring-1 ring-black/40">
+                <CardBody className="relative h-[340px] w-full max-w-[410px] sm:h-[360px] sm:w-[485px] p-0 flex flex-col overflow-hidden rounded-[26px] bg-[#050816]/95 shadow-2xl ring-1 ring-black/40">
                   <CardItem
                     translateZ={50}
                     className="relative w-full flex-[1.25] overflow-hidden rounded-t-[24px] h-full group"
@@ -516,7 +516,7 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
                       loop
                       playsInline
                       preload="auto"
-                      className="h-full w-full object-cover"
+                      className="h-full w-full object-contain sm:object-cover"
                     >
                       <track kind="captions" srcLang="en" label="English" />
                     </video>
