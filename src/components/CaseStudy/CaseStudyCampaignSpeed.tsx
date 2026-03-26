@@ -62,7 +62,7 @@ export function CaseStudyCampaignSpeed() {
             whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="relative rounded-2xl bg-white p-8 shadow-[0_20px_60px_rgba(0,0,0,0.12)]"
+            className="relative order-2 rounded-2xl bg-white p-8 shadow-[0_20px_60px_rgba(0,0,0,0.12)] lg:order-1"
             onClick={() => setReplayToken((v) => v + 1)}
             data-cursor="hover"
             data-cursor-label="Click to interact"
@@ -130,6 +130,7 @@ export function CaseStudyCampaignSpeed() {
 
           {/* Right: Text Content */}
           <motion.div
+            className="order-1 lg:order-2"
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}

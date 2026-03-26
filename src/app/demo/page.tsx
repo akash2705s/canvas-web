@@ -7,13 +7,13 @@ import { DemoCta } from "@/components/Demo/DemoCta";
 
 export default function DemoPage() {
   return (
-    <>
+    <main className="overflow-x-hidden">
       <DemoHero />
       <DemoAdFormats />
       <DemoEditor />
       <DemoVAST />
       <DemoIntentIntelligence />
       <DemoCta />
-    </>
+    </main>
   );
 }

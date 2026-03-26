@@ -134,7 +134,7 @@ export function AboutOurStorySection() {
           viewport={{ once: true, amount: 0.4 }}
         >
           {/* animated vertical timeline line */}
-          <div className="pointer-events-none absolute left-[24px] top-3 bottom-6 hidden sm:block z-0">
+          <div className="pointer-events-none absolute bottom-6 left-[22px] top-3 z-0 sm:left-[24px]">
             <motion.div
               className="origin-top h-full w-[2px] bg-gradient-to-b from-[#F97316] via-[#4F46E5] to-[#8B5CF6]"
               variants={timelineLineVariants}
@@ -158,7 +158,7 @@ export function AboutOurStorySection() {
                   key={`${item.year}-${item.title}`}
                   initial={{ opacity: 0, y: 18, filter: "blur(12px)" }}
                   whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                  viewport={{ once: true, amount: 0.55 }}
+                  viewport={{ once: false, amount: 0.25 }}
                   transition={{
                     duration: 0.75,
                     delay,

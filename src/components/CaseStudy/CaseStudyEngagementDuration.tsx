@@ -21,7 +21,7 @@ export function CaseStudyEngagementDuration() {
         {/* Content Grid */}
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16 lg:items-center">
           {/* Left: Timeline Chart Card */}
-          <div className="relative">
+          <div className="relative order-2 lg:order-1">
             <motion.div
               key={replayToken}
               initial={{ opacity: 0, x: -20 }}
@@ -139,6 +139,7 @@ export function CaseStudyEngagementDuration() {
 
           {/* Right: Text Content */}
           <motion.div
+            className="order-1 lg:order-2"
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}

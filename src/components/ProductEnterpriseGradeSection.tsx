@@ -208,7 +208,7 @@ function PillTabs({
             </button>
             {index < TABS.length - 1 ? (
               <span
-                className="hidden select-none items-center text-[15px] font-semibold text-slate-300 sm:inline-flex"
+                className="inline-flex select-none items-center text-[15px] font-semibold text-slate-300"
                 aria-hidden="true"
               >
                 →
@@ -287,7 +287,7 @@ export function ProductEnterpriseGradeSection() {
           </p>
         </div>
 
-        <div className="mt-10 grid grid-cols-1 gap-7 sm:mt-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+        <div className="mt-10 grid grid-cols-1 justify-items-center gap-7 sm:mt-12 sm:grid-cols-2 sm:justify-items-stretch lg:grid-cols-4 lg:gap-8">
           {cards.map((card) => {
             const config = ACCENT_CONFIG[card.accent];
             const diagStroke = `rgba(${config.rgb},0.18)`;

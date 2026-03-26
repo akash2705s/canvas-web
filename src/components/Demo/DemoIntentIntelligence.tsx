@@ -114,7 +114,7 @@ export function DemoIntentIntelligence() {
       <div className="mx-auto max-w-7xl px-6 sm:px-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 lg:items-start">
           {/* Left: Dashboard */}
-          <div className="relative" style={{ marginTop: "120px" }}>
+          <div className="relative order-2 mt-6 lg:order-1 lg:mt-[120px]">
             <motion.div
               ref={cardRef}
               key={replayToken}
@@ -129,13 +129,13 @@ export function DemoIntentIntelligence() {
               data-cursor-label="Click to interact"
               data-interaction-zone="custom-card"
             >
-              <div className="p-6">
-                <motion.div className="flex items-center justify-between mb-6" whileHover={{ x: 2 }}>
+              <div className="p-4 sm:p-6">
+                <motion.div className="mb-4 flex flex-wrap items-center justify-between gap-2 sm:mb-6" whileHover={{ x: 2 }}>
                   <motion.div className="flex items-center gap-2" whileHover={{ x: 4 }}>
                     <Image src={dashboardIcon} alt="Dashboard" width={32} height={32} />
                     <span className="text-sm font-semibold text-slate-900">Intent Signal Dashboard</span>
                   </motion.div>
-                  <motion.div className="flex items-center gap-2">
+                  <motion.div className="flex flex-wrap items-center justify-end gap-2">
                     <motion.div
                       className="flex items-center gap-2 px-3 py-1.5 rounded-full cursor-pointer transition-all"
                       style={{ backgroundColor: "rgba(79, 70, 229, 0.08)" }}
@@ -162,28 +162,31 @@ export function DemoIntentIntelligence() {
 
                 <div className="space-y-4">
                   {/* Stats */}
-                  <div className="flex items-start justify-between">
+                  <div className="grid grid-cols-3 gap-2 sm:gap-4">
                     {[
                       {
                         label: "Total intent signals captured",
+                        mobileLabel: "Total signals",
                         render: () => (
-                          <span className="text-3xl font-bold text-slate-900 tabular-nums">
+                          <span className="text-xl font-bold text-slate-900 tabular-nums sm:text-3xl">
                             {Math.round(totalSignals).toLocaleString("en-US")}
                           </span>
                         ),
                       },
                       {
                         label: "Interaction rate",
+                        mobileLabel: "Interaction rate",
                         render: () => (
-                          <span className="text-3xl font-bold text-orange-500 tabular-nums">
+                          <span className="text-xl font-bold text-orange-500 tabular-nums sm:text-3xl">
                             {interactionRate.toFixed(1)}%
                           </span>
                         ),
                       },
                       {
                         label: "Avg engagement",
+                        mobileLabel: "Avg engagement",
                         render: () => (
-                          <span className="text-3xl font-bold text-blue-600 tabular-nums">
+                          <span className="text-xl font-bold text-blue-600 tabular-nums sm:text-3xl">
                             {Math.round(avgEngagement)}s+
                           </span>
                         ),
@@ -191,10 +194,13 @@ export function DemoIntentIntelligence() {
                     ].map((stat) => (
                       <motion.div
                         key={stat.label}
-                        className="cursor-pointer"
+                        className="min-w-0 cursor-pointer text-center"
                         whileHover={{ y: -4, scale: 1.05 }}
                       >
-                        <p className="text-xs text-slate-500 font-medium mb-1">{stat.label}</p>
+                        <p className="mb-1 text-[11px] font-medium leading-tight text-slate-500 sm:text-xs">
+                          <span className="sm:hidden">{stat.mobileLabel}</span>
+                          <span className="hidden sm:inline">{stat.label}</span>
+                        </p>
                         <motion.div whileHover={{ scale: 1.05 }}>{stat.render()}</motion.div>
                       </motion.div>
                     ))}
@@ -254,6 +260,7 @@ export function DemoIntentIntelligence() {
 
           {/* Right: Content */}
           <motion.div
+            className="order-1 lg:order-2"
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}

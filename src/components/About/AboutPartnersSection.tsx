@@ -127,7 +127,7 @@ export function AboutPartnersSection() {
         {/* grid + central connector */}
         <div className="relative">
           <motion.div
-            className="grid gap-4 rounded-[32px] bg-[#FDFBFF] p-4 shadow-[0_26px_60px_rgba(15,23,42,0.06)] ring-1 ring-slate-100/80 sm:gap-5 sm:p-6 lg:grid-cols-2"
+            className="grid gap-3 rounded-[32px] bg-[#FDFBFF] p-4 shadow-[0_26px_60px_rgba(15,23,42,0.06)] ring-1 ring-slate-100/80 sm:gap-5 sm:p-6 lg:grid-cols-2"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
@@ -136,47 +136,58 @@ export function AboutPartnersSection() {
               visible: { opacity: 1, transition: { staggerChildren: 0.08, delayChildren: 0.1 } },
             }}
           >
-            {PARTNER_GROUPS.map((group) => (
-              <motion.section
-                key={group.title}
-                variants={{
-                  hidden: { opacity: 0, y: 18, filter: "blur(14px)" },
-                  visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.7 } },
-                }}
-                whileHover={{
-                  y: -4,
-                  boxShadow: "0 24px 60px rgba(15,23,42,0.12)",
-                  scale: 1.02,
-                }}
-                className="group flex flex-col gap-3 rounded-3xl bg-white px-4 py-4.5 shadow-[0_16px_40px_rgba(15,23,42,0.04)] ring-1 ring-slate-100/90 cursor-pointer transition-all"
-              >
-                <div className="flex flex-col gap-2">
-                  <motion.div className="flex items-center gap-2" whileHover={{ x: 4 }}>
-                    <motion.span
-                      className="inline-flex h-2.5 w-2.5 rounded-full transition-all"
-                      style={{ backgroundColor: group.color }}
-                      whileHover={{ scale: 1.5 }}
-                    />
-                    <motion.h3
-                      className="text-[13px] font-semibold uppercase tracking-[0.14em] transition-all"
-                      style={{ color: group.color }}
-                      whileHover={{ letterSpacing: "0.2em" }}
+            {PARTNER_GROUPS.map((group, idx) => (
+              <div key={group.title}>
+                <motion.section
+                  variants={{
+                    hidden: { opacity: 0, y: 18, filter: "blur(14px)" },
+                    visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.7 } },
+                  }}
+                  whileHover={{
+                    y: -4,
+                    boxShadow: "0 24px 60px rgba(15,23,42,0.12)",
+                    scale: 1.02,
+                  }}
+                  className="group flex flex-col gap-3 rounded-3xl bg-white px-4 py-4.5 shadow-[0_16px_40px_rgba(15,23,42,0.04)] ring-1 ring-slate-100/90 cursor-pointer transition-all"
+                >
+                  <div className="flex flex-col gap-2">
+                    <motion.div className="flex items-center gap-2" whileHover={{ x: 4 }}>
+                      <motion.span
+                        className="inline-flex h-2.5 w-2.5 rounded-full transition-all"
+                        style={{ backgroundColor: group.color }}
+                        whileHover={{ scale: 1.5 }}
+                      />
+                      <motion.h3
+                        className="text-[13px] font-semibold uppercase tracking-[0.14em] transition-all"
+                        style={{ color: group.color }}
+                        whileHover={{ letterSpacing: "0.2em" }}
+                      >
+                        {group.title}
+                      </motion.h3>
+                    </motion.div>
+                    <motion.p
+                      className="text-[10px] font-bold leading-[16px] tracking-[1.2px] uppercase text-black group-hover:text-slate-900 transition-colors"
+                      whileHover={{ x: 2 }}
                     >
-                      {group.title}
-                    </motion.h3>
-                  </motion.div>
-                  <motion.p
-                    className="text-[10px] font-bold leading-[16px] tracking-[1.2px] uppercase text-black group-hover:text-slate-900 transition-colors"
-                    whileHover={{ x: 2 }}
-                  >
-                    {group.description}
-                  </motion.p>
-                </div>
-              </motion.section>
+                      {group.description}
+                    </motion.p>
+                  </div>
+                </motion.section>
+
+                {idx < PARTNER_GROUPS.length - 1 ? (
+                  <div className="-mt-2 -mb-6 flex items-center justify-center lg:hidden">
+                    <div className="relative z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white shadow-[0_10px_20px_rgba(15,23,42,0.14)] ring-1 ring-[#4F46E5]/25">
+                      <div className="relative h-4.5 w-4.5">
+                        <Image src="/CanvasLogo.svg" alt="Canvas" fill className="object-contain" />
+                      </div>
+                    </div>
+                  </div>
+                ) : null}
+              </div>
             ))}
           </motion.div>
 
-          {/* central Canvas logo and connecting lines */}
+          {/* central Canvas logo and connecting lines (desktop) */}
           <div className="pointer-events-none absolute inset-0 hidden lg:flex items-center justify-center">
             <div className="relative flex items-center justify-center">
               {/* horizontal connector */}
