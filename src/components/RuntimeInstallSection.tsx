@@ -62,7 +62,7 @@ const STEPS = [
 
 export function RuntimeInstallSection() {
   return (
-    <section className="relative overflow-hidden bg-white">
+    <section className="relative overflow-x-hidden bg-white">
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-[-180px] top-[-120px] h-[420px] w-[420px] rounded-full bg-[#4F46E5]/6 blur-[90px]" />
         <div className="absolute left-[25%] top-[20%] h-[520px] w-[520px] rounded-full bg-[#06B6D4]/10 blur-[100px]" />
@@ -72,7 +72,7 @@ export function RuntimeInstallSection() {
       <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
         {/* Header */}
         <motion.div
-          className="mb-16 flex justify-center"
+          className="mb-10 flex justify-center sm:mb-16"
           initial={{ opacity: 0, y: -10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.5 }}
@@ -88,7 +88,7 @@ export function RuntimeInstallSection() {
         </motion.div>
 
         <motion.div
-          className="mb-20 text-center"
+          className="mb-12 text-center sm:mb-20"
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.5 }}
@@ -104,21 +104,23 @@ export function RuntimeInstallSection() {
         </motion.div>
 
         {/* Steps */}
-        <div className="space-y-16 lg:space-y-20">
+        <div className="space-y-10 sm:space-y-12 lg:space-y-20">
           {STEPS.map((step, idx) => {
             const isReversed = idx === 1; // Middle step has reversed layout
 
             return (
               <motion.div
                 key={step.id}
-                className={`grid gap-8 items-stretch lg:grid-cols-2 lg:gap-12 ${isReversed ? 'lg:grid-cols-2' : ''}`}
+                className={`grid min-w-0 gap-5 items-stretch sm:gap-8 lg:grid-cols-2 lg:gap-12 ${isReversed ? "lg:grid-cols-2" : ""}`}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 0.6, delay: idx * 0.1 }}
               >
                 {/* Text Content */}
-                <div className={`flex flex-col rounded-2xl border border-zinc-200/60 bg-white/40 backdrop-blur-sm p-8 lg:p-10 ${isReversed ? 'lg:order-2' : ''}`}>
+                <div
+                  className={`flex min-w-0 flex-col rounded-2xl border border-zinc-200/60 bg-white/40 p-5 backdrop-blur-sm sm:p-8 lg:p-10 ${isReversed ? "lg:order-2" : ""}`}
+                >
                   <div className="mb-6 flex items-center gap-3">
                     <motion.span
                       className="inline-flex h-12 w-12 items-center justify-center rounded-lg border border-zinc-200 bg-zinc-50 shadow-sm"
@@ -131,7 +133,7 @@ export function RuntimeInstallSection() {
                   </div>
 
                   <motion.h2
-                    className="text-3xl font-semibold tracking-tight text-zinc-900 sm:text-4xl"
+                    className="text-2xl font-semibold tracking-tight text-zinc-900 sm:text-3xl lg:text-4xl"
                     whileHover={{ color: "#1f2937" }}
                   >
                     {step.title}
@@ -168,7 +170,7 @@ export function RuntimeInstallSection() {
                 </div>
 
                 {/* Media Content */}
-                <div className={`flex justify-center ${isReversed ? 'lg:order-1' : ''}`}>
+                <div className={`flex min-w-0 w-full justify-center ${isReversed ? "lg:order-1" : ""}`}>
                   {step.id === "01" ? (
                     <TypewriterCodeWindow
                       title="canvas-runtime.ts"

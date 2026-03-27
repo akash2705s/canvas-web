@@ -221,21 +221,21 @@ export function TypewriterCodeWindow({
       )}
 
       {/* Title bar */}
-      <div className="flex items-center justify-between gap-3 border-b border-white/8 bg-slate-950/40 px-4 py-2">
+      <div className="flex items-center justify-between gap-2 border-b border-white/8 bg-slate-950/40 px-3 py-2 sm:gap-3 sm:px-4">
         <div className="flex items-center gap-2">
           <span className="h-2 w-2 rounded-full bg-rose-500/70" />
           <span className="h-2 w-2 rounded-full bg-amber-400/70" />
           <span className="h-2 w-2 rounded-full bg-emerald-400/70" />
         </div>
-        <div className="text-xs font-semibold text-white/60">{title}</div>
-        <div className="flex items-center gap-1.5 text-[9px] font-semibold text-emerald-400/80">
+        <div className="truncate text-[11px] font-semibold text-white/60 sm:text-xs">{title}</div>
+        <div className="flex shrink-0 items-center gap-1.5 text-[9px] font-semibold text-emerald-400/80">
           <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400/80" />
           READY
         </div>
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-2 border-b border-white/8 bg-slate-950/20 px-3 py-1.5">
+      <div className="flex flex-wrap items-center gap-1.5 border-b border-white/8 bg-slate-950/20 px-2 py-1.5 sm:gap-2 sm:px-3">
         {tabs.map((t) => {
           const active = t === title;
           return (
@@ -280,7 +280,7 @@ export function TypewriterCodeWindow({
       </section>
 
       {/* Footer */}
-      <div className="flex items-center justify-between gap-3 border-t border-white/8 bg-[#F97316] px-4 py-2 text-[10px] font-semibold text-white/90">
+      <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 border-t border-white/8 bg-[#F97316] px-3 py-2 text-[10px] font-semibold text-white/90 sm:px-4">
         <div>{footerLeft}</div>
         <div>{languageLabel}</div>
         <div>{footerRight}</div>

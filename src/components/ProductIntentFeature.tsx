@@ -68,7 +68,7 @@ export function ProductIntentFeature() {
 
   return (
     <section className="relative overflow-hidden">
-      <div className="relative mx-auto flex max-w-6xl flex-col-reverse gap-10 px-6 py-16 sm:px-8 lg:flex-row lg:items-center lg:gap-12 lg:py-20">
+      <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-6 py-16 sm:px-8 lg:flex-row lg:items-center lg:gap-12 lg:py-20">
         {/* Left copy */}
         <div className="max-w-xl lg:pr-10">
           <p className="mb-3 inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold"

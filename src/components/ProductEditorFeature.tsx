@@ -18,7 +18,7 @@ export function ProductEditorFeature() {
         <div className="absolute -right-10 -top-10 h-64 w-64 rounded-full bg-[rgba(244,114,182,0.18)] blur-3xl" />
       </div>
 
-      <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-6 py-16 sm:px-8 lg:flex-row lg:items-center lg:gap-12 lg:py-20">
+      <div className="relative mx-auto flex max-w-6xl flex-col-reverse gap-10 px-6 py-16 sm:px-8 lg:flex-row lg:items-center lg:gap-12 lg:py-20">
         {/* Left: editor mock */}
         <div className="relative w-full lg:flex-[1.15] lg:-ml-2">
           <div className="relative overflow-hidden rounded-[30px] bg-white shadow-[0_30px_90px_rgba(15,23,42,0.45)] ring-1 ring-slate-200/70">
