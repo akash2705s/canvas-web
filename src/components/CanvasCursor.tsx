@@ -270,9 +270,9 @@ export function CanvasCursor() {
       const cursorOverrideLabel = cursorOverrideEl?.dataset.cursorLabel ?? null;
       const interactiveElForOverride = nextEl
         ? getClosest<HTMLElement>(
-            nextEl,
-            "a[href], button, [role='button'], input, textarea, select, summary, [data-clickable='true']",
-          )
+          nextEl,
+          "a[href], button, [role='button'], input, textarea, select, summary, [data-clickable='true']",
+        )
         : null;
       const interactiveOverrideLabel = interactiveElForOverride?.getAttribute("data-cursor-label") ?? null;
 

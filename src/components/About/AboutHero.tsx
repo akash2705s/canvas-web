@@ -28,6 +28,9 @@ function FounderVideoCard() {
           playsInline
           preload="metadata"
           src="/videos/founder_video.mp4"
+          data-cursor={playing ? "media" : undefined}
+          data-cursor-label={playing ? "Pause" : undefined}
+          aria-label={playing ? "Pause the founder video" : undefined}
           onClick={togglePlay}
           onPlay={() => setPlaying(true)}
           onPause={() => setPlaying(false)}
@@ -38,8 +41,10 @@ function FounderVideoCard() {
           <button
             type="button"
             onClick={togglePlay}
+            data-cursor="media"
+            data-cursor-label="Play"
             className="absolute inset-0 flex items-center justify-center bg-black/25 transition hover:bg-black/35"
-            aria-label="Play founder video"
+            aria-label="Play the founder video"
           >
             <span className="flex h-16 w-16 items-center justify-center rounded-full bg-[#3B82F6] text-white shadow-lg shadow-blue-900/40 transition hover:scale-105">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden className="ml-1">
@@ -52,7 +57,7 @@ function FounderVideoCard() {
 
       <div className="border-t border-white/10 px-5 py-3.5 sm:px-6 sm:py-4">
         <p className="text-base font-semibold text-white">Founder Video</p>
-        <p className="mt-0.5 text-sm text-white/55">A message from the team behind Canvas</p>
+        <p className="mt-0.5 text-sm text-white/55">A message from the team behind Canvas.</p>
       </div>
     </div>
   );
@@ -63,7 +68,7 @@ export function AboutHero() {
 
   return (
     <section className="relative overflow-hidden bg-[linear-gradient(160deg,#0D1120_8.49%,#130C28_54.15%,#0D1120_91.51%)] text-white">
-      <div className="relative mx-auto flex max-w-7xl flex-col gap-12 px-4 py-16 sm:px-6 sm:py-20 lg:flex-row lg:items-center lg:gap-16 lg:py-24">
+      <div className="relative mx-auto flex max-w-[76rem] flex-col gap-12 px-4 py-16 sm:px-6 sm:py-20 lg:flex-row lg:items-center lg:gap-16 lg:py-24">
         {/* Left copy */}
         <div className="max-w-xl shrink-0">
           <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-[#4F46E52E] px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-[#A3B3FF]">
@@ -272,7 +277,7 @@ export function AboutHero() {
           </div>
         </div>
 
-        <div className="min-w-0 flex-1 lg:flex-[1.52] lg:min-w-[min(100%,24rem)] xl:min-w-[min(100%,30rem)]">
+        <div className="min-w-0 flex-1 lg:flex-[1.32] lg:min-w-[min(100%,20rem)] xl:min-w-[min(100%,26rem)]">
           <FounderVideoCard />
         </div>
       </div>
