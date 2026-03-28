@@ -2,19 +2,70 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { RequestDemoTrigger } from "@/components/RequestDemoTrigger";
 
 import arrowRight from "@/assets/About/Hero/ArrowRight.svg";
+
+function FounderVideoCard() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [playing, setPlaying] = useState(false);
+
+  const togglePlay = () => {
+    const v = videoRef.current;
+    if (!v) return;
+    if (v.paused) void v.play();
+    else v.pause();
+  };
+
+  return (
+    <div className="w-full overflow-hidden rounded-[28px] bg-[#1a1530] ring-1 ring-white/10">
+      <div className="relative w-full bg-[#1a1530] leading-none">
+        <video
+          ref={videoRef}
+          className="block h-auto w-full"
+          playsInline
+          preload="metadata"
+          src="/videos/founder_video.mp4"
+          onClick={togglePlay}
+          onPlay={() => setPlaying(true)}
+          onPause={() => setPlaying(false)}
+          onEnded={() => setPlaying(false)}
+        />
+
+        {!playing && (
+          <button
+            type="button"
+            onClick={togglePlay}
+            className="absolute inset-0 flex items-center justify-center bg-black/25 transition hover:bg-black/35"
+            aria-label="Play founder video"
+          >
+            <span className="flex h-16 w-16 items-center justify-center rounded-full bg-[#3B82F6] text-white shadow-lg shadow-blue-900/40 transition hover:scale-105">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden className="ml-1">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </span>
+          </button>
+        )}
+      </div>
+
+      <div className="border-t border-white/10 px-5 py-3.5 sm:px-6 sm:py-4">
+        <p className="text-base font-semibold text-white">Founder Video</p>
+        <p className="mt-0.5 text-sm text-white/55">A message from the team behind Canvas</p>
+      </div>
+    </div>
+  );
+}
 
 export function AboutHero() {
   const reduceMotion = useReducedMotion();
 
   return (
     <section className="relative overflow-hidden bg-[linear-gradient(160deg,#0D1120_8.49%,#130C28_54.15%,#0D1120_91.51%)] text-white">
-      <div className="relative mx-auto flex max-w-6xl flex-col gap-12 px-4 py-16 sm:px-6 sm:py-20 lg:flex-row lg:items-center lg:gap-16 lg:py-24">
+      <div className="relative mx-auto flex max-w-[76rem] flex-col gap-12 px-4 py-16 sm:px-6 sm:py-20 lg:flex-row lg:items-center lg:gap-16 lg:py-24">
         {/* Left copy */}
-        <div className="max-w-xl">
+        <div className="max-w-xl shrink-0">
           <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-[#4F46E52E] px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-[#A3B3FF]">
             <span className="relative inline-flex h-2.5 w-2.5 shrink-0 items-center justify-center align-middle">
               <span className="absolute left-1/2 top-1/2 inline-flex h-full w-full -translate-x-1/2 -translate-y-1/2 animate-ping rounded-full bg-[#A3B3FF]/70" />
@@ -221,7 +272,9 @@ export function AboutHero() {
           </div>
         </div>
 
-        {/* (Removed proof metrics from hero) */}
+        <div className="min-w-0 flex-1 lg:flex-[1.32] lg:min-w-[min(100%,20rem)] xl:min-w-[min(100%,26rem)]">
+          <FounderVideoCard />
+        </div>
       </div>
     </section>
   );
