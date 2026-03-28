@@ -482,7 +482,7 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
 
           {/* Right: hero visual with intersecting circles */}
           <div className="relative z-10 flex justify-center lg:justify-start">
-            <div className="relative flex h-[520px] w-full max-w-[760px] items-center justify-center lg:-ml-10 xl:-ml-14">
+            <div className="relative flex h-[540px] w-full max-w-[800px] items-center justify-center lg:-ml-10 xl:-ml-14">
               {/* Intersecting circles backdrop */}
               <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
                 <div className="relative h-[500px] w-[500px]">
@@ -503,10 +503,10 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
 
               {/* Central hero visual: autoplaying video instead of static image */}
               <CardContainer containerClassName="h-auto w-full flex justify-center">
-                <CardBody className="relative h-[340px] w-full max-w-[410px] sm:h-[360px] sm:w-[485px] p-0 flex flex-col overflow-hidden rounded-[26px] bg-[#050816]/95 shadow-2xl ring-1 ring-black/40">
+                <CardBody className="relative h-[396px] w-full max-w-[492px] sm:h-[424px] sm:w-[580px] p-0 flex flex-col overflow-hidden rounded-[26px] bg-[#050816]/95 shadow-2xl ring-1 ring-black/40">
                   <CardItem
                     translateZ={50}
-                    className="relative w-full flex-[1.25] overflow-hidden rounded-t-[24px] h-full group"
+                    className="relative flex h-full min-h-0 w-full flex-[1.25] overflow-hidden rounded-t-[24px] group"
                     data-interaction-zone="hero"
                   >
                     <video
@@ -516,7 +516,7 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
                       loop
                       playsInline
                       preload="auto"
-                      className="h-full w-full object-contain sm:object-cover"
+                      className="h-full min-h-0 w-full object-contain sm:object-cover"
                     >
                       <track kind="captions" srcLang="en" label="English" />
                     </video>
