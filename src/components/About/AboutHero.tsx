@@ -45,11 +45,11 @@ function FounderVideoCard() {
             onClick={togglePlay}
             data-cursor="media"
             data-cursor-label="Play"
-            className="absolute inset-0 flex items-center justify-center bg-black/20 transition hover:bg-black/30"
+            className="group absolute inset-0 flex items-end justify-end bg-gradient-to-t from-black/35 via-black/5 to-transparent p-4 transition hover:from-black/45 sm:p-5"
             aria-label="Play the founder video"
           >
-            <span className="flex h-16 w-16 items-center justify-center rounded-full bg-[#3B82F6] text-white shadow-lg shadow-blue-900/40 transition hover:scale-105">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden className="ml-1">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#818CF8] to-[#6366F1] text-white shadow-lg shadow-indigo-950/50 ring-1 ring-white/25 transition group-hover:scale-105 sm:h-12 sm:w-12">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden className="ml-0.5">
                 <path d="M8 5v14l11-7z" />
               </svg>
             </span>
