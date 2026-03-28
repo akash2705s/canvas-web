@@ -31,7 +31,7 @@ type InteractionPanel =
     type: "explore-links";
     title: string;
     links: Array<{
-      id: "macys" | "ourplace";
+      id: "svta" | "ott-studio";
       label: string;
       url: string;
       iconLetter: string;
@@ -495,16 +495,16 @@ export function CanvasCursor() {
           title: "Explore",
           links: [
             {
-              id: "macys",
-              label: "Macy's",
-              url: "https://www.macys.com/",
-              iconLetter: "M",
+              id: "ott-studio",
+              label: "OTT Studio",
+              url: "https://www.ott.studio/",
+              iconLetter: "O",
             },
             {
-              id: "ourplace",
-              label: "Our Place",
-              url: "https://fromourplace.com/",
-              iconLetter: "O",
+              id: "svta",
+              label: "SVTA",
+              url: "https://www.svta.org/",
+              iconLetter: "S",
             },
           ],
         };
@@ -637,7 +637,7 @@ export function CanvasCursor() {
                               <stop offset="1" stopColor="rgba(249, 115, 22, 0.85)" />
                             </linearGradient>
                           </defs>
-                          <circle cx="16" cy="16" r="14" fill="url(#g-${link.id})" opacity="0.18" />
+                          <circle cx="16" cy="16" r="14" fill={`url(#g-${link.id})`} opacity="0.18" />
                           <circle cx="16" cy="16" r="14" fill="none" stroke="rgba(255,255,255,0.35)" />
                           <text
                             x="16"

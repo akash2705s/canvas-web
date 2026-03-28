@@ -213,9 +213,6 @@ export function ProductRuntimeFeature() {
             viewport={{ once: true, amount: 0.5 }}
             key={replayToken}
             onClick={() => setReplayToken((v) => v + 1)}
-            data-cursor="hover"
-            data-cursor-label="Click to interact"
-            data-interaction-zone="custom-card"
           >
             <div className="mb-4 flex items-center justify-between text-[11px] font-medium tracking-[0.18em] text-slate-400">
               <span>CANVAS RUNTIME ARCHITECTURE</span>

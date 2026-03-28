@@ -259,7 +259,7 @@ export function CaseStudyHero() {
             {/* Header */}
             <div className="flex items-start justify-between border-b border-slate-100 px-6 py-4">
               <div>
-                <p className="text-[13px] font-semibold text-slate-900">Christmas Campaign 2024</p>
+                <p className="text-[13px] font-semibold text-slate-900">Christmas Campaign 2025</p>
                 <p className="mt-0.5 text-[11px] text-slate-500">OTT Streaming Platform · 4 Weeks</p>
               </div>
               <div className="inline-flex items-center gap-2 rounded-full bg-slate-50 px-3 py-1 text-[11px] font-semibold text-slate-600">

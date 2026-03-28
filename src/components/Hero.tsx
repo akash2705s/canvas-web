@@ -503,7 +503,7 @@ export function Hero({ logos }: { logos?: HeroLogo[] }) {
 
               {/* Central hero visual: autoplaying video instead of static image */}
               <CardContainer containerClassName="h-auto w-full flex justify-center">
-                <CardBody className="relative h-[396px] w-full max-w-[492px] sm:h-[424px] sm:w-[580px] p-0 flex flex-col overflow-hidden rounded-[26px] bg-[#050816]/95 shadow-2xl ring-1 ring-black/40">
+                <CardBody className="relative h-[348px] w-full max-w-[430px] sm:h-[372px] sm:w-[508px] p-0 flex flex-col overflow-hidden rounded-[26px] bg-[#050816]/95 shadow-2xl ring-1 ring-black/40">
                   <CardItem
                     translateZ={50}
                     className="relative flex h-full min-h-0 w-full flex-[1.25] overflow-hidden rounded-t-[24px] group"

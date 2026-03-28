@@ -71,19 +71,19 @@ export function CaseStudyResults() {
             <h3 className="mt-6 text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
               A <span style={{ color: "rgba(249,115,22,1)" }}>26.2%</span> interaction rate :
               <br />
-              26x above benchmark
+              5.2× above benchmark
             </h3>
 
             <p className="mt-5 text-base text-slate-600 leading-relaxed">
               More than one in four viewers actively engaged with the interactive ad unit.
-              The passive CTV average sits below 1%. This wasn't a fluke — it was a
+              The passive CTV average sits below 5%. This wasn't a fluke — it was a
               structural shift in how audiences engage with streaming ads.
             </p>
 
             <div className="mt-8 space-y-3">
               {[
                 { id: "viewers", text: "26.2% of viewers clicked or interacted" },
-                { id: "higher", text: "26x higher than passive CTV norms" },
+                { id: "higher", text: "5.2× higher than passive CTV norms" },
                 { id: "consistent", text: "Consistent across all platforms and device types" },
               ].map((item, idx) => (
                 <motion.div
@@ -290,7 +290,7 @@ export function CaseStudyResults() {
 
                   {/* Industry bar */}
                   <motion.div
-                    className="flex flex-col items-center cursor-pointer pt-21"
+                    className="flex flex-col items-center cursor-pointer pt-[4.85rem]"
                     whileHover={!shouldBlur ? { scale: 1.05, y: -4 } : {}}
                     initial={{ opacity: 0, y: 20 }}
                     animate={cardInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
@@ -301,7 +301,7 @@ export function CaseStudyResults() {
                       className="mb-2 h-16 w-full rounded-lg bg-slate-200 transition-shadow"
                       whileHover={!shouldBlur ? { boxShadow: "0 12px 24px rgba(0, 0, 0, 0.1)" } : {}}
                       initial={{ height: "0.65rem" }}
-                      animate={{ height: "0.65rem" }}
+                      animate={{ height: "1.15rem" }}
                       transition={{ duration: 0.6, delay: 0.68, ease: "easeOut" }}
                     />
                     <motion.p
@@ -318,7 +318,7 @@ export function CaseStudyResults() {
                       animate={cardInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.5 }}
                       transition={{ duration: 0.4, delay: 0.95 }}
                     >
-                      &lt;1%
+                      &lt;5%
                     </motion.p>
                   </motion.div>
                 </div>
@@ -341,15 +341,15 @@ export function CaseStudyResults() {
                     animate={cardInView ? { scale: 1, rotate: 0 } : { scale: 0, rotate: -180 }}
                     transition={{ duration: 0.5, delay: 1.05, type: "spring", stiffness: 300 }}
                   >
-                    26x
+                    5.2×
                   </motion.div>
                   <motion.div
                     initial={{ opacity: 0, x: -10 }}
                     animate={cardInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
                     transition={{ duration: 0.4, delay: 1.1 }}
                   >
-                    <p className="text-[11px] font-semibold text-slate-900">26x above CTV benchmark</p>
-                    <p className="mt-0.5 text-[9px] text-slate-600">vs. &lt;1% passive industry average</p>
+                    <p className="text-[11px] font-semibold text-slate-900">5.2× above CTV benchmark</p>
+                    <p className="mt-0.5 text-[9px] text-slate-600">vs. &lt;5% passive industry average</p>
                   </motion.div>
                 </div>
               </motion.div>
