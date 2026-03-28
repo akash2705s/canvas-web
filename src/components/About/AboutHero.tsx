@@ -7,6 +7,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { RequestDemoTrigger } from "@/components/RequestDemoTrigger";
 
 import arrowRight from "@/assets/About/Hero/ArrowRight.svg";
+import founderVideoPoster from "@/assets/About/Hero/founder_video_poster.png";
 
 function FounderVideoCard() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -21,12 +22,13 @@ function FounderVideoCard() {
 
   return (
     <div className="w-full overflow-hidden rounded-[28px] bg-[#1a1530] ring-1 ring-white/10">
-      <div className="relative w-full bg-[#1a1530] leading-none">
+      <div className="relative aspect-video w-full overflow-hidden rounded-t-[28px] bg-[#0a0614]">
         <video
           ref={videoRef}
-          className="block h-auto w-full"
+          className="absolute inset-0 h-full w-full object-cover"
           playsInline
-          preload="metadata"
+          preload="auto"
+          poster={founderVideoPoster.src}
           src="/videos/founder_video.mp4"
           data-cursor={playing ? "media" : undefined}
           data-cursor-label={playing ? "Pause" : undefined}
@@ -43,7 +45,7 @@ function FounderVideoCard() {
             onClick={togglePlay}
             data-cursor="media"
             data-cursor-label="Play"
-            className="absolute inset-0 flex items-center justify-center bg-black/25 transition hover:bg-black/35"
+            className="absolute inset-0 flex items-center justify-center bg-black/20 transition hover:bg-black/30"
             aria-label="Play the founder video"
           >
             <span className="flex h-16 w-16 items-center justify-center rounded-full bg-[#3B82F6] text-white shadow-lg shadow-blue-900/40 transition hover:scale-105">
