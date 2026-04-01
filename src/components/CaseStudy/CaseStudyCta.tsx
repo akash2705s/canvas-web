@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { RequestDemoTrigger } from "@/components/RequestDemoTrigger";
 
@@ -56,8 +57,8 @@ export function CaseStudyCta() {
               </span>
             </RequestDemoTrigger>
 
-            <button
-              type="button"
+            <Link
+              href="/product"
               className="group inline-flex items-center gap-2 rounded-full bg-[rgb(192,192,192)] p-[3px] shadow-sm transition hover:shadow-md"
             >
               <span className="relative flex items-center gap-2 overflow-hidden rounded-full bg-white px-6 py-3 text-sm font-semibold text-black">
@@ -71,7 +72,7 @@ export function CaseStudyCta() {
                   </svg>
                 </span>
               </span>
-            </button>
+            </Link>
           </motion.div>
         </motion.div>
       </div>

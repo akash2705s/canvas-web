@@ -42,6 +42,7 @@ type InteractionPanel =
     title: string;
     description: string;
     cta?: string;
+    variant?: "default" | "offer" | "product";
   };
 
 const CURSOR_MODES: CursorMode[] = ["default", "hover", "media", "play", "explore"];
@@ -84,6 +85,8 @@ export function CanvasCursor() {
   const [panelVisible, setPanelVisible] = useState(false);
   const [panelAnchor, setPanelAnchor] = useState<AnchorPoint | null>(null);
   const [pollVote, setPollVote] = useState<string | null>(null);
+  const [offerApplied, setOfferApplied] = useState(false);
+  const [productCardOpen, setProductCardOpen] = useState(false);
 
   const rafIdRef = useRef<number | null>(null);
   const reduceMotionRef = useRef(false);
@@ -175,11 +178,41 @@ export function CanvasCursor() {
         py = maxY >= minY ? Math.min(Math.max(py, minY), maxY) : minY;
       }
 
+      // Demo: QR / Product Card / Offer Reveal strip — stay inside the video frame, not the full viewport.
+      if (zoneRect && zone === "demo") {
+        const margin = 8;
+        const zoneInnerW = zoneRect.width - 2 * margin;
+        const promptW = Math.min(420, Math.max(160, zoneInnerW));
+        const promptH = 48;
+
+        const minX = zoneRect.left + margin;
+        const minY = zoneRect.top + margin;
+        const maxX = zoneRect.right - promptW - margin;
+        const maxY = zoneRect.bottom - promptH - margin;
+
+        px = maxX >= minX ? Math.min(Math.max(px, minX), maxX) : minX;
+        py = maxY >= minY ? Math.min(Math.max(py, minY), maxY) : minY;
+      }
+
       setPromptZone(zone);
       setPromptItems(items.slice(0, zone === "demo" ? 3 : 3));
       setPromptAnchor({ x: px, y: py });
       setPromptVisible(true);
-      setPanelAnchor({ x: Math.min(px + 8, vw - 280), y: Math.min(py + 52, vh - 220) });
+
+      let panelX = Math.min(px + 8, vw - 280);
+      let panelY = Math.min(py + 52, vh - 220);
+      if (zoneRect && zone === "demo") {
+        const m = 8;
+        const panelW = 230;
+        const panelH = 220;
+        const pMinX = zoneRect.left + m;
+        const pMinY = zoneRect.top + m;
+        const pMaxX = zoneRect.right - panelW - m;
+        const pMaxY = zoneRect.bottom - panelH - m;
+        panelX = pMaxX >= pMinX ? Math.min(Math.max(panelX, pMinX), pMaxX) : pMinX;
+        panelY = pMaxY >= pMinY ? Math.min(Math.max(panelY, pMinY), pMaxY) : pMinY;
+      }
+      setPanelAnchor({ x: panelX, y: panelY });
 
       if (promptCloseTimeoutRef.current) window.clearTimeout(promptCloseTimeoutRef.current);
       schedulePromptAutoHideRef.current();
@@ -456,6 +489,7 @@ export function CanvasCursor() {
       if (id === "offer") {
         return {
           type: "info",
+          variant: "offer",
           title: "Offer Reveal",
           description: "Exclusive 20% launch promo unlocked for this session.",
           cta: "Apply Offer",
@@ -465,6 +499,7 @@ export function CanvasCursor() {
       if (id === "product") {
         return {
           type: "info",
+          variant: "product",
           title: "Product Card",
           description: "View specs, pricing, and key differentiators inline.",
           cta: "Open Card",
@@ -520,6 +555,8 @@ export function CanvasCursor() {
 
     setActivePanel(buildPanel());
     setPollVote(null);
+    setOfferApplied(false);
+    setProductCardOpen(false);
     setPanelVisible(true);
     // For the Explore destination picker, keep the prompt buttons out of the way.
     setPromptVisible(id !== "explore");
@@ -573,12 +610,34 @@ export function CanvasCursor() {
 
       {activePanel && panelAnchor && (
         <section
-          className={`canvas-cursor__panel canvas-cursor__panel--${activePanel.type}`}
+          className={[
+            "canvas-cursor__panel",
+            `canvas-cursor__panel--${activePanel.type}`,
+            activePanel.type === "info" &&
+              activePanel.variant === "product" &&
+              productCardOpen
+              ? "canvas-cursor__panel--product-expanded"
+              : "",
+            activePanel.type === "info" && activePanel.variant === "offer" && offerApplied
+              ? "canvas-cursor__panel--offer-applied"
+              : "",
+          ]
+            .filter(Boolean)
+            .join(" ")}
           data-cursor-panel="true"
           data-visible={panelVisible ? "true" : "false"}
           style={{ left: panelAnchor.x, top: panelAnchor.y }}
         >
-          <div className="canvas-cursor__panelInner">
+          <div
+            className={[
+              "canvas-cursor__panelInner",
+              activePanel.type === "info" && activePanel.variant === "product" && productCardOpen
+                ? "canvas-cursor__panelInner--product"
+                : "",
+            ]
+              .filter(Boolean)
+              .join(" ")}
+          >
             {activePanel.type === "qr" ? (
               <>
                 <p className="canvas-cursor__panelTitle">{activePanel.title}</p>
@@ -661,13 +720,71 @@ export function CanvasCursor() {
 
             {activePanel.type === "info" ? (
               <>
-                <p className="canvas-cursor__panelTitle">{activePanel.title}</p>
-                <p className="canvas-cursor__panelText">{activePanel.description}</p>
-                {activePanel.cta ? (
-                  <button type="button" className="canvas-cursor__pollBtn">
-                    {activePanel.cta}
-                  </button>
-                ) : null}
+                {activePanel.variant === "offer" && offerApplied ? (
+                  <div className="canvas-cursor__offerApplied">
+                    <span className="canvas-cursor__offerAppliedTick" aria-hidden>
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                        <title>Applied</title>
+                        <circle cx="12" cy="12" r="11" fill="rgba(16, 185, 129, 0.25)" stroke="rgba(52, 211, 153, 0.85)" strokeWidth="1.5" />
+                        <path
+                          d="M7.5 12.5l2.8 2.8L16.2 9.4"
+                          stroke="rgba(167, 243, 208, 0.98)"
+                          strokeWidth="2.2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </span>
+                    <div>
+                      <p className="canvas-cursor__panelTitle">Offer applied</p>
+                      <p className="canvas-cursor__panelText canvas-cursor__panelText--success">
+                        Your 20% launch promo is active for this session.
+                      </p>
+                    </div>
+                  </div>
+                ) : activePanel.variant === "product" && productCardOpen ? (
+                  <div className="canvas-cursor__productCard">
+                    <div className="canvas-cursor__productCardHero">
+                      <svg className="canvas-cursor__productCardHeroIcon" width="44" height="44" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+                        <rect x="7" y="2" width="10" height="20" rx="2.5" stroke="rgba(255,255,255,0.55)" strokeWidth="1.5" />
+                        <path d="M10 5h4" stroke="rgba(255,255,255,0.35)" strokeWidth="1.2" strokeLinecap="round" />
+                        <circle cx="12" cy="18" r="1" fill="rgba(255,255,255,0.45)" />
+                        <rect x="9" y="7.5" width="6" height="8" rx="0.8" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.25)" strokeWidth="1" />
+                      </svg>
+                    </div>
+                    <div className="canvas-cursor__productCardBody">
+                      <div className="canvas-cursor__productCardBadgeRow">
+                        <span className="canvas-cursor__productCardIconWrap canvas-cursor__productCardIconWrap--badge">
+                          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+                            <rect x="6" y="3" width="12" height="18" rx="2.5" stroke="currentColor" strokeWidth="1.5" />
+                            <path d="M9 6.5h6" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" opacity="0.6" />
+                          </svg>
+                        </span>
+                        <span className="canvas-cursor__productCardBadge">Sponsored</span>
+                      </div>
+                      <p className="canvas-cursor__productCardName">Featured product</p>
+                      <p className="canvas-cursor__productCardSub">Shoppable card · in-stream</p>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <p className="canvas-cursor__panelTitle">{activePanel.title}</p>
+                    <p className="canvas-cursor__panelText">{activePanel.description}</p>
+                    {activePanel.cta ? (
+                      <button
+                        type="button"
+                        className="canvas-cursor__pollBtn"
+                        onClick={() => {
+                          if (activePanel.type !== "info") return;
+                          if (activePanel.variant === "offer") setOfferApplied(true);
+                          if (activePanel.variant === "product") setProductCardOpen(true);
+                        }}
+                      >
+                        {activePanel.cta}
+                      </button>
+                    ) : null}
+                  </>
+                )}
               </>
             ) : null}
           </div>

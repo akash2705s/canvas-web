@@ -475,15 +475,15 @@ export function Navbar() {
                     <p className="mt-1 text-[13px] font-medium leading-snug text-[rgba(106,114,130,1)]">
                       See Canvas live at NAB Show, Las Vegas. April 5–9.
                     </p>
-                    <button
-                      type="button"
+                    <RequestDemoTrigger
                       className="group mt-3 inline-flex items-center gap-2 text-[12px] font-semibold text-violet-600 hover:text-violet-700"
+                      onClick={() => setOpenMenu(null)}
                     >
                       <span className="relative after:absolute after:left-0 after:right-0 after:bottom-[-1px] after:h-[1.5px] after:origin-left after:scale-x-0 after:bg-violet-500 after:transition-transform after:duration-300 after:ease-out after:transform-gpu group-hover:after:scale-x-100">
                         Book a Demo
                       </span>
                       <span aria-hidden>→</span>
-                    </button>
+                    </RequestDemoTrigger>
                   </div>
                 </div>
               </div>
