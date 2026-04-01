@@ -1,10 +1,10 @@
 import { AboutHero } from "@/components/About/AboutHero";
-import { AboutInsideCanvasSection } from "@/components/About/AboutInsideCanvasSection";
+// import { AboutInsideCanvasSection } from "@/components/About/AboutInsideCanvasSection";
 import { AboutMissionSection } from "@/components/About/AboutMissionSection";
 import { AboutPartnersSection } from "@/components/About/AboutPartnersSection";
 import { AboutOurStorySection } from "@/components/About/AboutOurStorySection";
 import { AboutRecognitionSection } from "@/components/About/AboutRecognitionSection";
-import { AboutTeamSection } from "@/components/About/AboutTeamSection";
+// import { AboutTeamSection } from "@/components/About/AboutTeamSection";
 import { AboutCtaSection } from "@/components/About/AboutCtaSection";
 import { Reveal } from "@/components/motion/Reveal";
 
@@ -14,9 +14,9 @@ export default function AboutPage() {
       <Reveal>
         <AboutHero />
       </Reveal>
-      <Reveal delay={0.04}>
+      {/* <Reveal delay={0.04}>
         <AboutInsideCanvasSection />
-      </Reveal>
+      </Reveal> */}
       <div className="-mt-8">
         <Reveal delay={0.08}>
           <AboutMissionSection />
@@ -35,9 +35,9 @@ export default function AboutPage() {
       <Reveal delay={0.16}>
         <AboutRecognitionSection />
       </Reveal>
-      <Reveal delay={0.2}>
+      {/* <Reveal delay={0.2}>
         <AboutTeamSection />
-      </Reveal>
+      </Reveal> */}
       <Reveal delay={0.24}>
         <AboutCtaSection />
       </Reveal>
